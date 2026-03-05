@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BTC Portfolio Tracker 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#07090f;--card:#0c1120;--card2:#0e1626;--border:#1a2438;--border2:#111826;--orange:#f7931a;--blue:#3d6cf7;--green:#4caf50;--red:#ef5350;--muted:#7a8899;--dim:#334455;--text:#dde3ee}
+body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;min-height:100vh;padding-bottom:60px;-webkit-font-smoothing:antialiased}
+.header{background:linear-gradient(160deg,#0c1120,#0e1828);border-bottom:1px solid #f7931a22;padding:16px 20px 14px}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-icon{font-size:26px;filter:drop-shadow(0 0 8px #f7931a88);line-height:1}
+.brand-sub{font-size:7px;letter-spacing:4px;color:var(--orange);text-transform:uppercase;margin-bottom:2px}
+.brand-title{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700}
+.live-pill{display:flex;align-items:center;gap:5px;background:#0e1626;border:1px solid #1a2438;border-radius:20px;padding:5px 10px}
+.pulse{position:relative;width:8px;height:8px;display:inline-flex;align-items:center;flex-shrink:0}
+.pulse-ring{position:absolute;inset:0;border-radius:50%;background:var(--green);opacity:.5;animation:ping 1.5s ease-in-out infinite}
+.pulse-ring.orange{background:var(--orange);animation:none}
+.pulse-dot{position:absolute;inset:2px;border-radius:50%;background:var(--green)}
+.pulse-dot.orange{background:var(--orange)}
+@keyframes ping{0%,100%{transform:scale(1);opacity:.5}60%{transform:scale(2.2);opacity:0}}
+.live-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--green);white-space:nowrap}
+.live-label.orange{color:var(--orange)}
+.countdown{font-size:8px;color:#2a3a50;white-space:nowrap}
+.price-hero{text-align:center;padding:4px 0 10px}
+.price-hero-val{font-family:'Rajdhani',sans-serif;font-size:42px;font-weight:700;color:var(--orange);letter-spacing:1px;transition:color .2s;line-height:1}
+.price-hero-val.up{color:var(--green)}.price-hero-val.dn{color:var(--red)}
+.price-hero-sub{font-size:11px;color:var(--dim);margin-top:5px}
+.price-hero-time{font-size:8px;color:#1e2e42;margin-top:2px}
+.fetching-msg{font-size:13px;color:var(--dim);animation:blink 1.2s infinite;text-align:center;padding:10px 0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.fluct-bar{background:#0a0e18;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:4px}
+.fluct-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fluct-item{text-align:center;flex:1}
+.fluct-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
+.fluct-val{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;transition:color .2s}
+.fluct-divider{width:1px;height:32px;background:var(--border);flex-shrink:0}
+.tabs{display:flex;background:#090d15;border-bottom:1px solid var(--border2);padding:0 20px;overflow-x:auto}
+.tab{background:none;border:none;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px 16px;white-space:nowrap;color:var(--dim);border-bottom:2px solid transparent;transition:color .2s}
+.tab.active{color:var(--orange);border-bottom:2px solid var(--orange)}
+.panel{display:none;padding:18px 20px}.panel.active{display:block}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.metric{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 15px}
+.metric-label{font-size:7px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px}
+.metric-val{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;transition:color .2s}
+.metric-sub{font-size:9px;color:var(--dim);margin-top:3px}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 14px 10px;margin-bottom:16px}
+.card-label{font-size:7px;color:var(--orange);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
+.chart-wrap{position:relative;height:160px}
+.chart-legend{display:flex;gap:16px;justify-content:center;margin-top:8px;font-size:9px;color:var(--dim)}
+.leg{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.status-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+.phase-badge{display:inline-block;background:#f7931a14;border:1px solid #f7931a44;border-radius:6px;padding:5px 12px;font-size:9px;color:var(--orange);letter-spacing:2px;margin-bottom:10px}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.rule{background:var(--card2);border-radius:8px;padding:9px 12px}
+.rule-lbl{font-size:7px;color:var(--orange);letter-spacing:2px;margin-bottom:3px}
+.rule-txt{font-size:9px;color:var(--muted)}
+.table-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.table-header{padding:11px 16px;border-bottom:1px solid var(--border);font-size:7px;color:var(--orange);letter-spacing:3px;text-transform:uppercase}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:10px}
+th{padding:8px 12px;text-align:left;background:#090d15;color:var(--dim);font-size:7px;letter-spacing:2px;font-weight:400;text-transform:uppercase;white-space:nowrap}
+td{padding:10px 12px;border-top:1px solid var(--border2);white-space:nowrap}
+tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
+.note{margin-top:12px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:9px;color:var(--dim);line-height:1.8}
+.note-lbl{color:var(--orange);font-size:7px;letter-spacing:3px;text-transform:uppercase}
+.pv-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.pv-num{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--orange)}
+.pv-sub{font-size:10px;color:var(--dim);margin-top:3px}
+.milestone{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.milestone.done{border-color:#4caf5033}
+.ms-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.ms-name{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700}
+.ms-badge{font-size:7px;background:#4caf5018;color:var(--green);border:1px solid #4caf5033;border-radius:4px;padding:2px 7px;letter-spacing:2px;margin-left:7px;vertical-align:middle}
+.ms-detail{font-size:9px;color:var(--dim);margin-top:3px}
+.ms-pct{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;text-align:right}
+.ms-pct-lbl{font-size:8px;color:var(--dim);text-align:right}
+.prog-track{background:#111826;border-radius:4px;height:5px;overflow:hidden;margin-bottom:12px}
+.prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--orange),#ffb347);transition:width .5s ease}
+.prog-fill.done{background:var(--green)}
+.ms-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ms-stat{background:var(--card2);border-radius:8px;padding:9px 10px}
+.ms-stat-lbl{font-size:7px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.ms-stat-val{font-size:11px;color:var(--muted);font-weight:600}
+.ms-stat-sub{font-size:8px;color:#2a3544;margin-top:1px}
+.shield-note{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:9px;color:var(--dim);line-height:1.9}
+.loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;font-size:11px;color:var(--dim)}
+.loading-spinner{width:32px;height:32px;border:2px solid #1a2438;border-top:2px solid var(--orange);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-icon">₿</div>
+      <div>
+        <div class="brand-sub">BTC Accumulation + SWP</div>
+        <div class="brand-title">Portfolio Tracker 2026</div>
+      </div>
+    </div>
+    <div class="live-pill">
+      <span class="pulse"><span class="pulse-ring" id="pulse-ring"></span><span class="pulse-dot" id="pulse-dot"></span></span>
+      <span class="live-label" id="live-label">Connecting…</span>
+      <span class="countdown" id="countdown"></span>
+    </div>
+  </div>
+  <div class="price-hero" id="price-hero"><div class="fetching-msg">Fetching from Binance…</div></div>
+  <div class="fluct-bar" id="fluct-bar" style="display:none">
+    <div class="fluct-row">
+      <div class="fluct-item"><div class="fluct-lbl">Portfolio Value</div><div class="fluct-val" id="fl-value">—</div></div>
+      <div class="fluct-divider"></div>
+      <div class="fluct-item"><div class="fluct-lbl">Since Open</div><div class="fluct-val" id="fl-since">—</div></div>
+      <div class="fluct-divider"></div>
+      <div class="fluct-item"><div class="fluct-lbl">Unrealized P&amp;L</div><div class="fluct-val" id="fl-pnl">—</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('overview',this)">Overview</button>
+  <button class="tab" onclick="showTab('trades',this)">Trades</button>
+  <button class="tab" onclick="showTab('milestones',this)">Milestones</button>
+</div>
+
+<div id="app-loading" class="loading-screen">
+  <div class="loading-spinner"></div>
+  <div>Loading portfolio data…</div>
+</div>
+
+<div id="app-content" style="display:none">
+  <div class="panel active" id="panel-overview">
+    <div class="metrics">
+      <div class="metric" style="border-left:3px solid #7a889955">
+        <div class="metric-label">Total Invested</div>
+        <div class="metric-val" style="color:#7a8899" id="m-invested">—</div>
+        <div class="metric-sub" id="m-invested-inr">—</div>
+      </div>
+      <div class="metric" style="border-left:3px solid #f7931a55">
+        <div class="metric-label">BTC Accumulated</div>
+        <div class="metric-val" style="color:#f7931a" id="m-btc">—</div>
+        <div class="metric-sub" id="m-trades-count">—</div>
+      </div>
+      <div class="metric" style="border-left:3px solid #7a889955">
+        <div class="metric-label">Avg Buy Price</div>
+        <div class="metric-val" style="color:#7a8899" id="m-avg">—</div>
+        <div class="metric-sub">cost per BTC</div>
+      </div>
+      <div class="metric" style="border-left:3px solid #f7931a55">
+        <div class="metric-label">Portfolio Value</div>
+        <div class="metric-val" id="m-value">—</div>
+        <div class="metric-sub" id="m-value-inr">—</div>
+      </div>
+      <div class="metric" style="border-left:3px solid #f7931a55">
+        <div class="metric-label">Unrealized P&amp;L</div>
+        <div class="metric-val" id="m-pnl">—</div>
+        <div class="metric-sub" id="m-pnl-pct">—</div>
+      </div>
+      <div class="metric" style="border-left:3px solid #f7931a55">
+        <div class="metric-label">Break-even</div>
+        <div class="metric-val" id="m-be">—</div>
+        <div class="metric-sub" id="m-be-sub">—</div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="card-label">Portfolio vs Cost — Cumulative (USD · Binance Live)</div>
+      <div class="chart-wrap"><canvas id="myChart"></canvas></div>
+      <div class="chart-legend">
+        <span><span class="leg" style="background:#f7931a"></span>Portfolio Value</span>
+        <span><span class="leg" style="background:#3d6cf7"></span>Amount Invested</span>
+      </div>
+    </div>
+    <div class="status-card">
+      <div class="card-label">Phase Status</div>
+      <div class="phase-badge">◉ ACCUMULATION PHASE ACTIVE</div>
+      <div style="font-size:9px;color:var(--dim)">No selling. No profit booking. Stack growing.</div>
+      <div class="rules">
+        <div class="rule"><div class="rule-lbl">Rule 1</div><div class="rule-txt">Buying regardless of volatility ✓</div></div>
+        <div class="rule"><div class="rule-lbl">Rule 2</div><div class="rule-txt">No profit booking yet ✓</div></div>
+        <div class="rule"><div class="rule-lbl">Rule 3</div><div class="rule-txt">SWP via cash buffer — future</div></div>
+        <div class="rule"><div class="rule-lbl">Rule 4</div><div class="rule-txt">30-month buffer — not active</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-trades">
+    <div class="table-card">
+      <div class="table-header" id="trades-header">Purchase History · Live P&amp;L via Binance</div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Date</th><th>Invested</th><th>BTC</th><th>Buy $</th><th>Now</th><th>P&amp;L</th></tr></thead>
+          <tbody id="trades-body"></tbody>
+          <tfoot><tr id="trades-foot"></tr></tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="note">
+      <span class="note-lbl">DCA Note &nbsp;</span>
+      Avg <span style="color:var(--text)" id="note-avg">—</span> vs <span style="color:var(--text)" id="note-live">—</span> live.
+      Lower buys pulling average down. Refreshes every 5s.
+    </div>
+  </div>
+
+  <div class="panel" id="panel-milestones">
+    <div class="pv-card">
+      <div class="card-label">Portfolio (INR) — Live</div>
+      <div class="pv-num" id="pv-num">—</div>
+      <div class="pv-sub" id="pv-sub">—</div>
+    </div>
+    <div id="ms-list"></div>
+    <div class="shield-note">
+      <span style="color:var(--orange);font-size:7px;letter-spacing:3px">SHIELD / BUFFER RULE &nbsp;</span>
+      Buffer = Monthly SWP × 30 months. BTC <span style="color:var(--text)">never sold during crashes</span>.
+      Buffer fills only in bull phases. Withdrawals from cash — not BTC.
+      <br><span style="font-size:8px;color:#2a3544">* BTC Needed at current Binance price.</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────
+const TRADES_URL = "trades.json?nocache=" + Date.now();
+
+// ── STATE ─────────────────────────────────────────────
+let TRADES = [], SWP = [];
+let TOTAL_USD = 0, TOTAL_BTC = 0, AVG = 0;
+let btcUSD = null, usdInr = 84.5, prevUSD = null, openPrice = null;
+let cdVal = 5, cdIv = null;
+
+// ── HELPERS ───────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const fU = n  => "$" + Math.round(n).toLocaleString("en-US");
+const fI = n  => {
+  if (n >= 10000000) return "₹" + (n/10000000).toFixed(2) + " Cr";
+  if (n >= 100000)   return "₹" + (n/100000).toFixed(2)   + " L";
+  return "₹" + Math.round(n).toLocaleString("en-IN");
+};
+const fN = n => n.toLocaleString("en-IN");
+
+function setLive(ok) {
+  $("live-label").textContent = ok ? "Binance · Live" : "Connecting…";
+  $("live-label").className   = "live-label" + (ok ? "" : " orange");
+  $("pulse-ring").className   = "pulse-ring"  + (ok ? "" : " orange");
+  $("pulse-dot").className    = "pulse-dot"   + (ok ? "" : " orange");
+}
+
+// ── CHART ─────────────────────────────────────────────
+let chart;
+function buildChart(p) {
+  let cB = 0, cU = 0;
+  const labels = [], vals = [], costs = [];
+  TRADES.forEach(t => {
+    cB += t.btc; cU += t.usd;
+    labels.push(t.date);
+    vals.push(Math.round(cB * p));
+    costs.push(cU);
+  });
+  if (chart) { chart.data.labels = labels; chart.data.datasets[0].data = vals; chart.data.datasets[1].data = costs; chart.update("none"); return; }
+  chart = new Chart($("myChart").getContext("2d"), {
+    type: "line",
+    data: { labels, datasets: [
+      { label:"value",    data:vals,  borderColor:"#f7931a", borderWidth:2,   fill:true,
+        backgroundColor: ctx => { const g=ctx.chart.ctx.createLinearGradient(0,0,0,160); g.addColorStop(0,"#f7931a55"); g.addColorStop(1,"#f7931a00"); return g; },
+        pointRadius:0, tension:.4 },
+      { label:"invested", data:costs, borderColor:"#3d6cf7", borderWidth:1.5, fill:true,
+        backgroundColor: ctx => { const g=ctx.chart.ctx.createLinearGradient(0,0,0,160); g.addColorStop(0,"#3d6cf733"); g.addColorStop(1,"#3d6cf700"); return g; },
+        pointRadius:0, tension:.4 },
+    ]},
+    options: {
+      responsive:true, maintainAspectRatio:false, animation:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:i => fU(i.raw) } } },
+      scales:{
+        x:{ ticks:{color:"#334455",font:{size:8}}, grid:{color:"#111826"} },
+        y:{ ticks:{color:"#334455",font:{size:8}, callback:v=>"$"+(v/1000).toFixed(0)+"k"}, grid:{color:"#111826"} },
+      }
+    }
+  });
+}
+
+// ── MAIN UI UPDATE ────────────────────────────────────
+function updateUI() {
+  const p   = btcUSD;
+  const cv  = TOTAL_BTC * p;
+  const cvi = cv * usdInr;
+  const pnl = cv - TOTAL_USD;
+  const pct = (pnl / TOTAL_USD) * 100;
+  const pos = pnl >= 0;
+  const pc  = pos ? "#4caf50" : "#ef5350";
+  const dir = prevUSD && p !== prevUSD ? (p > prevUSD ? "up" : "dn") : null;
+
+  // price hero
+  $("price-hero").innerHTML = `
+    <div class="price-hero-val${dir ? " "+dir : ""}">${fU(p)}${dir ? `<span class="price-hero-arrow">${dir==="up"?"▲":"▼"}</span>` : ""}</div>
+    <div class="price-hero-sub">${fI(p*usdInr)} &nbsp;·&nbsp; ₹${usdInr.toFixed(2)}/USD</div>
+    <div class="price-hero-time">updated ${new Date().toLocaleTimeString()}</div>`;
+
+  // fluct bar
+  const sinceUSD  = openPrice ? TOTAL_BTC * (p - openPrice) : 0;
+  const sincePct  = openPrice ? ((p - openPrice) / openPrice * 100) : 0;
+  $("fluct-bar").style.display = "block";
+  $("fl-value").textContent = fI(cvi);
+  $("fl-value").style.color = pc;
+  $("fl-since").textContent = openPrice
+    ? (sinceUSD >= 0 ? "+" : "") + fU(Math.round(sinceUSD)) + ` (${sincePct>=0?"+":""}${sincePct.toFixed(2)}%)`
+    : "—";
+  $("fl-since").style.color = openPrice ? (sinceUSD >= 0 ? "#4caf50" : "#ef5350") : "var(--muted)";
+  $("fl-pnl").textContent   = (pos?"+":"") + fU(Math.round(pnl));
+  $("fl-pnl").style.color   = pc;
+
+  // metrics
+  $("m-invested").textContent    = fU(TOTAL_USD);
+  $("m-invested-inr").textContent= fI(TOTAL_USD * usdInr);
+  $("m-btc").textContent         = TOTAL_BTC.toFixed(5) + " ₿";
+  $("m-trades-count").textContent= TRADES.length + " purchases";
+  $("m-avg").textContent         = fU(Math.round(AVG));
+  $("m-value").textContent       = fU(Math.round(cv));   $("m-value").style.color = pc;
+  $("m-value-inr").textContent   = fI(cvi);
+  $("m-pnl").textContent         = (pos?"+":"") + fU(Math.round(pnl)); $("m-pnl").style.color = pc;
+  $("m-pnl-pct").textContent     = (pct>=0?"+":"") + pct.toFixed(2) + "%";
+  $("m-be").textContent          = fU(Math.round(AVG));
+  $("m-be").style.color          = p >= AVG ? "#4caf50" : "#ef5350";
+  $("m-be-sub").textContent      = p >= AVG ? "✓ In profit" : `Need +${(((AVG-p)/p)*100).toFixed(1)}% rally`;
+
+  buildChart(p);
+
+  // trades table
+  $("trades-header").textContent = `Purchase History — ${TRADES.length} Trades · Live P&L via Binance`;
+  $("trades-body").innerHTML = TRADES.map(t => {
+    const cv2=t.btc*p, pl=cv2-t.usd, plp=(pl/t.usd)*100, c=pl>=0?"#4caf50":"#ef5350";
+    return `<tr>
+      <td style="color:#7a8899">${t.date}</td>
+      <td>${fU(t.usd)}</td>
+      <td style="color:#f7931a">${t.btc.toFixed(5)}</td>
+      <td style="color:#7a8899">${fU(t.price)}</td>
+      <td>${fU(Math.round(cv2))}</td>
+      <td style="color:${c};font-weight:600">${pl>=0?"+":""}${fU(Math.round(pl))}<br><span style="font-size:8px;opacity:.7">${plp>=0?"+":""}${plp.toFixed(1)}%</span></td>
+    </tr>`;
+  }).join("");
+  $("trades-foot").innerHTML = `
+    <td style="color:#f7931a">TOTAL</td>
+    <td>${fU(TOTAL_USD)}</td>
+    <td style="color:#f7931a">${TOTAL_BTC.toFixed(5)}</td>
+    <td style="color:#7a8899">avg ${fU(Math.round(AVG))}</td>
+    <td>${fU(Math.round(cv))}</td>
+    <td style="color:${pc}">${pos?"+":""}${fU(Math.round(pnl))}<br><span style="font-size:8px;opacity:.7">${pct>=0?"+":""}${pct.toFixed(2)}%</span></td>`;
+  $("note-avg").textContent  = fU(Math.round(AVG));
+  $("note-live").textContent = fU(p);
+
+  // milestones
+  $("pv-num").textContent = fI(cvi);
+  $("pv-sub").textContent = `${fU(Math.round(cv))} · ₹${usdInr.toFixed(2)}/USD · ${pos?"+":""}${pct.toFixed(2)}% P&L`;
+  $("ms-list").innerHTML  = SWP.map(m => {
+    const prog = Math.min((cvi/m.inr)*100, 100);
+    const rem  = Math.max(m.inr - cvi, 0);
+    const need = rem / (p * usdInr);
+    const done = cvi >= m.inr;
+    return `<div class="milestone${done?" done":""}">
+      <div class="ms-row">
+        <div>
+          <div><span class="ms-name" style="color:${done?"#4caf50":"var(--text)"}">${m.label}</span>${done?`<span class="ms-badge">REACHED ✓</span>`:""}</div>
+          <div class="ms-detail">SWP: <span style="color:#f7931a">₹${fN(m.swp)}</span> · Buffer: <span style="color:#7a8899">${fI(m.buffer)}</span></div>
+        </div>
+        <div><div class="ms-pct" style="color:${done?"#4caf50":"#f7931a"}">${prog.toFixed(1)}%</div><div class="ms-pct-lbl">of target</div></div>
+      </div>
+      <div class="prog-track"><div class="prog-fill${done?" done":""}" style="width:${prog}%"></div></div>
+      ${!done?`<div class="ms-stats">
+        <div class="ms-stat"><div class="ms-stat-lbl">Needed</div><div class="ms-stat-val">${fI(rem)}</div><div class="ms-stat-sub">${fU(Math.round(rem/usdInr))}</div></div>
+        <div class="ms-stat"><div class="ms-stat-lbl">BTC*</div><div class="ms-stat-val">₿${need.toFixed(4)}</div><div class="ms-stat-sub">at live $</div></div>
+        <div class="ms-stat"><div class="ms-stat-lbl">Order</div><div class="ms-stat-val">Buffer→SWP</div><div class="ms-stat-sub">sequence</div></div>
+      </div>`:""}
+    </div>`;
+  }).join("");
+}
+
+// ── COUNTDOWN ─────────────────────────────────────────
+function resetCountdown() {
+  cdVal = 5;
+  if (cdIv) clearInterval(cdIv);
+  $("countdown").textContent = "· 5s";
+  cdIv = setInterval(() => { cdVal = Math.max(0,cdVal-1); $("countdown").textContent = `· ${cdVal}s`; }, 1000);
+}
+
+// ── FETCH PRICE ───────────────────────────────────────
+async function fetchINR() {
+  try {
+    const r = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+    const d = await r.json();
+    if (d?.rates?.INR) usdInr = d.rates.INR;
+  } catch {}
+}
+
+async function fetchBTC() {
+  try {
+    const r = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT");
+    const d = await r.json();
+    const p = parseFloat(d.price);
+    if (!p) throw new Error();
+    if (openPrice === null) openPrice = p;
+    prevUSD = btcUSD;
+    btcUSD  = p;
+    setLive(true);
+    updateUI();
+    resetCountdown();
+  } catch { setLive(false); }
+}
+
+// ── LOAD TRADES.JSON ──────────────────────────────────
+async function loadTrades() {
+  try {
+    const r = await fetch(TRADES_URL);
+    const d = await r.json();
+    TRADES    = d.trades;
+    SWP       = d.swp_milestones;
+    TOTAL_USD = TRADES.reduce((s,t) => s+t.usd, 0);
+    TOTAL_BTC = TRADES.reduce((s,t) => s+t.btc, 0);
+    AVG       = TOTAL_USD / TOTAL_BTC;
+    $("app-loading").style.display = "none";
+    $("app-content").style.display = "block";
+    // activate correct tab panels
+    document.querySelectorAll(".panel").forEach(p => p.style.display = "none");
+    $("panel-overview").style.display = "block";
+  } catch(e) {
+    $("app-loading").innerHTML = `<div style="color:#ef5350;font-size:11px">Failed to load trades.json<br><span style="font-size:9px;color:#334455">${e.message}</span></div>`;
+  }
+}
+
+// ── TABS ──────────────────────────────────────────────
+function showTab(name, btn) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  $("panel-"+name).classList.add("active");
+  btn.classList.add("active");
+}
+
+// ── INIT ──────────────────────────────────────────────
+loadTrades().then(() => {
+  fetchINR();
+  fetchBTC();
+  setInterval(fetchBTC, 5000);
+  setInterval(fetchINR, 300000);
+});
+</script>
+</body>
+</html>

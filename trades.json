@@ -1,0 +1,21 @@
+{
+  "trades": [
+    { "date": "Jan 8",  "usd": 2000, "btc": 0.02208, "price": 90580 },
+    { "date": "Jan 19", "usd": 2000, "btc": 0.02094, "price": 95511 },
+    { "date": "Jan 23", "usd": 1000, "btc": 0.01110, "price": 90090 },
+    { "date": "Jan 31", "usd": 1000, "btc": 0.01190, "price": 84034 },
+    { "date": "Feb 5",  "usd": 1000, "btc": 0.01350, "price": 73500 },
+    { "date": "Feb 10", "usd": 1000, "btc": 0.01400, "price": 70500 },
+    { "date": "Feb 15", "usd": 1000, "btc": 0.01400, "price": 70300 },
+    { "date": "Feb 23", "usd": 1000, "btc": 0.01470, "price": 67400 },
+    { "date": "Feb 28", "usd": 1000, "btc": 0.01510, "price": 65600 },
+    { "date": "Mar 3",  "usd": 1000, "btc": 0.01450, "price": 68800 },
+    { "date": "Mar 5",  "usd": 1000, "btc": 0.01350, "price": 73500 }
+  ],
+  "swp_milestones": [
+    { "label": "₹60L",   "inr": 6000000,  "swp": 30000,  "buffer": 900000  },
+    { "label": "₹1.2Cr", "inr": 12000000, "swp": 50000,  "buffer": 1500000 },
+    { "label": "₹2.4Cr", "inr": 24000000, "swp": 100000, "buffer": 3000000 },
+    { "label": "₹7.2Cr", "inr": 72000000, "swp": 300000, "buffer": 9000000 }
+  ]
+}
