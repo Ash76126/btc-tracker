@@ -431,9 +431,10 @@ async function loadTrades() {
 
 // ── TABS ──────────────────────────────────────────────
 function showTab(name, btn) {
-  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p => { p.classList.remove("active"); p.style.display = "none"; });
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   $("panel-"+name).classList.add("active");
+  $("panel-"+name).style.display = "block";
   btn.classList.add("active");
 }
 
