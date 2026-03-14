@@ -89,6 +89,19 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
 .ms-stat-sub{font-size:8px;color:#2a3544;margin-top:1px}
 .shield-note{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:9px;color:var(--dim);line-height:1.9}
 .loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;font-size:11px;color:var(--dim)}
+.swp-card{background:linear-gradient(135deg,#0e1828,#0c1a2e);border:1px solid #f7931a33;border-radius:14px;padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden}
+.swp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#f7931a,#ffb347,#f7931a,transparent);animation:shimmer 3s linear infinite;background-size:200% 100%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.swp-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.swp-label{font-size:7px;color:var(--orange);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+.swp-amount{font-family:'Rajdhani',sans-serif;font-size:34px;font-weight:700;color:#fff;line-height:1;transition:color .3s}
+.swp-sub{font-size:8px;color:#2a3a50;margin-top:6px;line-height:1.7}
+.swp-rate-badge{background:#f7931a0d;border:1px solid #f7931a22;border-radius:8px;padding:6px 10px;font-size:7px;color:#f7931a88;letter-spacing:1px;text-align:right;line-height:1.8;white-space:nowrap}
+.swp-divider{height:1px;background:linear-gradient(90deg,#f7931a22,transparent);margin:12px 0}
+.swp-breakdown{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.swp-bd-item{background:#f7931a08;border-radius:8px;padding:8px 10px;text-align:center}
+.swp-bd-lbl{font-size:7px;color:#2a3a50;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.swp-bd-val{font-size:12px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-weight:600}
 .loading-spinner{width:32px;height:32px;border:2px solid #1a2438;border-top:2px solid var(--orange);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
@@ -135,6 +148,26 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
 
 <div id="app-content" style="display:none">
   <div class="panel active" id="panel-overview">
+
+    <!-- ELIGIBLE SWP CARD -->
+    <div class="swp-card">
+      <div class="swp-label">Eligible Monthly SWP</div>
+      <div class="swp-top">
+        <div>
+          <div class="swp-amount" id="swp-amount">—</div>
+          <div class="swp-sub">Calculated at 94 INR/USDT sell rate &nbsp;|&nbsp; 6% Annual SWR</div>
+        </div>
+        <div class="swp-rate-badge">
+          6% Annual<br/>0.5%/month<br/>× 94 P2P
+        </div>
+      </div>
+      <div class="swp-divider"></div>
+      <div class="swp-breakdown">
+        <div class="swp-bd-item"><div class="swp-bd-lbl">PF in USDT</div><div class="swp-bd-val" id="swp-usdt">—</div></div>
+        <div class="swp-bd-item"><div class="swp-bd-lbl">PF in INR</div><div class="swp-bd-val" id="swp-inr">—</div></div>
+        <div class="swp-bd-item"><div class="swp-bd-lbl">Annual SWP</div><div class="swp-bd-val" id="swp-annual">—</div></div>
+      </div>
+    </div>
     <div class="metrics">
       <div class="metric" style="border-left:3px solid #7a889955">
         <div class="metric-label">Total Invested</div>
@@ -312,7 +345,19 @@ function updateUI() {
   $("fl-pnl").textContent   = (pos?"+":"") + fU(Math.round(pnl));
   $("fl-pnl").style.color   = pc;
 
-  // metrics
+  // SWP calculation
+  const P2P_RATE  = 94;
+  const SWR_MONTH = 0.005;
+  const pfUSDT    = cv;                          // portfolio in USDT (same as USD here)
+  const pfINR_p2p = pfUSDT * P2P_RATE;
+  const swpMonth  = pfINR_p2p * SWR_MONTH;
+  const swpAnnual = swpMonth * 12;
+  const fINR = n => "₹" + Math.round(n).toLocaleString("en-IN");
+  $("swp-amount").textContent  = fINR(swpMonth);
+  $("swp-amount").style.color  = swpMonth >= 30000 ? "#4caf50" : "#fff";
+  $("swp-usdt").textContent    = "$" + Math.round(pfUSDT).toLocaleString("en-US");
+  $("swp-inr").textContent     = fI(pfINR_p2p);
+  $("swp-annual").textContent  = fINR(swpAnnual);
   $("m-invested").textContent    = fU(TOTAL_USD);
   $("m-invested-inr").textContent= fI(TOTAL_USD * usdInr);
   $("m-btc").textContent         = TOTAL_BTC.toFixed(5) + " ₿";
