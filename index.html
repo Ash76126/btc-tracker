@@ -87,6 +87,14 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
 .ms-stat-lbl{font-size:7px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
 .ms-stat-val{font-size:11px;color:var(--muted);font-weight:600}
 .ms-stat-sub{font-size:8px;color:#2a3544;margin-top:1px}
+.ms-target-row{display:flex;align-items:center;justify-content:space-between;background:#f7931a08;border:1px solid #f7931a18;border-radius:10px;padding:11px 14px;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.ms-target-price{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#f7931a}
+.ms-target-lbl{font-size:7px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.ms-multiplier{background:#1a2438;border:1px solid #2a3a54;border-radius:6px;padding:4px 10px;font-size:10px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-weight:700;white-space:nowrap}
+.ms-multiplier.close{color:#4caf50;border-color:#4caf5033;background:#4caf5010}
+.ms-multiplier.mid{color:#ffb347;border-color:#ffb34733;background:#ffb34710}
+.ms-multiplier.far{color:#ef5350;border-color:#ef535033;background:#ef535010}
+.ms-harvest{font-size:8px;color:#2a3a54;margin-top:6px;padding:6px 14px;background:#f7931a06;border-left:2px solid #f7931a22;border-radius:0 4px 4px 0}
 .shield-note{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:9px;color:var(--dim);line-height:1.9}
 .loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;font-size:11px;color:var(--dim)}
 .swp-card{background:linear-gradient(135deg,#0e1828,#0c1a2e);border:1px solid #f7931a33;border-radius:14px;padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden}
@@ -250,7 +258,7 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
       <span style="color:var(--orange);font-size:7px;letter-spacing:3px">SHIELD / BUFFER RULE &nbsp;</span>
       Buffer = Monthly SWP × 30 months. BTC <span style="color:var(--text)">never sold during crashes</span>.
       Buffer fills only in bull phases. Withdrawals from cash — not BTC.
-      <br><span style="font-size:8px;color:#2a3544">* BTC Needed at current Binance price.</span>
+      <br><span style="font-size:8px;color:#2a3544">* Target BTC Price uses ₹94/USDT P2P sell rate. Buffer Harvest = BTC to sell at target to fund buffer. Multiplier = target price ÷ live price.</span>
     </div>
   </div>
 </div>
@@ -399,11 +407,26 @@ function updateUI() {
   // milestones
   $("pv-num").textContent = fI(cvi);
   $("pv-sub").textContent = `${fU(Math.round(cv))} · ₹${usdInr.toFixed(2)}/USD · ${pos?"+":""}${pct.toFixed(2)}% P&L`;
+
+  const P2P = 94; // INR/USDT P2P sell rate for SWP calculations
+
   $("ms-list").innerHTML  = SWP.map(m => {
-    const prog = Math.min((cvi/m.inr)*100, 100);
-    const rem  = Math.max(m.inr - cvi, 0);
-    const need = rem / (p * usdInr);
-    const done = cvi >= m.inr;
+    const prog       = Math.min((cvi/m.inr)*100, 100);
+    const rem        = Math.max(m.inr - cvi, 0);
+    const need       = rem / (p * usdInr);
+    const done       = cvi >= m.inr;
+
+    // Target BTC price calculation (using P2P rate for real SWP scenario)
+    const targetUSD      = m.inr / P2P;                     // INR target → USD
+    const reqBTCPrice    = targetUSD / TOTAL_BTC;           // required BTC price
+    const multiplier     = reqBTCPrice / p;                 // how many x from now
+    const multClass      = multiplier <= 1.5 ? "close" : multiplier <= 3 ? "mid" : "far";
+    const multLabel      = multiplier <= 1 ? "✓ Reached" : `${multiplier.toFixed(2)}x`;
+
+    // Buffer harvest — BTC to sell at target price to fund the buffer
+    const bufferUSD      = m.buffer / P2P;
+    const harvestBTC     = bufferUSD / reqBTCPrice;
+
     return `<div class="milestone${done?" done":""}">
       <div class="ms-row">
         <div>
@@ -412,11 +435,31 @@ function updateUI() {
         </div>
         <div><div class="ms-pct" style="color:${done?"#4caf50":"#f7931a"}">${prog.toFixed(1)}%</div><div class="ms-pct-lbl">of target</div></div>
       </div>
+
       <div class="prog-track"><div class="prog-fill${done?" done":""}" style="width:${prog}%"></div></div>
-      ${!done?`<div class="ms-stats">
-        <div class="ms-stat"><div class="ms-stat-lbl">Needed</div><div class="ms-stat-val">${fI(rem)}</div><div class="ms-stat-sub">${fU(Math.round(rem/usdInr))}</div></div>
-        <div class="ms-stat"><div class="ms-stat-lbl">BTC*</div><div class="ms-stat-val">₿${need.toFixed(4)}</div><div class="ms-stat-sub">at live $</div></div>
-        <div class="ms-stat"><div class="ms-stat-lbl">Order</div><div class="ms-stat-val">Buffer→SWP</div><div class="ms-stat-sub">sequence</div></div>
+
+      <!-- TARGET BTC PRICE ROW -->
+      <div class="ms-target-row">
+        <div>
+          <div class="ms-target-lbl">Required BTC Price</div>
+          <div class="ms-target-price">${fU(Math.round(reqBTCPrice))}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:7px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Market Multiplier</div>
+          <span class="ms-multiplier ${multClass}">${multLabel}</span>
+        </div>
+      </div>
+
+      <!-- BUFFER HARVEST -->
+      <div class="ms-harvest">
+        🌾 Harvest <span style="color:#f7931a;font-weight:700">${harvestBTC.toFixed(4)} BTC</span> at target price to fully fund ${fI(m.buffer)} buffer
+        <span style="color:#1a2a3a"> · ${fU(Math.round(bufferUSD))} equiv</span>
+      </div>
+
+      ${!done?`<div class="ms-stats" style="margin-top:10px">
+        <div class="ms-stat"><div class="ms-stat-lbl">Still Needed</div><div class="ms-stat-val">${fI(rem)}</div><div class="ms-stat-sub">${fU(Math.round(rem/usdInr))}</div></div>
+        <div class="ms-stat"><div class="ms-stat-lbl">BTC to Buy</div><div class="ms-stat-val">₿${need.toFixed(4)}</div><div class="ms-stat-sub">at live $</div></div>
+        <div class="ms-stat"><div class="ms-stat-lbl">Sequence</div><div class="ms-stat-val">Buffer→SWP</div><div class="ms-stat-sub">fill order</div></div>
       </div>`:""}
     </div>`;
   }).join("");
