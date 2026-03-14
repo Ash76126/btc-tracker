@@ -96,6 +96,39 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
 .ms-multiplier.far{color:#ef5350;border-color:#ef535033;background:#ef535010}
 .ms-harvest{font-size:8px;color:#2a3a54;margin-top:6px;padding:6px 14px;background:#f7931a06;border-left:2px solid #f7931a22;border-radius:0 4px 4px 0}
 .shield-note{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:9px;color:var(--dim);line-height:1.9}
+/* ── SIMULATOR ── */
+.sim-price-hero{background:linear-gradient(135deg,#0c1a2e,#0e1828);border:1px solid #f7931a33;border-radius:14px;padding:20px;margin-bottom:16px;text-align:center}
+.sim-price-display{font-family:'Rajdhani',sans-serif;font-size:44px;font-weight:700;color:#f7931a;line-height:1;margin-bottom:4px}
+.sim-price-sub{font-size:9px;color:var(--dim);margin-bottom:16px}
+.sim-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:4px;outline:none;cursor:pointer;background:linear-gradient(90deg,#f7931a var(--pct,50%),#1a2438 var(--pct,50%))}
+.sim-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#f7931a,#ffb347);border:3px solid #07090f;cursor:pointer;box-shadow:0 0 10px #f7931a55}
+.sim-range-labels{display:flex;justify-content:space-between;font-size:8px;color:var(--dim);margin-top:8px}
+.sim-presets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.sim-preset{background:#0a0e18;border:1px solid #1a2438;border-radius:20px;padding:5px 13px;font-size:9px;color:var(--dim);cursor:pointer;font-family:'Share Tech Mono',monospace;letter-spacing:1px;transition:all .2s}
+.sim-preset:hover,.sim-preset.active{background:#f7931a15;border-color:#f7931a44;color:#f7931a}
+.sim-result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.sim-metric{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 15px}
+.sim-metric.highlight{border-color:#f7931a33;background:linear-gradient(135deg,#0e1828,#0c1a2e)}
+.sim-metric-lbl{font-size:7px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.sim-metric-val{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;transition:color .3s}
+.sim-metric-sub{font-size:9px;color:var(--dim);margin-top:3px}
+.sim-milestones{margin-bottom:16px}
+.sim-ms{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:border-color .3s}
+.sim-ms.unlocked{border-color:#4caf5044;background:linear-gradient(135deg,#0a1a0e,#0c1a10)}
+.sim-ms.current{border-color:#f7931a44;background:linear-gradient(135deg,#0e1520,#0c1828)}
+.sim-ms-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sim-ms-name{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700}
+.sim-ms-status{font-size:8px;padding:3px 10px;border-radius:20px;letter-spacing:2px;font-weight:600}
+.sim-ms-status.unlocked{background:#4caf5018;color:#4caf50;border:1px solid #4caf5033}
+.sim-ms-status.locked{background:#1a2438;color:var(--dim);border:1px solid #2a3448}
+.sim-ms-status.current{background:#f7931a18;color:#f7931a;border:1px solid #f7931a33}
+.sim-ms-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sim-ms-stat{background:#f7931a06;border-radius:8px;padding:8px 10px}
+.sim-ms-stat.green{background:#4caf5008}
+.sim-ms-stat-lbl{font-size:7px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.sim-ms-stat-val{font-size:11px;font-weight:600;color:var(--muted)}
+.sim-gain-bar{height:3px;border-radius:3px;background:#1a2438;margin-top:10px;overflow:hidden}
+.sim-gain-fill{height:100%;border-radius:3px;transition:width .4s ease}
 .loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;font-size:11px;color:var(--dim)}
 .swp-card{background:linear-gradient(135deg,#0e1828,#0c1a2e);border:1px solid #f7931a33;border-radius:14px;padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden}
 .swp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#f7931a,#ffb347,#f7931a,transparent);animation:shimmer 3s linear infinite;background-size:200% 100%}
@@ -147,6 +180,7 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
   <button class="tab active" onclick="showTab('overview',this)">Overview</button>
   <button class="tab" onclick="showTab('trades',this)">Trades</button>
   <button class="tab" onclick="showTab('milestones',this)">Milestones</button>
+  <button class="tab" onclick="showTab('simulator',this)">Simulator</button>
 </div>
 
 <div id="app-loading" class="loading-screen">
@@ -259,6 +293,57 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
       Buffer = Monthly SWP × 30 months. BTC <span style="color:var(--text)">never sold during crashes</span>.
       Buffer fills only in bull phases. Withdrawals from cash — not BTC.
       <br><span style="font-size:8px;color:#2a3544">* Target BTC Price uses ₹94/USDT P2P sell rate. Buffer Harvest = BTC to sell at target to fund buffer. Multiplier = target price ÷ live price.</span>
+    </div>
+  </div>
+
+  <!-- SIMULATOR PANEL -->
+  <div class="panel" id="panel-simulator">
+    <div class="sim-price-hero">
+      <div style="font-size:7px;color:var(--orange);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px">If BTC hits…</div>
+      <div class="sim-price-display" id="sim-price-display">$100,000</div>
+      <div class="sim-price-sub" id="sim-price-sub">— × current price</div>
+      <input type="range" class="sim-slider" id="sim-slider" min="50000" max="500000" step="1000" value="100000" oninput="updateSim(this.value)"/>
+      <div class="sim-range-labels"><span>$50K</span><span>$500K</span></div>
+      <div class="sim-presets">
+        <button class="sim-preset" onclick="setSim(80000)">$80K</button>
+        <button class="sim-preset" onclick="setSim(100000)">$100K</button>
+        <button class="sim-preset" onclick="setSim(150000)">$150K</button>
+        <button class="sim-preset" onclick="setSim(200000)">$200K</button>
+        <button class="sim-preset" onclick="setSim(300000)">$300K</button>
+        <button class="sim-preset" onclick="setSim(500000)">$500K</button>
+      </div>
+    </div>
+
+    <div class="sim-result-grid">
+      <div class="sim-metric highlight">
+        <div class="sim-metric-lbl">Portfolio Value</div>
+        <div class="sim-metric-val" id="sim-pf-usd" style="color:#f7931a">—</div>
+        <div class="sim-metric-sub" id="sim-pf-inr">—</div>
+      </div>
+      <div class="sim-metric highlight">
+        <div class="sim-metric-lbl">Monthly SWP</div>
+        <div class="sim-metric-val" id="sim-swp" style="color:#4caf50">—</div>
+        <div class="sim-metric-sub">@ 94 P2P · 6% SWR</div>
+      </div>
+      <div class="sim-metric">
+        <div class="sim-metric-lbl">Unrealized P&amp;L</div>
+        <div class="sim-metric-val" id="sim-pnl">—</div>
+        <div class="sim-metric-sub" id="sim-pnl-pct">—</div>
+      </div>
+      <div class="sim-metric">
+        <div class="sim-metric-lbl">Gain from Today</div>
+        <div class="sim-metric-val" id="sim-gain" style="color:#f7931a">—</div>
+        <div class="sim-metric-sub" id="sim-gain-sub">vs live price</div>
+      </div>
+    </div>
+
+    <div style="font-size:7px;color:var(--orange);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px">Milestone Unlocks</div>
+    <div class="sim-milestones" id="sim-milestones"></div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:9px;color:var(--dim);line-height:1.8">
+      <span style="color:var(--orange);font-size:7px;letter-spacing:3px">NOTE &nbsp;</span>
+      Simulation uses your current BTC bag only — no new purchases assumed.
+      P2P rate fixed at ₹94/USDT. SWP = 0.5%/month of INR portfolio value.
     </div>
   </div>
 </div>
@@ -526,10 +611,93 @@ function showTab(name, btn) {
   btn.classList.add("active");
 }
 
+// ── SIMULATOR ─────────────────────────────────────────
+const P2P_SIM = 94;
+
+function updateSim(price) {
+  price = parseFloat(price);
+  const slider = $("sim-slider");
+  const pct = ((price - 50000) / (500000 - 50000)) * 100;
+  slider.style.setProperty("--pct", pct + "%");
+
+  // header
+  $("sim-price-display").textContent = "$" + Math.round(price).toLocaleString("en-US");
+  const mult = btcUSD ? (price / btcUSD) : null;
+  $("sim-price-sub").textContent = mult ? `${mult.toFixed(2)}× current live price` : "— set live price first";
+
+  // portfolio at sim price
+  const pfUSD  = TOTAL_BTC * price;
+  const pfINR  = pfUSD * P2P_SIM;
+  const swpMo  = pfINR * 0.005;
+  const pnl    = pfUSD - TOTAL_USD;
+  const pnlPct = (pnl / TOTAL_USD) * 100;
+  const gainUSD = btcUSD ? TOTAL_BTC * (price - btcUSD) : 0;
+
+  $("sim-pf-usd").textContent  = "$" + Math.round(pfUSD).toLocaleString("en-US");
+  $("sim-pf-inr").textContent  = fI(pfINR);
+  $("sim-swp").textContent     = "₹" + Math.round(swpMo).toLocaleString("en-IN");
+  $("sim-swp").style.color     = swpMo >= 30000 ? "#4caf50" : swpMo >= 20000 ? "#ffb347" : "#ef5350";
+  $("sim-pnl").textContent     = (pnl >= 0 ? "+" : "") + "$" + Math.round(Math.abs(pnl)).toLocaleString("en-US");
+  $("sim-pnl").style.color     = pnl >= 0 ? "#4caf50" : "#ef5350";
+  $("sim-pnl-pct").textContent = (pnlPct >= 0 ? "+" : "") + pnlPct.toFixed(1) + "% from cost";
+  $("sim-gain").textContent    = (gainUSD >= 0 ? "+" : "") + "$" + Math.round(Math.abs(gainUSD)).toLocaleString("en-US");
+  $("sim-gain").style.color    = gainUSD >= 0 ? "#4caf50" : "#ef5350";
+  $("sim-gain-sub").textContent = btcUSD ? `vs $${Math.round(btcUSD).toLocaleString()} live` : "—";
+
+  // update presets highlight
+  document.querySelectorAll(".sim-preset").forEach(b => {
+    b.classList.toggle("active", parseInt(b.textContent.replace(/[$K]/g,"")) * (b.textContent.includes("K") ? 1000 : 1) === price);
+  });
+
+  // milestone unlocks
+  if (!SWP.length) return;
+  $("sim-milestones").innerHTML = SWP.map(m => {
+    const unlocked   = pfINR >= m.inr;
+    const prog       = Math.min((pfINR / m.inr) * 100, 100);
+    const simSWP     = m.inr * 0.005;
+    const bufUSD     = m.buffer / P2P_SIM;
+    const harvestBTC = bufUSD / price;
+    const reqPrice   = (m.inr / P2P_SIM) / TOTAL_BTC;
+    const statusCls  = unlocked ? "unlocked" : (pfINR / m.inr > 0.85 ? "current" : "locked");
+    const statusTxt  = unlocked ? "✓ UNLOCKED" : (pfINR / m.inr > 0.85 ? "ALMOST" : "LOCKED");
+    const fillColor  = unlocked ? "#4caf50" : prog > 85 ? "#ffb347" : "#f7931a";
+    return `<div class="sim-ms ${statusCls}">
+      <div class="sim-ms-top">
+        <div>
+          <div class="sim-ms-name" style="color:${unlocked?"#4caf50":"var(--text)"}">${m.label}</div>
+          <div style="font-size:9px;color:var(--dim);margin-top:2px">SWP ₹${m.swp.toLocaleString("en-IN")} · Buffer ${fI(m.buffer)}</div>
+        </div>
+        <span class="sim-ms-status ${statusCls}">${statusTxt}</span>
+      </div>
+      <div class="sim-gain-bar"><div class="sim-gain-fill" style="width:${prog}%;background:${fillColor}"></div></div>
+      <div style="font-size:8px;color:var(--dim);text-align:right;margin:4px 0 10px">${prog.toFixed(1)}% of target</div>
+      <div class="sim-ms-stats">
+        <div class="sim-ms-stat ${unlocked?"green":""}">
+          <div class="sim-ms-stat-lbl">Monthly SWP</div>
+          <div class="sim-ms-stat-val" style="color:${unlocked?"#4caf50":"var(--muted)"}">₹${Math.round(simSWP).toLocaleString("en-IN")}</div>
+        </div>
+        <div class="sim-ms-stat">
+          <div class="sim-ms-stat-lbl">Harvest BTC</div>
+          <div class="sim-ms-stat-val">₿${harvestBTC.toFixed(4)}</div>
+        </div>
+        <div class="sim-ms-stat">
+          <div class="sim-ms-stat-lbl">Req. Price</div>
+          <div class="sim-ms-stat-val" style="color:${price>=reqPrice?"#4caf50":"var(--muted)"}">$${Math.round(reqPrice).toLocaleString("en-US")}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function setSim(price) {
+  $("sim-slider").value = price;
+  updateSim(price);
+}
+
 // ── INIT ──────────────────────────────────────────────
 loadTrades().then(() => {
   fetchINR();
-  fetchBTC();
+  fetchBTC().then(() => updateSim($("sim-slider").value));
   setInterval(fetchBTC, 5000);
   setInterval(fetchINR, 300000);
 });
