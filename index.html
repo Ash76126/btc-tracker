@@ -95,6 +95,32 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
 .ms-multiplier.mid{color:#ffb347;border-color:#ffb34733;background:#ffb34710}
 .ms-multiplier.far{color:#ef5350;border-color:#ef535033;background:#ef535010}
 .ms-harvest{font-size:8px;color:#2a3a54;margin-top:6px;padding:6px 14px;background:#f7931a06;border-left:2px solid #f7931a22;border-radius:0 4px 4px 0}
+/* ── BUFFER HEALTH ── */
+.buf-card{border-radius:14px;padding:18px 20px;margin-bottom:16px;position:relative;overflow:hidden;transition:all .4s ease}
+.buf-card.safe{background:linear-gradient(135deg,#0a1a0e,#0c1e12);border:1px solid #4caf5044}
+.buf-card.warn{background:linear-gradient(135deg,#1a1208,#1e1608);border:1px solid #f7931a44}
+.buf-card.shield{background:linear-gradient(135deg,#0c1120,#0e1626);border:1px solid #3d6cf744}
+.buf-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;transition:background .4s}
+.buf-card.safe::before{background:linear-gradient(90deg,transparent,#4caf50,transparent)}
+.buf-card.warn::before{background:linear-gradient(90deg,transparent,#f7931a,transparent)}
+.buf-card.shield::before{background:linear-gradient(90deg,transparent,#3d6cf7,transparent)}
+.buf-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.buf-title{font-size:7px;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+.buf-state{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;line-height:1.3}
+.buf-action{margin-top:12px;border-radius:10px;padding:12px 16px;font-size:11px;line-height:1.8}
+.buf-action.safe{background:#4caf5015;border:1px solid #4caf5033;color:#4caf50}
+.buf-action.warn{background:#f7931a15;border:1px solid #f7931a33;color:#f7931a}
+.buf-action.shield{background:#3d6cf715;border:1px solid #3d6cf733;color:#3d6cf7}
+.buf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.buf-stat{background:#ffffff08;border-radius:8px;padding:9px 12px}
+.buf-stat-lbl{font-size:7px;color:#445;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.buf-stat-val{font-size:12px;font-weight:600;font-family:'Rajdhani',sans-serif}
+.buf-slider-wrap{margin-top:14px}
+.buf-slider-lbl{font-size:7px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.buf-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:4px;outline:none;cursor:pointer;background:linear-gradient(90deg,#4caf50 var(--bpct,100%),#1a2438 var(--bpct,100%))}
+.buf-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#4caf50,#81c784);border:3px solid #07090f;cursor:pointer}
+.buf-track{background:#111826;border-radius:4px;height:6px;overflow:hidden;margin-top:8px}
+.buf-fill{height:100%;border-radius:4px;transition:width .4s ease,background .4s}
 .shield-note{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:9px;color:var(--dim);line-height:1.9}
 /* ── SIMULATOR ── */
 .sim-price-hero{background:linear-gradient(135deg,#0c1a2e,#0e1828);border:1px solid #f7931a33;border-radius:14px;padding:20px;margin-bottom:16px;text-align:center}
@@ -287,6 +313,57 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
       <div class="pv-num" id="pv-num">—</div>
       <div class="pv-sub" id="pv-sub">—</div>
     </div>
+
+    <!-- BUFFER HEALTH CARD -->
+    <div class="buf-card shield" id="buf-card">
+      <div class="buf-top">
+        <div>
+          <div class="buf-title" id="buf-title" style="color:#3d6cf7">Buffer Health &amp; Refill Status</div>
+          <div class="buf-state" id="buf-state" style="color:#3d6cf7">Waiting for ₹60L milestone…</div>
+        </div>
+        <div style="font-size:28px" id="buf-icon">🛡️</div>
+      </div>
+
+      <!-- buffer balance slider -->
+      <div class="buf-slider-wrap">
+        <div class="buf-slider-lbl">
+          <span>Current Buffer Balance</span>
+          <span id="buf-balance-label" style="color:#4caf50;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700">₹9,00,000</span>
+        </div>
+        <input type="range" class="buf-slider" id="buf-slider" min="0" max="900000" step="10000" value="900000" oninput="updateBuffer(this.value)"/>
+        <div style="display:flex;justify-content:space-between;font-size:8px;color:#2a3a50;margin-top:4px"><span>₹0</span><span>₹9L (Full)</span></div>
+      </div>
+
+      <!-- health bar -->
+      <div class="buf-track" style="margin-top:10px">
+        <div class="buf-fill" id="buf-fill" style="width:100%;background:#4caf50"></div>
+      </div>
+
+      <!-- stats grid -->
+      <div class="buf-grid">
+        <div class="buf-stat">
+          <div class="buf-stat-lbl">Max Capacity</div>
+          <div class="buf-stat-val" style="color:var(--muted)">₹9,00,000</div>
+        </div>
+        <div class="buf-stat">
+          <div class="buf-stat-lbl">Deficit</div>
+          <div class="buf-stat-val" id="buf-deficit" style="color:#ef5350">₹0</div>
+        </div>
+        <div class="buf-stat">
+          <div class="buf-stat-lbl">Safe Harvest Threshold</div>
+          <div class="buf-stat-val" id="buf-threshold" style="color:var(--muted)">₹63,60,000</div>
+        </div>
+        <div class="buf-stat">
+          <div class="buf-stat-lbl">Portfolio vs Threshold</div>
+          <div class="buf-stat-val" id="buf-vs" style="color:var(--muted)">—</div>
+        </div>
+      </div>
+
+      <!-- action message -->
+      <div class="buf-action shield" id="buf-action">
+        ℹ️ Milestone 1 not yet reached. Keep accumulating BTC until portfolio hits ₹60L.
+      </div>
+    </div>
     <div id="ms-list"></div>
     <div class="shield-note">
       <span style="color:var(--orange);font-size:7px;letter-spacing:3px">SHIELD / BUFFER RULE &nbsp;</span>
@@ -465,6 +542,7 @@ function updateUI() {
   $("m-be-sub").textContent      = p >= AVG ? "✓ In profit" : `Need +${(((AVG-p)/p)*100).toFixed(1)}% rally`;
 
   buildChart(p);
+  renderBufferState();
 
   // trades table
   $("trades-header").textContent = `Purchase History — ${TRADES.length} Trades · Live P&L via Binance`;
@@ -535,11 +613,11 @@ function updateUI() {
         </div>
       </div>
 
-      <!-- BUFFER HARVEST -->
-      <div class="ms-harvest">
-        🌾 Harvest <span style="color:#f7931a;font-weight:700">${harvestBTC.toFixed(4)} BTC</span> at target price to fully fund ${fI(m.buffer)} buffer
-        <span style="color:#1a2a3a"> · ${fU(Math.round(bufferUSD))} equiv</span>
-      </div>
+      <!-- BUFFER HARVEST NOTE -->
+      ${m.label === "₹60L"
+        ? `<div class="ms-harvest">🛡️ Buffer funded from your own cash (₹9L). No BTC harvest needed for Milestone 1.</div>`
+        : `<div class="ms-harvest">🌾 Harvest BTC opportunistically in bull markets only — when portfolio exceeds next milestone baseline. Use Buffer Health card to determine exact timing.</div>`
+      }
 
       ${!done?`<div class="ms-stats" style="margin-top:10px">
         <div class="ms-stat"><div class="ms-stat-lbl">Still Needed</div><div class="ms-stat-val">${fI(rem)}</div><div class="ms-stat-sub">${fU(Math.round(rem/usdInr))}</div></div>
@@ -609,6 +687,81 @@ function showTab(name, btn) {
   $("panel-"+name).classList.add("active");
   $("panel-"+name).style.display = "block";
   btn.classList.add("active");
+}
+
+// ── BUFFER HEALTH ─────────────────────────────────────
+const BASELINE_INR  = 6000000;  // ₹60L — untouchable baseline
+const MAX_BUFFER    = 900000;   // ₹9L max buffer
+let   currentBuffer = 900000;   // default full
+
+function updateBuffer(val) {
+  currentBuffer = parseFloat(val);
+  const pct = (currentBuffer / MAX_BUFFER) * 100;
+  const slider = $("buf-slider");
+  slider.style.setProperty("--bpct", pct + "%");
+  $("buf-balance-label").textContent = "₹" + Math.round(currentBuffer).toLocaleString("en-IN");
+  $("buf-fill").style.width    = pct + "%";
+  $("buf-fill").style.background = pct > 66 ? "#4caf50" : pct > 33 ? "#ffb347" : "#ef5350";
+  renderBufferState();
+}
+
+function renderBufferState() {
+  const card      = $("buf-card");
+  const pfINR     = btcUSD ? TOTAL_BTC * btcUSD * 94 : 0;
+  const deficit   = Math.max(MAX_BUFFER - currentBuffer, 0);
+  const threshold = BASELINE_INR + deficit;
+  const aboveBase = pfINR >= BASELINE_INR;
+  const canHarvest= pfINR >= threshold;
+  const fINR      = n => "₹" + Math.round(n).toLocaleString("en-IN");
+  const gap       = pfINR - threshold;
+
+  // stats
+  $("buf-deficit").textContent    = deficit > 0 ? fINR(deficit) : "₹0 (Full)";
+  $("buf-deficit").style.color    = deficit > 0 ? "#ef5350" : "#4caf50";
+  $("buf-threshold").textContent  = fINR(threshold);
+  $("buf-vs").textContent         = btcUSD
+    ? (gap >= 0 ? "+" : "") + fINR(Math.round(gap)) + (gap >= 0 ? " above" : " below")
+    : "—";
+  $("buf-vs").style.color         = gap >= 0 ? "#4caf50" : "#ef5350";
+
+  // state logic
+  if (!aboveBase) {
+    // milestone not reached yet
+    card.className = "buf-card shield";
+    $("buf-title").style.color = "#3d6cf7";
+    $("buf-state").textContent = "Waiting for ₹60L milestone…";
+    $("buf-state").style.color = "#3d6cf7";
+    $("buf-icon").textContent  = "🛡️";
+    $("buf-action").className  = "buf-action shield";
+    $("buf-action").innerHTML  = `ℹ️ Milestone 1 not yet reached. Portfolio at ${fINR(pfINR)} — need ${fINR(BASELINE_INR - pfINR)} more to unlock SWP.`;
+  } else if (canHarvest && deficit > 0) {
+    // SAFE TO HARVEST
+    card.className = "buf-card safe";
+    $("buf-title").style.color = "#4caf50";
+    $("buf-state").textContent = "✅ Safe to Refill!";
+    $("buf-state").style.color = "#4caf50";
+    $("buf-icon").textContent  = "✅";
+    $("buf-action").className  = "buf-action safe";
+    $("buf-action").innerHTML  = `Slice exactly <strong>${fINR(deficit)}</strong> from profits now to restore your full ₹9L buffer.<br><span style="font-size:9px;opacity:.7">Portfolio ${fINR(pfINR)} is ${fINR(gap)} above the safe harvest threshold of ${fINR(threshold)}. Baseline ₹60L stays untouched.</span>`;
+  } else if (deficit > 0) {
+    // buffer depleted but market not ready
+    card.className = "buf-card warn";
+    $("buf-title").style.color = "#f7931a";
+    $("buf-state").textContent = "🛡️ Shield Active — Do Not Harvest";
+    $("buf-state").style.color = "#f7931a";
+    $("buf-icon").textContent  = "⏳";
+    $("buf-action").className  = "buf-action warn";
+    $("buf-action").innerHTML  = `Portfolio (${fINR(pfINR)}) is <strong>${fINR(Math.abs(gap))}</strong> below the safe harvest threshold of <strong>${fINR(threshold)}</strong>.<br><span style="font-size:9px;opacity:.7">Keep withdrawing ₹30K/month from remaining buffer. Wait for next bull run to refill. Do not sell BTC now.</span>`;
+  } else {
+    // buffer full, milestone active
+    card.className = "buf-card safe";
+    $("buf-title").style.color = "#4caf50";
+    $("buf-state").textContent = "✅ Buffer Full — SWP Active";
+    $("buf-state").style.color = "#4caf50";
+    $("buf-icon").textContent  = "💚";
+    $("buf-action").className  = "buf-action safe";
+    $("buf-action").innerHTML  = `Buffer at full capacity (₹9L). Take your ₹30,000/month. No harvest needed until buffer starts depleting.`;
+  }
 }
 
 // ── SIMULATOR ─────────────────────────────────────────
