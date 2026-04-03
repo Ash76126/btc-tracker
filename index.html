@@ -130,6 +130,38 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
 .buf-track{background:#111826;border-radius:4px;height:8px;overflow:hidden;margin-top:10px}
 .buf-fill{height:100%;border-radius:4px;transition:width .4s ease,background .4s}
 .shield-note{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:10px;color:#8899aa;line-height:1.9}
+/* ── VAULT ── */
+.vault-hero{background:linear-gradient(135deg,#0c1a2e,#0e1420);border:1px solid #f7931a44;border-radius:16px;padding:22px 20px;margin-bottom:20px;text-align:center;position:relative;overflow:hidden}
+.vault-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#f7931a,#ffb347,#f7931a,transparent)}
+.vault-hero-icon{font-size:36px;margin-bottom:8px}
+.vault-hero-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
+.vault-hero-sub{font-size:10px;color:#8899aa;letter-spacing:3px;text-transform:uppercase}
+.vault-section-lbl{font-size:8px;color:#f7931a;letter-spacing:4px;text-transform:uppercase;margin:20px 0 10px;padding-left:4px}
+.vault-rule{background:var(--card);border:1px solid #1e2e44;border-radius:12px;padding:16px 18px;margin-bottom:10px;position:relative;overflow:hidden;transition:border-color .2s}
+.vault-rule:hover{border-color:#f7931a44}
+.vault-rule::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--rule-color,#f7931a)}
+.vault-rule-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.vault-rule-num{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;color:var(--rule-color,#f7931a);background:var(--rule-bg,#f7931a18);border:1px solid var(--rule-color,#f7931a);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.vault-rule-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:#fff}
+.vault-rule-body{font-size:11px;color:#aabbcc;line-height:1.8;padding-left:36px}
+.vault-rule-tag{display:inline-block;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-top:6px;margin-left:36px}
+/* refill window */
+.refill-card{border-radius:14px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden;transition:all .5s}
+.refill-card.locked{background:#0c1120;border:1px solid #1e2e44;filter:none}
+.refill-card.unlocked{background:linear-gradient(135deg,#0a1a0e,#0c2010);border:1px solid #4caf5055}
+.refill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.refill-card.locked::before{background:#1e2e44}
+.refill-card.unlocked::before{background:linear-gradient(90deg,transparent,#4caf50,transparent)}
+.refill-lock{text-align:center;padding:10px 0}
+.refill-lock-icon{font-size:32px;margin-bottom:8px;filter:grayscale(1);opacity:.4}
+.refill-lock-txt{font-size:10px;color:#334455;letter-spacing:2px;text-transform:uppercase}
+.refill-unlock-lbl{font-size:8px;color:#4caf50;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.refill-date{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#4caf50;margin-bottom:4px}
+.refill-countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.refill-cd-item{background:#4caf5010;border:1px solid #4caf5033;border-radius:10px;padding:10px;text-align:center}
+.refill-cd-val{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#4caf50}
+.refill-cd-lbl{font-size:8px;color:#4caf5088;letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.refill-uptober{margin-top:12px;background:#f7931a0d;border:1px solid #f7931a22;border-radius:8px;padding:10px 14px;font-size:10px;color:#ffcc80;line-height:1.7}
 /* ── SIMULATOR ── */
 .sim-price-hero{background:linear-gradient(135deg,#0c1a2e,#0e1828);border:1px solid #f7931a33;border-radius:14px;padding:20px;margin-bottom:16px;text-align:center}
 .sim-price-display{font-family:'Rajdhani',sans-serif;font-size:44px;font-weight:700;color:#f7931a;line-height:1;margin-bottom:4px}
@@ -215,6 +247,7 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
   <button class="tab" onclick="showTab('trades',this)">Trades</button>
   <button class="tab" onclick="showTab('milestones',this)">Milestones</button>
   <button class="tab" onclick="showTab('simulator',this)">Simulator</button>
+  <button class="tab" onclick="showTab('vault',this)">⚡ Vault</button>
 </div>
 
 <div id="app-loading" class="loading-screen">
@@ -431,6 +464,118 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
       P2P rate fixed at ₹94/USDT. SWP = 0.5%/month of INR portfolio value.
     </div>
   </div>
+
+  <!-- ⚡ VAULT PANEL -->
+  <div class="panel" id="panel-vault">
+
+    <!-- Hero -->
+    <div class="vault-hero">
+      <div class="vault-hero-icon">⚡</div>
+      <div class="vault-hero-title">Master Rules: The Anti-FOMO Manifesto</div>
+      <div class="vault-hero-sub">Read this before every sell decision</div>
+    </div>
+
+    <!-- Annual Refill Window -->
+    <div class="vault-section-lbl">Annual Refill Window</div>
+    <div class="refill-card locked" id="refill-card">
+      <div id="refill-locked-view" class="refill-lock">
+        <div class="refill-lock-icon">🔒</div>
+        <div style="font-size:12px;color:#334455;margin-bottom:6px">Locked until Milestone 1 (₹60L)</div>
+        <div class="refill-lock-txt">Complete ₹60L target to unlock Uptober countdown</div>
+        <div style="margin-top:12px;background:#f7931a08;border:1px solid #f7931a22;border-radius:8px;padding:10px 14px;font-size:10px;color:#f7931a66;line-height:1.7">
+          🎃 Uptober Rule: November 1st is your annual harvest check window.<br>
+          BTC historically pumps in Oct–Nov. That's your refill trigger zone.
+        </div>
+      </div>
+      <div id="refill-unlocked-view" style="display:none">
+        <div class="refill-unlock-lbl">🟢 Milestone 1 Complete — Refill Window Active</div>
+        <div class="refill-date">Next: November 1st</div>
+        <div style="font-size:10px;color:#8899aa;margin-bottom:4px">Annual Harvest Check · Uptober Rule</div>
+        <div class="refill-countdown">
+          <div class="refill-cd-item"><div class="refill-cd-val" id="cd-days">—</div><div class="refill-cd-lbl">Days</div></div>
+          <div class="refill-cd-item"><div class="refill-cd-val" id="cd-hours">—</div><div class="refill-cd-lbl">Hours</div></div>
+          <div class="refill-cd-item"><div class="refill-cd-val" id="cd-mins">—</div><div class="refill-cd-lbl">Mins</div></div>
+          <div class="refill-cd-item"><div class="refill-cd-val" id="cd-secs">—</div><div class="refill-cd-lbl">Secs</div></div>
+        </div>
+        <div class="refill-uptober">
+          🎃 <strong>Uptober Rule:</strong> BTC historically pumps Oct–Nov. Check Buffer Health card on Nov 1st. If Rule 4 is met → harvest deficit. If not → do nothing and wait for next cycle.
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 Rules -->
+    <div class="vault-section-lbl">The 7 Golden Rules</div>
+
+    <div class="vault-rule" style="--rule-color:#ef5350;--rule-bg:#ef535018">
+      <div class="vault-rule-header">
+        <div class="vault-rule-num">1</div>
+        <div class="vault-rule-title">No % Selling</div>
+      </div>
+      <div class="vault-rule-body">Never sell based on a percentage pump — 15%, 40%, or even 100%. There is no magic number. The only valid sell trigger is Rule 4. <strong style="color:#ef9a9a">Math over emotions, always.</strong></div>
+      <div class="vault-rule-tag" style="background:#ef535018;color:#ef9a9a;border:1px solid #ef535033">⛔ EMOTION BLOCKER</div>
+    </div>
+
+    <div class="vault-rule" style="--rule-color:#f7931a;--rule-bg:#f7931a18">
+      <div class="vault-rule-header">
+        <div class="vault-rule-num">2</div>
+        <div class="vault-rule-title">The Holy Baseline</div>
+      </div>
+      <div class="vault-rule-body"><strong style="color:#ffcc80">₹60,00,000 is sacred.</strong> This is your floor. Your portfolio must always be evaluated against this number. It is never "profit" until you are above it. Never plan sells below this level.</div>
+      <div class="vault-rule-tag" style="background:#f7931a18;color:#ffcc80;border:1px solid #f7931a33">🏛️ BASELINE = ₹60,00,000</div>
+    </div>
+
+    <div class="vault-rule" style="--rule-color:#3d6cf7;--rule-bg:#3d6cf718">
+      <div class="vault-rule-header">
+        <div class="vault-rule-num">3</div>
+        <div class="vault-rule-title">Know the Deficit</div>
+      </div>
+      <div class="vault-rule-body">Before any harvest decision, calculate your deficit first.<br><strong style="color:#90caf9">Deficit = ₹9,00,000 − Current Buffer Balance</strong><br>If buffer is full → deficit is zero → nothing to harvest. Use the Buffer Health card to track this live.</div>
+      <div class="vault-rule-tag" style="background:#3d6cf718;color:#90caf9;border:1px solid #3d6cf733">📊 DEFICIT = MAX − CURRENT BUFFER</div>
+    </div>
+
+    <div class="vault-rule" style="--rule-color:#4caf50;--rule-bg:#4caf5018">
+      <div class="vault-rule-header">
+        <div class="vault-rule-num">4</div>
+        <div class="vault-rule-title">The Harvest Trigger</div>
+      </div>
+      <div class="vault-rule-body">This is the <strong style="color:#a5d6a7">only condition</strong> under which you are allowed to sell BTC.<br><strong style="color:#a5d6a7">Portfolio Value ≥ ₹60,00,000 + Current Deficit</strong><br>The Buffer Health card shows this in real time. Green = safe. Orange = wait.</div>
+      <div class="vault-rule-tag" style="background:#4caf5018;color:#a5d6a7;border:1px solid #4caf5033">✅ THE ONLY VALID SELL TRIGGER</div>
+    </div>
+
+    <div class="vault-rule" style="--rule-color:#ffb347;--rule-bg:#ffb34718">
+      <div class="vault-rule-header">
+        <div class="vault-rule-num">5</div>
+        <div class="vault-rule-title">Slice, Don't Kill</div>
+      </div>
+      <div class="vault-rule-body">When Rule 4 is triggered, sell <strong style="color:#ffcc80">only the exact deficit amount</strong> to restore buffer to ₹9L. Not more. The remaining BTC continues to ride the bull run untouched. You are skimming profit, not exiting.</div>
+      <div class="vault-rule-tag" style="background:#ffb34718;color:#ffcc80;border:1px solid #ffb34733">🌾 SELL ONLY THE DEFICIT — NOTHING MORE</div>
+    </div>
+
+    <div class="vault-rule" style="--rule-color:#3d6cf7;--rule-bg:#3d6cf718">
+      <div class="vault-rule-header">
+        <div class="vault-rule-num">6</div>
+        <div class="vault-rule-title">The 30-Month Shield</div>
+      </div>
+      <div class="vault-rule-body">If the market is below the Rule 4 trigger — <strong style="color:#90caf9">do absolutely nothing.</strong> Your ₹9L cash buffer funds 30 months of ₹30K/month withdrawals. That is 2.5 years of income without touching a single satoshi. Sit tight.</div>
+      <div class="vault-rule-tag" style="background:#3d6cf718;color:#90caf9;border:1px solid #3d6cf733">🛡️ 30 MONTHS · ₹9L CASH · ZERO BTC TOUCH</div>
+    </div>
+
+    <div class="vault-rule" style="--rule-color:#ab47bc;--rule-bg:#ab47bc18">
+      <div class="vault-rule-header">
+        <div class="vault-rule-num">7</div>
+        <div class="vault-rule-title">Lifestyle Lockdown</div>
+      </div>
+      <div class="vault-rule-body">Do <strong style="color:#ce93d8">NOT</strong> increase your monthly SWP from ₹30,000 to ₹50,000 until Milestone 2 is officially unlocked. <strong style="color:#ce93d8">Milestone 2 condition: Portfolio &gt; ₹1.35Cr</strong> (₹1.2Cr baseline + ₹15L buffer). Lifestyle inflation is the silent killer of wealth systems.</div>
+      <div class="vault-rule-tag" style="background:#ab47bc18;color:#ce93d8;border:1px solid #ab47bc33">🔒 NO SWP UPGRADE UNTIL ₹1.35CR UNLOCKED</div>
+    </div>
+
+    <!-- live status -->
+    <div class="vault-section-lbl">Live Rule 4 Status</div>
+    <div id="vault-rule4-status" style="background:var(--card);border:1px solid #1e2e44;border-radius:12px;padding:16px 18px;margin-bottom:20px;font-size:11px;color:#8899aa;line-height:1.8">
+      Loading live data…
+    </div>
+
+  </div>
 </div>
 
 <script>
@@ -551,6 +696,7 @@ function updateUI() {
 
   buildChart(p);
   renderBufferState();
+  updateVault();
 
   // trades table
   $("trades-header").textContent = `Purchase History — ${TRADES.length} Trades · Live P&L via Binance`;
@@ -599,9 +745,12 @@ function updateUI() {
     const harvestBTC     = bufferUSD / reqBTCPrice;
     const bufferL        = (m.buffer / 100000).toFixed(0);  // e.g. 9, 15, 30, 90
 
-    // Correction 2: 0.75 BTC target price (only for ₹60L card)
+    // Correction 2: 0.75 BTC target price — PRIMARY for all milestones
     const TARGET_BAG     = 0.75;
-    const reqPrice075    = targetUSD / TARGET_BAG;          // what price needed with full 0.75 BTC bag
+    const reqPrice075    = targetUSD / TARGET_BAG;          // default view — 0.75 BTC bag
+    const mult075        = reqPrice075 / p;
+    const multClass75    = mult075 <= 1.5 ? "close" : mult075 <= 3 ? "mid" : "far";
+    const multLabel75    = mult075 <= 1 ? "✓ Reached" : `${mult075.toFixed(2)}x`;
 
     return `<div class="milestone${done?" done":""}">
       <div class="ms-row">
@@ -617,13 +766,13 @@ function updateUI() {
       <!-- TARGET BTC PRICE ROW -->
       <div class="ms-target-row">
         <div>
-          <div class="ms-target-lbl">Required BTC Price <span style="font-size:7px;opacity:.6">(current ${TOTAL_BTC.toFixed(4)} BTC)</span></div>
-          <div class="ms-target-price">${fU(Math.round(reqBTCPrice))}</div>
-          ${m.label === "₹60L" ? `<div style="font-size:10px;color:#8899aa;margin-top:5px">With 0.75 BTC bag: <span style="color:#ffcc80;font-weight:700">${fU(Math.round(reqPrice075))}</span></div>` : ""}
+          <div class="ms-target-lbl">Required BTC Price <span style="font-size:7px;opacity:.6">(0.75 BTC bag)</span></div>
+          <div class="ms-target-price">${fU(Math.round(reqPrice075))}</div>
+          <div style="font-size:10px;color:#8899aa;margin-top:5px">Current bag (${TOTAL_BTC.toFixed(4)} BTC): <span style="color:#aabbcc">${fU(Math.round(reqBTCPrice))}</span></div>
         </div>
         <div style="text-align:right">
-          <div style="font-size:8px;color:#8899aa;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Market Multiplier</div>
-          <span class="ms-multiplier ${multClass}">${multLabel}</span>
+          <div style="font-size:8px;color:#8899aa;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Multiplier (0.75x)</div>
+          <span class="ms-multiplier ${multClass75}">${multLabel75}</span>
         </div>
       </div>
 
@@ -859,6 +1008,83 @@ function updateSim(price) {
 function setSim(price) {
   $("sim-slider").value = price;
   updateSim(price);
+}
+
+// ── VAULT ─────────────────────────────────────────────
+const TARGET_075 = 0.75;
+
+function updateVault() {
+  if (!btcUSD || !SWP.length) return;
+  const pfINR      = TOTAL_BTC * btcUSD * 94;
+  const m1done     = pfINR >= 6000000;
+  const deficit    = Math.max(900000 - currentBuffer, 0);
+  const threshold  = 6000000 + deficit;
+  const canHarvest = pfINR >= threshold;
+  const fINR       = n => "₹" + Math.round(n).toLocaleString("en-IN");
+
+  // Milestone 1 lock/unlock
+  const card = $("refill-card");
+  if (m1done) {
+    card.className = "refill-card unlocked";
+    $("refill-locked-view").style.display  = "none";
+    $("refill-unlocked-view").style.display = "block";
+    startUptober();
+  } else {
+    card.className = "refill-card locked";
+    $("refill-locked-view").style.display  = "block";
+    $("refill-unlocked-view").style.display = "none";
+  }
+
+  // Rule 4 live status
+  const r4 = $("vault-rule4-status");
+  if (canHarvest && deficit > 0) {
+    r4.style.background   = "#4caf5018";
+    r4.style.borderColor  = "#4caf5055";
+    r4.innerHTML = `<div style="font-size:14px;font-weight:700;color:#4caf50;margin-bottom:8px">✅ Rule 4 MET — Safe to Harvest</div>
+      Portfolio <strong style="color:#a5d6a7">${fINR(pfINR)}</strong> ≥ Threshold <strong style="color:#a5d6a7">${fINR(threshold)}</strong><br>
+      Sell exactly <strong style="color:#a5d6a7">${fINR(deficit)}</strong> worth of BTC to restore buffer to ₹9L.<br>
+      <span style="font-size:9px;color:#4caf5088">Go to Milestones tab → Buffer Health card to execute.</span>`;
+  } else if (!m1done) {
+    r4.style.background  = "#3d6cf718";
+    r4.style.borderColor = "#3d6cf755";
+    r4.innerHTML = `<div style="font-size:14px;font-weight:700;color:#3d6cf7;margin-bottom:8px">🔵 Rule 4 — Milestone 1 Not Yet Reached</div>
+      Portfolio <strong style="color:#90caf9">${fINR(pfINR)}</strong> of ₹60L target.<br>
+      Keep accumulating. Rule 4 becomes active once ₹60L is hit.`;
+  } else if (deficit === 0) {
+    r4.style.background  = "#4caf5018";
+    r4.style.borderColor = "#4caf5055";
+    r4.innerHTML = `<div style="font-size:14px;font-weight:700;color:#4caf50;margin-bottom:8px">💚 Buffer Full — Nothing to Harvest</div>
+      Buffer is at full capacity (₹9L). Deficit = ₹0.<br>Take your ₹30K/month. No action needed.`;
+  } else {
+    r4.style.background  = "#f7931a18";
+    r4.style.borderColor = "#f7931a55";
+    r4.innerHTML = `<div style="font-size:14px;font-weight:700;color:#f7931a;margin-bottom:8px">⏳ Rule 4 NOT Met — Do Not Sell</div>
+      Portfolio <strong style="color:#ffcc80">${fINR(pfINR)}</strong> is <strong style="color:#ef9a9a">${fINR(threshold - pfINR)}</strong> below harvest threshold of <strong style="color:#ffcc80">${fINR(threshold)}</strong>.<br>
+      Sit tight. Keep withdrawing ₹30K/month from buffer. Wait for bull run.<br>
+      <span style="font-size:9px;color:#f7931a88">Buffer has ${Math.floor(currentBuffer/30000)} months remaining at ₹30K/month.</span>`;
+  }
+}
+
+let uptoberStarted = false;
+function startUptober() {
+  if (uptoberStarted) return;
+  uptoberStarted = true;
+  function tick() {
+    const now  = new Date();
+    let nov1   = new Date(now.getFullYear(), 10, 1); // Nov 1
+    if (now >= nov1) nov1 = new Date(now.getFullYear()+1, 10, 1);
+    const diff = nov1 - now;
+    const d    = Math.floor(diff / 86400000);
+    const h    = Math.floor((diff % 86400000) / 3600000);
+    const m    = Math.floor((diff % 3600000) / 60000);
+    const s    = Math.floor((diff % 60000) / 1000);
+    if ($("cd-days"))  $("cd-days").textContent  = d;
+    if ($("cd-hours")) $("cd-hours").textContent = h;
+    if ($("cd-mins"))  $("cd-mins").textContent  = m;
+    if ($("cd-secs"))  $("cd-secs").textContent  = s;
+  }
+  tick();
+  setInterval(tick, 1000);
 }
 
 // ── INIT ──────────────────────────────────────────────
