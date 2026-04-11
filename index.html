@@ -321,25 +321,25 @@ tfoot td{background:var(--card2);border-top:1px solid #f7931a22;font-weight:700}
       <div class="card-label">Ultimate Accumulation Target</div>
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px">
         <div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#f7931a" id="ult-invested">$22,000</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#f7931a" id="ult-invested">—</div>
           <div style="font-size:10px;color:#8899aa;margin-top:2px">of <span style="color:#dde3ee;font-weight:700">$73,000 USDT</span> target</div>
         </div>
         <div style="text-align:right">
-          <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#f7931a" id="ult-pct">30.1%</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#f7931a" id="ult-pct">—</div>
           <div style="font-size:9px;color:#8899aa">complete</div>
         </div>
       </div>
       <div style="background:#111826;border-radius:6px;height:8px;overflow:hidden;margin-bottom:8px">
-        <div id="ult-bar" style="height:100%;border-radius:6px;background:linear-gradient(90deg,#f7931a,#ffb347);transition:width .5s ease;width:30.1%"></div>
+        <div id="ult-bar" style="height:100%;border-radius:6px;background:linear-gradient(90deg,#f7931a,#ffb347);transition:width .5s ease;width:0%"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px">
         <div style="background:#f7931a08;border:1px solid #1e2e44;border-radius:8px;padding:9px 10px;text-align:center">
           <div style="font-size:8px;color:#8899aa;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">Invested</div>
-          <div style="font-size:13px;color:#dde3ee;font-weight:700;font-family:'Rajdhani',sans-serif">$22,000</div>
+          <div style="font-size:13px;color:#dde3ee;font-weight:700;font-family:'Rajdhani',sans-serif" id="ult-inv-sub">—</div>
         </div>
         <div style="background:#f7931a08;border:1px solid #1e2e44;border-radius:8px;padding:9px 10px;text-align:center">
           <div style="font-size:8px;color:#8899aa;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">Remaining</div>
-          <div style="font-size:13px;color:#dde3ee;font-weight:700;font-family:'Rajdhani',sans-serif">$51,000</div>
+          <div style="font-size:13px;color:#dde3ee;font-weight:700;font-family:'Rajdhani',sans-serif" id="ult-rem">—</div>
         </div>
         <div style="background:#f7931a08;border:1px solid #1e2e44;border-radius:8px;padding:9px 10px;text-align:center">
           <div style="font-size:8px;color:#8899aa;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">Breakdown</div>
@@ -702,9 +702,13 @@ function updateUI() {
   // Ultimate target progress
   const ULTIMATE_TARGET = 73000;
   const ultPct = Math.min((TOTAL_USD / ULTIMATE_TARGET) * 100, 100);
+  const ultRem = Math.max(ULTIMATE_TARGET - TOTAL_USD, 0);
   if ($("ult-pct")) {
-    $("ult-pct").textContent = ultPct.toFixed(1) + "%";
-    $("ult-bar").style.width = ultPct + "%";
+    $("ult-invested").textContent = "$" + TOTAL_USD.toLocaleString("en-US");
+    $("ult-pct").textContent      = ultPct.toFixed(1) + "%";
+    $("ult-bar").style.width      = ultPct + "%";
+    $("ult-inv-sub").textContent  = "$" + TOTAL_USD.toLocaleString("en-US");
+    $("ult-rem").textContent      = "$" + ultRem.toLocaleString("en-US");
   }
 
   // SWP calculation
