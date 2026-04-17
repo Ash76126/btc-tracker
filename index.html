@@ -696,7 +696,7 @@ function updateUI() {
     ? (sinceUSD >= 0 ? "+" : "") + fU(Math.round(sinceUSD)) + ` (${sincePct>=0?"+":""}${sincePct.toFixed(2)}%)`
     : "—";
   $("fl-since").style.color = openPrice ? (sinceUSD >= 0 ? "#4caf50" : "#ef5350") : "var(--muted)";
-  $("fl-pnl").textContent   = (pos?"+":"") + fU(Math.round(pnl));
+  $("fl-pnl").textContent   = (pos?"+":"") + fU(Math.round(pnl)) + " (" + (pos?"+":"") + fI(Math.round(pnl*95)) + ")";
   $("fl-pnl").style.color   = pc;
 
   // Ultimate target progress
@@ -732,7 +732,7 @@ function updateUI() {
   $("m-value").textContent       = fU(Math.round(cv));   $("m-value").style.color = pc;
   $("m-value-inr").textContent   = fI(cvi);
   $("m-pnl").textContent         = (pos?"+":"") + fU(Math.round(pnl)); $("m-pnl").style.color = pc;
-  $("m-pnl-pct").textContent     = (pct>=0?"+":"") + pct.toFixed(2) + "%";
+  $("m-pnl-pct").textContent     = (pct>=0?"+":"") + pct.toFixed(2) + "% · " + (pnl>=0?"+":"") + fI(Math.round(pnl*95));
   $("m-be").textContent          = fU(Math.round(AVG));
   $("m-be").style.color          = p >= AVG ? "#4caf50" : "#ef5350";
   $("m-be-sub").textContent      = p >= AVG ? "✓ In profit" : `Need +${(((AVG-p)/p)*100).toFixed(1)}% rally`;
