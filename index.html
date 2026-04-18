@@ -693,7 +693,7 @@ function updateUI() {
   $("fl-value").textContent = fI(cvi);
   $("fl-value").style.color = pc;
   $("fl-since").textContent = openPrice
-    ? (sinceUSD >= 0 ? "+" : "") + fU(Math.round(sinceUSD)) + ` (${sincePct>=0?"+":""}${sincePct.toFixed(2)}%)`
+    ? (sinceUSD >= 0 ? "+" : "") + fU(Math.round(sinceUSD)) + " (" + (sinceUSD>=0?"+":"") + fI(Math.round(sinceUSD*95)) + ") " + `(${sincePct>=0?"+":""}${sincePct.toFixed(2)}%)`
     : "—";
   $("fl-since").style.color = openPrice ? (sinceUSD >= 0 ? "#4caf50" : "#ef5350") : "var(--muted)";
   $("fl-pnl").textContent   = (pos?"+":"") + fU(Math.round(pnl)) + " (" + (pos?"+":"") + fI(Math.round(pnl*95)) + ")";
