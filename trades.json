@@ -22,7 +22,8 @@
     { "date": "Apr 9",  "usd": 1000, "btc": 0.01400, "price": 71500 },
     { "date": "Apr 12", "usd": 1000, "btc": 0.01360, "price": 73300 },
     { "date": "Apr 15", "usd": 1000, "btc": 0.01501, "price": 74130 },
-    { "date": "Apr 18", "usd": 1000, "btc": 0.01324, "price": 75600 }
+    { "date": "Apr 18", "usd": 1000, "btc": 0.01324, "price": 75600 },
+    { "date": "Apr 23", "usd": 1000, "btc": 0.01269, "price": 78800 }
   ],
   "swp_milestones": [
     { "label": "₹60L",   "inr": 6000000,  "swp": 30000,  "buffer": 900000  },
