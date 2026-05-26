@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Portfolio Tracker · Ash76126</title>
+<title>Portfolio Tracker · Asmit</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet"/>
 <style>
@@ -80,11 +80,6 @@ input[type=range].sim-slider::-webkit-slider-thumb{-webkit-appearance:none;width
 .sim-presets{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:12px}
 .sim-btn{background:rgba(255,255,255,.03);border:1px solid #1a2438;border-radius:6px;padding:5px 12px;font-size:9px;color:var(--muted);cursor:pointer;font-family:'Share Tech Mono',monospace;transition:all .2s}
 .sim-btn:hover,.sim-btn.active{background:rgba(247,147,26,.1);border-color:rgba(247,147,26,.3);color:var(--orange)}
-.vault-rule{background:var(--card);border:1px solid #1e2e44;border-radius:12px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--orange)}
-.vr-top{display:flex;align-items:center;gap:10px;margin-bottom:7px}
-.vr-num{width:26px;height:26px;border-radius:6px;background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.3);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;color:var(--orange);flex-shrink:0}
-.vr-title{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700}
-.vr-body{font-size:11px;color:#8899aa;line-height:1.8;padding-left:36px}
 .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:14px;font-size:11px;color:var(--muted)}
 .spin{width:32px;height:32px;border:2px solid #1a2438;border-top:2px solid var(--orange);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -104,7 +99,7 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
       <div class="brand-icon">₿</div>
       <div>
         <div class="brand-sub">30/70 Growth Engine</div>
-        <div class="brand-name">Portfolio Tracker 2026</div>
+        <div class="brand-name">Portfolio Tracker · 74K Goal</div>
       </div>
     </div>
     <div class="live-pill">
@@ -131,7 +126,7 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
       <div class="fluct-sep"></div>
       <div class="fluct-item"><div class="fluct-lbl">Net P&amp;L</div><div class="fluct-val" id="fl-pnl">—</div><div class="fluct-sub" id="fl-pct"></div></div>
       <div class="fluct-sep"></div>
-      <div class="fluct-item"><div class="fluct-lbl">Monthly SWP (6%)</div><div class="fluct-val" id="fl-swp">—</div></div>
+      <div class="fluct-item"><div class="fluct-lbl">Shield Target</div><div class="fluct-val" style="color:var(--orange)">74k USDT</div></div>
     </div>
   </div>
 </div>
@@ -139,27 +134,35 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
 <div class="tabs">
   <button class="tab active" onclick="showTab('overview',this)">Overview</button>
   <button class="tab" onclick="showTab('positions',this)">Positions</button>
-  <button class="tab" onclick="showTab('milestones',this)">Milestones</button>
+  <button class="tab" onclick="showTab('milestones',this)">Shield Targets</button>
   <button class="tab" onclick="showTab('simulator',this)">Simulator</button>
   <button class="tab" onclick="showTab('strategy',this)">Strategy Ledger</button>
-  <button class="tab" onclick="showTab('vault',this)">⚡ Vault Rules</button>
 </div>
 
 <div id="loading" class="loading"><div class="spin"></div><div>Loading live data from Binance…</div></div>
 <div id="app" style="display:none">
 
 <div class="panel active" id="panel-overview">
-  <div class="card-hot">
-    <div class="sec-lbl">Active Monthly SWP Yield</div>
-    <div class="swp-big" id="swp-amt">—</div>
-    <div style="font-size:10px;color:#8899aa;margin-top:6px">Calculated at ₹95/USDT Base &middot; 6% Annual SWR</div>
-    <div style="height:1px;background:rgba(255,255,255,.05);margin:12px 0"></div>
-    <div class="g3">
-      <div class="stat"><div class="stat-l">Total USD</div><div class="stat-v" id="swp-usd">—</div></div>
-      <div class="stat"><div class="stat-l">Total INR</div><div class="stat-v" id="swp-inr">—</div></div>
-      <div class="stat"><div class="stat-l">Annual SWP</div><div class="stat-v" id="swp-yr">—</div></div>
+  
+  <div class="card-hot" style="border-color:rgba(247,147,26,0.4); background:linear-gradient(135deg,rgba(247,147,26,0.1),rgba(247,147,26,0.02))">
+    <div class="sec-lbl" style="color:var(--orange)">ACCUMULATION HARD CAP TARGET</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;line-height:1;color:#fff" id="prog-invested">— / $74K</div>
+    <div style="font-size:10px;color:var(--muted);margin-top:4px" id="prog-pct-txt">— Deployed</div>
+    
+    <div class="prog-track" style="height:6px;margin:12px 0;background:rgba(255,255,255,0.05)">
+      <div class="prog-fill" id="prog-bar" style="width:0%;background:linear-gradient(90deg, #f7931a, #f0b90b)"></div>
+    </div>
+    
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:#8899aa">
+      <span style="color:var(--green);font-weight:bold" id="prog-rem">—</span>
+      <span>Target Limit: $74,000</span>
+    </div>
+    
+    <div style="margin-top:14px;background:rgba(0,0,0,0.3);border-radius:6px;padding:8px 10px;font-size:8px;color:var(--orange);text-align:center;letter-spacing:1px;font-weight:bold;border:1px dashed rgba(247,147,26,0.4)">
+      ⚠️ RULE: ZERO FRESH CAPITAL DEPLOYMENT AFTER TARGET IS HIT
     </div>
   </div>
+
   <div class="m2">
     <div class="mcard" style="--mc:#7a8899"><div class="ml">Total Cost Basis</div><div class="mv c-m">$30,960</div><div class="ms">₹29.41L Equivalent</div></div>
     <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Liquid Bag</div><div class="mv c-o">0.163611 ₿</div><div class="ms">Entry: $75,259</div></div>
@@ -168,6 +171,7 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
     <div class="mcard" style="--mc:var(--orange)"><div class="ml">Unrealized P&amp;L</div><div class="mv" id="m-pnl">—</div><div class="ms" id="m-pnl-s">—</div></div>
     <div class="mcard" style="--mc:var(--bnb)"><div class="ml">Risk Protocol</div><div class="mv" style="font-size:14px;color:var(--bnb)">30% BTC Base</div><div class="ms">70% BNB Multiplier</div></div>
   </div>
+  
   <div class="card">
     <div class="sec-lbl">Portfolio Allocation (Live)</div>
     <div style="display:flex;align-items:center;gap:16px">
@@ -228,54 +232,48 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
 
 <div class="panel" id="panel-milestones">
   <div class="card">
-    <div class="sec-lbl">Consolidated Net Worth Baseline</div>
+    <div class="sec-lbl">Consolidated Engine Value</div>
     <div style="font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;color:var(--green)" id="ms-pf">—</div>
-    <div style="font-size:10px;color:var(--muted);margin-top:4px" id="ms-pf-sub">—</div>
+    <div style="font-size:10px;color:var(--muted);margin-top:4px">Includes both BTC & BNB Holdings</div>
   </div>
-  <div style="font-size:8px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:12px">6% SWP PROJECTIONS BASED ON CYCLE TARGETS</div>
+  <div style="font-size:8px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:12px">CYCLE TARGETS: 3-YEAR SHIELD CARVE-OUT STRATEGY</div>
+  <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:14px;font-size:9px;color:#8899aa;line-height:1.6">
+    <span style="color:var(--orange)">RULE:</span> At each peak, carve out exactly 3 years (36 months) of SWP income into stablecoins to survive the bear market crash. Leave the rest as a Moonbag.
+  </div>
 
   <div class="ms-card" style="border-left-color:var(--orange)">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
-      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">Milestone 1: $200K BTC Top</div><div style="font-size:9px;color:var(--muted);margin-top:3px">BNB Model Target: 2× ($1,286)</div></div>
-      <div style="font-size:11px;color:var(--muted);text-align:right" id="ms1-x">—</div>
+      <div><div style="font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700">Milestone 1: $200K BTC Top</div><div style="font-size:9px;color:var(--muted);margin-top:3px">BNB Target: 2× ($1,286)</div></div>
     </div>
-    <div class="ms-grid">
-      <div class="ms-s"><div class="ms-sl">BTC Value</div><div class="ms-sv c-o">$32,722</div></div>
-      <div class="ms-s"><div class="ms-sl">BNB Value</div><div class="ms-sv c-b">$37,294</div></div>
-      <div class="ms-s"><div class="ms-sl">Total Engine</div><div class="ms-sv">$70,016</div></div>
-      <div class="ms-s"><div class="ms-sl">Total INR</div><div class="ms-sv">₹66.5 L</div></div>
-      <div class="ms-s"><div class="ms-sl">Monthly SWP</div><div class="ms-sv c-g">₹33,258</div></div>
-      <div class="ms-s"><div class="ms-sl">Annual Cashout</div><div class="ms-sv">₹3.99 L</div></div>
+    <div class="ms-grid" style="grid-template-columns:1fr 1fr;">
+      <div class="ms-s"><div class="ms-sl">Total Engine Value</div><div class="ms-sv" id="ms1-tot">—</div></div>
+      <div class="ms-s" style="border:1px solid rgba(247,147,26,0.3);background:rgba(247,147,26,0.05)"><div class="ms-sl" style="color:var(--orange)">3-Year Bear Shield (Sell to USDT)</div><div class="ms-sv c-o" id="ms1-shield">—</div></div>
+      <div class="ms-s"><div class="ms-sl">Remaining Crypto Moonbag</div><div class="ms-sv c-g" id="ms1-moon">—</div></div>
+      <div class="ms-s"><div class="ms-sl">Monthly Income (From Shield)</div><div class="ms-sv" id="ms1-swp">—</div></div>
     </div>
   </div>
 
   <div class="ms-card" style="border-left-color:var(--bnb)">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
-      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">Milestone 2: $300K BTC Top</div><div style="font-size:9px;color:var(--muted);margin-top:3px">BNB Model Target: 3× ($1,929)</div></div>
-      <div style="font-size:11px;color:var(--muted);text-align:right" id="ms2-x">—</div>
+      <div><div style="font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700">Milestone 2: $300K BTC Top</div><div style="font-size:9px;color:var(--muted);margin-top:3px">BNB Target: 3× ($1,929)</div></div>
     </div>
-    <div class="ms-grid">
-      <div class="ms-s"><div class="ms-sl">BTC Value</div><div class="ms-sv c-o">$49,083</div></div>
-      <div class="ms-s"><div class="ms-sl">BNB Value</div><div class="ms-sv c-b">$55,941</div></div>
-      <div class="ms-s"><div class="ms-sl">Total Engine</div><div class="ms-sv">$105,024</div></div>
-      <div class="ms-s"><div class="ms-sl">Total INR</div><div class="ms-sv">₹99.8 L</div></div>
-      <div class="ms-s"><div class="ms-sl">Monthly SWP</div><div class="ms-sv c-g">₹49,887</div></div>
-      <div class="ms-s"><div class="ms-sl">Annual Cashout</div><div class="ms-sv">₹5.99 L</div></div>
+    <div class="ms-grid" style="grid-template-columns:1fr 1fr;">
+      <div class="ms-s"><div class="ms-sl">Total Engine Value</div><div class="ms-sv" id="ms2-tot">—</div></div>
+      <div class="ms-s" style="border:1px solid rgba(240,185,11,0.3);background:rgba(240,185,11,0.05)"><div class="ms-sl" style="color:var(--bnb)">3-Year Bear Shield (Sell to USDT)</div><div class="ms-sv c-b" id="ms2-shield">—</div></div>
+      <div class="ms-s"><div class="ms-sl">Remaining Crypto Moonbag</div><div class="ms-sv c-g" id="ms2-moon">—</div></div>
+      <div class="ms-s"><div class="ms-sl">Monthly Income (From Shield)</div><div class="ms-sv" id="ms2-swp">—</div></div>
     </div>
   </div>
 
   <div class="ms-card" style="border-left-color:var(--green)">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
-      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">Milestone 3: $450K Ultimate Peak</div><div style="font-size:9px;color:var(--muted);margin-top:3px">BNB Model Target: 4.5× ($2,894)</div></div>
-      <div style="font-size:11px;color:var(--muted);text-align:right" id="ms3-x">—</div>
+      <div><div style="font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700">Milestone 3: $450K Ultimate Peak</div><div style="font-size:9px;color:var(--muted);margin-top:3px">BNB Target: 4.5× ($2,894)</div></div>
     </div>
-    <div class="ms-grid">
-      <div class="ms-s"><div class="ms-sl">BTC Value</div><div class="ms-sv c-o">$73,625</div></div>
-      <div class="ms-s"><div class="ms-sl">BNB Value</div><div class="ms-sv c-b">$83,912</div></div>
-      <div class="ms-s"><div class="ms-sl">Total Engine</div><div class="ms-sv">$157,536</div></div>
-      <div class="ms-s"><div class="ms-sl">Total INR</div><div class="ms-sv">₹1.49 Cr</div></div>
-      <div class="ms-s"><div class="ms-sl">Monthly SWP</div><div class="ms-sv c-g">₹74,830</div></div>
-      <div class="ms-s"><div class="ms-sl">Annual Cashout</div><div class="ms-sv">₹8.98 L</div></div>
+    <div class="ms-grid" style="grid-template-columns:1fr 1fr;">
+      <div class="ms-s"><div class="ms-sl">Total Engine Value</div><div class="ms-sv" id="ms3-tot">—</div></div>
+      <div class="ms-s" style="border:1px solid rgba(76,175,80,0.3);background:rgba(76,175,80,0.05)"><div class="ms-sl" style="color:var(--green)">3-Year Bear Shield (Sell to USDT)</div><div class="ms-sv c-g" id="ms3-shield">—</div></div>
+      <div class="ms-s"><div class="ms-sl">Remaining Crypto Moonbag</div><div class="ms-sv c-g" id="ms3-moon">—</div></div>
+      <div class="ms-s"><div class="ms-sl">Monthly Income (From Shield)</div><div class="ms-sv" id="ms3-swp">—</div></div>
     </div>
   </div>
 </div>
@@ -299,9 +297,9 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
     <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Value</div><div class="mv c-o" id="s-btc">—</div><div class="ms" id="s-btc-i">—</div></div>
     <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Value (Proportional)</div><div class="mv c-b" id="s-bnb">—</div><div class="ms" id="s-bnb-i">—</div></div>
     <div class="mcard" style="--mc:var(--green)"><div class="ml">Total Engine Projection</div><div class="mv" id="s-total">—</div><div class="ms" id="s-total-i">—</div></div>
-    <div class="mcard" style="--mc:var(--green)"><div class="ml">Eligible SWP/mo</div><div class="mv" id="s-swp">—</div><div class="ms">@ 6% Fixed SWR</div></div>
     <div class="mcard" style="--mc:var(--orange)"><div class="ml">Net P&amp;L Projection</div><div class="mv" id="s-pnl">—</div><div class="ms" id="s-pnl-p">—</div></div>
-    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Scaling Factor</div><div class="mv" id="s-bnb-m" style="font-size:14px;color:var(--bnb)">—</div><div class="ms">from baseline</div></div>
+    <div class="mcard" style="--mc:var(--red)"><div class="ml">3-Year Shield Reserve</div><div class="mv c-r" id="s-shield">—</div><div class="ms">Sell to USDT at Top</div></div>
+    <div class="mcard" style="--mc:var(--green)"><div class="ml">Remaining Moonbag</div><div class="mv c-g" id="s-moon">—</div><div class="ms">Ride the Bear Market</div></div>
   </div>
 </div>
 
@@ -367,32 +365,13 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
   </div>
 </div>
 
-<div class="panel" id="panel-vault">
-  <div class="card-hot" style="text-align:center;padding:22px;margin-bottom:16px">
-    <div style="font-size:32px;margin-bottom:8px">⚡</div>
-    <div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px">Anti-FOMO Core Execution Protocols</div>
-    <div style="font-size:9px;color:var(--muted);letter-spacing:2px">MATH OVER EMOTIONS &middot; DO NOT DISTURB THE ENGINE</div>
-  </div>
-  <div class="vault-rule">
-    <div class="vr-top"><div class="vr-num">1</div><div class="vr-title">No Early Execution Liquidations</div></div>
-    <div class="vr-body">Only sell when specific structural milestones are checked. Never liquidate bags because of brief 20-30% market pumps.</div>
-  </div>
-  <div class="vault-rule" style="border-left-color:var(--bnb)">
-    <div class="vr-top"><div class="vr-num" style="border-color:var(--bnb);color:var(--bnb);background:rgba(240,185,11,.1)">2</div><div class="vr-title">Volatility Shield Strategy</div></div>
-    <div class="vr-body">BNB is a hyper-growth engine token, it will drop hard in flash dips. Do nothing during corrections. Living expenditures do not belong here.</div>
-  </div>
-  <div class="vault-rule" style="border-left-color:var(--green)">
-    <div class="vr-top"><div class="vr-num" style="border-color:var(--green);color:var(--green);background:rgba(76,175,80,.1)">3</div><div class="vr-title">Target Barriers for SWP Running</div></div>
-    <div class="vr-body">$200K BTC is the minimum checkpoint baseline before activating any passive retirement flows. No exceptions.</div>
-  </div>
-</div>
-
 </div>
 
 <script>
 const BTC_QTY=0.163611,BTC_AVG=75259,BNB_QTY=29,BNB_AVG=643;
 const COST=BTC_QTY*BTC_AVG+BNB_QTY*BNB_AVG;
 const P2P=95;
+const TARGET_CAP = 74000;
 let bP=null,nP=null,pB=null,pN=null,usdInr=95,cdV=5,cdI=null;
 const $=id=>document.getElementById(id);
 const fU=n=>"$"+Math.round(n).toLocaleString("en-US");
@@ -400,13 +379,64 @@ const fI=n=>{if(n>=10000000)return"₹"+(n/10000000).toFixed(2)+" Cr";if(n>=1000
 const col=v=>v>0?"var(--green)":v<0?"var(--red)":"var(--muted)";
 let aC=null,sC=null;
 
+function calcShield(totalInr) {
+    const swpMonthly = totalInr * 0.005; // 6% annual
+    const shield3Years = swpMonthly * 36;
+    const moonbag = totalInr - shield3Years;
+    return { swp: swpMonthly, shield: shield3Years, moonbag: moonbag };
+}
+
+function updateMilestones() {
+    // M1: 200k BTC, 2x BNB (1286)
+    let m1_btc = BTC_QTY * 200000;
+    let m1_bnb = BNB_QTY * 1286;
+    let m1_tot = m1_btc + m1_bnb;
+    let m1_tot_inr = m1_tot * P2P;
+    let m1_calc = calcShield(m1_tot_inr);
+    $("ms1-tot").textContent = fI(m1_tot_inr);
+    $("ms1-shield").textContent = fI(m1_calc.shield);
+    $("ms1-moon").textContent = fI(m1_calc.moonbag);
+    $("ms1-swp").textContent = "₹" + Math.round(m1_calc.swp).toLocaleString("en-IN") + " / mo";
+
+    // M2: 300k BTC, 3x BNB (1929)
+    let m2_btc = BTC_QTY * 300000;
+    let m2_bnb = BNB_QTY * 1929;
+    let m2_tot = m2_btc + m2_bnb;
+    let m2_tot_inr = m2_tot * P2P;
+    let m2_calc = calcShield(m2_tot_inr);
+    $("ms2-tot").textContent = fI(m2_tot_inr);
+    $("ms2-shield").textContent = fI(m2_calc.shield);
+    $("ms2-moon").textContent = fI(m2_calc.moonbag);
+    $("ms2-swp").textContent = "₹" + Math.round(m2_calc.swp).toLocaleString("en-IN") + " / mo";
+
+    // M3: 450k BTC, 4.5x BNB (2894)
+    let m3_btc = BTC_QTY * 450000;
+    let m3_bnb = BNB_QTY * 2894;
+    let m3_tot = m3_btc + m3_bnb;
+    let m3_tot_inr = m3_tot * P2P;
+    let m3_calc = calcShield(m3_tot_inr);
+    $("ms3-tot").textContent = fI(m3_tot_inr);
+    $("ms3-shield").textContent = fI(m3_calc.shield);
+    $("ms3-moon").textContent = fI(m3_calc.moonbag);
+    $("ms3-swp").textContent = "₹" + Math.round(m3_calc.swp).toLocaleString("en-IN") + " / mo";
+}
+
 function updateUI(){
   const btcV=BTC_QTY*bP,bnbV=BNB_QTY*nP,total=btcV+bnbV,totalI=total*P2P;
   const pnl=total-COST,pct=(pnl/COST)*100,pos=pnl>=0;
-  const swp=totalI*0.005;
   const btcPct=btcV/total*100,bnbPct=bnbV/total*100;
   const btcPnl=btcV-BTC_QTY*BTC_AVG,bnbPnl=bnbV-BNB_QTY*BNB_AVG;
   const dB=pB?(bP>pB?"up":"dn"):null,dN=pN?(nP>pN?"up":"dn"):null;
+  
+  // Hard Cap Logic Update
+  const progPct = (COST / TARGET_CAP) * 100;
+  const remainingDeploy = TARGET_CAP - COST;
+  
+  $("prog-invested").textContent = fU(Math.round(COST)) + " / $74K";
+  $("prog-pct-txt").textContent = progPct.toFixed(1) + "% of Target Deployed";
+  $("prog-bar").style.width = Math.min(progPct, 100) + "%";
+  $("prog-rem").textContent = remainingDeploy > 0 ? fU(Math.round(remainingDeploy)) + " Remaining to Deploy" : "Hard Cap Reached!";
+  $("prog-rem").style.color = remainingDeploy > 0 ? "var(--green)" : "var(--red)";
 
   $("btc-ph").textContent=fU(bP);$("btc-ph").className="ph-price"+(dB?" "+dB:"");
   $("btc-ph-sub").textContent=fI(bP*usdInr)+" · Fix P2P Base: ₹"+P2P;
@@ -415,11 +445,7 @@ function updateUI(){
   $("fluct-bar").style.display="block";
   $("fl-total").textContent=fI(totalI);$("fl-total").style.color=col(pnl);
   $("fl-pnl").textContent=(pos?"+":"")+fU(Math.round(pnl));$("fl-pnl").style.color=col(pnl);
-  $("fl-pct").textContent=(pct>=0?"+":"")+pct.toFixed(2)+"%";
-  $("fl-swp").textContent="₹"+Math.round(swp).toLocaleString("en-IN");$("fl-swp").style.color=swp>=30000?"var(--green)":"var(--orange)";
 
-  $("swp-amt").textContent="₹"+Math.round(swp).toLocaleString("en-IN");
-  $("swp-usd").textContent=fU(Math.round(total));$("swp-inr").textContent=fI(totalI);$("swp-yr").textContent="₹"+Math.round(swp*12).toLocaleString("en-IN");
   $("m-total").textContent=fU(Math.round(total));$("m-total").style.color=col(pnl);$("m-total-s").textContent=fI(totalI);
   $("m-pnl").textContent=(pos?"+":"")+fU(Math.round(pnl));$("m-pnl").style.color=col(pnl);
   $("m-pnl-s").textContent=(pct>=0?"+":"")+pct.toFixed(2)+"% · "+(pos?"+":"")+fI(Math.round(pnl*P2P));
@@ -434,10 +460,9 @@ function updateUI(){
   $("bnb-pct").textContent=((bnbPnl/(BNB_QTY*BNB_AVG))*100>=0?"+":"")+((bnbPnl/(BNB_QTY*BNB_AVG))*100).toFixed(2)+"%";
   $("bnb-live").textContent=nP;
 
-  $("ms-pf").textContent=fI(totalI);$("ms-pf-sub").textContent=fU(Math.round(total))+" · Active Engine Yield Tracker";
-  $("ms1-x").textContent=(200000/bP).toFixed(2)+"× Run";
-  $("ms2-x").textContent=(300000/bP).toFixed(2)+"× Run";
-  $("ms3-x").textContent=(450000/bP).toFixed(2)+"× Run";
+  $("ms-pf").textContent=fI(totalI);
+  
+  updateMilestones();
 
   $("strat-table").innerHTML=`
     <tr><td class="c-o">BTC (Core)</td><td class="c-o">0.163611</td><td>$75,259</td><td class="c-o">${fU(bP)}</td><td>${fU(Math.round(btcV))}</td><td style="color:${col(btcPnl)}">${btcPnl>=0?"+":""}${fU(Math.round(btcPnl))}</td></tr>
@@ -463,13 +488,18 @@ function updateSim(price){
   const btcV=BTC_QTY*price;
   const bnbMult=Math.max(1,price/200000*2);
   const bnbEst=BNB_QTY*BNB_AVG*bnbMult;
-  const total=btcV+bnbEst,totalI=total*P2P,swp=totalI*0.005,pnl=total-COST,pct=(pnl/COST)*100;
+  const total=btcV+bnbEst,totalI=total*P2P,pnl=total-COST,pct=(pnl/COST)*100;
+  
+  let s_calc = calcShield(totalI);
+  
   $("s-btc").textContent=fU(Math.round(btcV));$("s-btc-i").textContent=fI(btcV*P2P);
   $("s-bnb").textContent=fU(Math.round(bnbEst));$("s-bnb-i").textContent=fI(bnbEst*P2P);
   $("s-total").textContent=fU(Math.round(total));$("s-total").style.color=col(pnl);$("s-total-i").textContent=fI(totalI);
-  $("s-swp").textContent="₹"+Math.round(swp).toLocaleString("en-IN");$("s-swp").style.color=swp>=30000?"var(--green)":"var(--orange)";
   $("s-pnl").textContent=(pnl>=0?"+":"")+fU(Math.round(pnl));$("s-pnl").style.color=col(pnl);$("s-pnl-p").textContent=(pct>=0?"+":"")+pct.toFixed(1)+"%";
-  $("s-bnb-m").textContent=bnbMult.toFixed(2)+"× Base Multiplying Power";
+  
+  $("s-shield").textContent=fI(s_calc.shield);
+  $("s-moon").textContent=fI(s_calc.moonbag);
+  
   document.querySelectorAll(".sim-btn").forEach(b=>b.classList.toggle("active",parseInt(b.textContent.replace(/[$K]/g,""))*(b.textContent.includes("K")?1000:1)===price));
 }
 function setSim(p){$("sim-slider").value=p;updateSim(p);}
