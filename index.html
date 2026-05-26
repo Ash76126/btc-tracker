@@ -259,4 +259,245 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
       <div class="ms-s"><div class="ms-sl">BNB Value</div><div class="ms-sv c-b">$55,941</div></div>
       <div class="ms-s"><div class="ms-sl">Total Engine</div><div class="ms-sv">$105,024</div></div>
       <div class="ms-s"><div class="ms-sl">Total INR</div><div class="ms-sv">₹99.8 L</div></div>
-      <div class="ms-s"><div class="ms-sl">Monthly SWP</div><div class="ms-sv c
+      <div class="ms-s"><div class="ms-sl">Monthly SWP</div><div class="ms-sv c-g">₹49,887</div></div>
+      <div class="ms-s"><div class="ms-sl">Annual Cashout</div><div class="ms-sv">₹5.99 L</div></div>
+    </div>
+  </div>
+
+  <div class="ms-card" style="border-left-color:var(--green)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">Milestone 3: $450K Ultimate Peak</div><div style="font-size:9px;color:var(--muted);margin-top:3px">BNB Model Target: 4.5× ($2,894)</div></div>
+      <div style="font-size:11px;color:var(--muted);text-align:right" id="ms3-x">—</div>
+    </div>
+    <div class="ms-grid">
+      <div class="ms-s"><div class="ms-sl">BTC Value</div><div class="ms-sv c-o">$73,625</div></div>
+      <div class="ms-s"><div class="ms-sl">BNB Value</div><div class="ms-sv c-b">$83,912</div></div>
+      <div class="ms-s"><div class="ms-sl">Total Engine</div><div class="ms-sv">$157,536</div></div>
+      <div class="ms-s"><div class="ms-sl">Total INR</div><div class="ms-sv">₹1.49 Cr</div></div>
+      <div class="ms-s"><div class="ms-sl">Monthly SWP</div><div class="ms-sv c-g">₹74,830</div></div>
+      <div class="ms-s"><div class="ms-sl">Annual Cashout</div><div class="ms-sv">₹8.98 L</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-simulator">
+  <div class="sim-hero">
+    <div style="font-size:8px;letter-spacing:4px;color:var(--orange);text-transform:uppercase;margin-bottom:8px">Dynamic Run Value Simulator</div>
+    <div class="sim-price" id="sim-p">$100,000</div>
+    <div class="sim-sub" id="sim-sub">— × live price</div>
+    <input type="range" class="sim-slider" id="sim-slider" min="50000" max="500000" step="1000" value="100000" oninput="updateSim(this.value)" style="--pct:12.5%"/>
+    <div style="display:flex;justify-content:space-between;font-size:8px;color:var(--muted);margin-top:6px"><span>$50K Min</span><span>$500K Max</span></div>
+    <div class="sim-presets">
+      <button class="sim-btn" onclick="setSim(100000)">$100K</button>
+      <button class="sim-btn" onclick="setSim(150000)">$150K</button>
+      <button class="sim-btn" onclick="setSim(200000)">$200K</button>
+      <button class="sim-btn" onclick="setSim(300000)">$300K</button>
+      <button class="sim-btn" onclick="setSim(450000)">$450K</button>
+    </div>
+  </div>
+  <div class="m2">
+    <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Value</div><div class="mv c-o" id="s-btc">—</div><div class="ms" id="s-btc-i">—</div></div>
+    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Value (Proportional)</div><div class="mv c-b" id="s-bnb">—</div><div class="ms" id="s-bnb-i">—</div></div>
+    <div class="mcard" style="--mc:var(--green)"><div class="ml">Total Engine Projection</div><div class="mv" id="s-total">—</div><div class="ms" id="s-total-i">—</div></div>
+    <div class="mcard" style="--mc:var(--green)"><div class="ml">Eligible SWP/mo</div><div class="mv" id="s-swp">—</div><div class="ms">@ 6% Fixed SWR</div></div>
+    <div class="mcard" style="--mc:var(--orange)"><div class="ml">Net P&amp;L Projection</div><div class="mv" id="s-pnl">—</div><div class="ms" id="s-pnl-p">—</div></div>
+    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Scaling Factor</div><div class="mv" id="s-bnb-m" style="font-size:14px;color:var(--bnb)">—</div><div class="ms">from baseline</div></div>
+  </div>
+</div>
+
+<div class="panel" id="panel-strategy">
+  <div class="card" style="margin-bottom:14px">
+    <div class="sec-lbl">Execution Ledger &amp; Allocation Balance</div>
+    <div style="height:160px"><canvas id="stratChart"></canvas></div>
+  </div>
+  
+  <div class="card" style="margin-bottom:14px">
+    <div class="sec-lbl">Active Capital Deployment Summary</div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Asset</th><th>Current Qty</th><th>Entry Price</th><th>Live Price</th><th>Market Value</th><th>Gross P&L</th></tr></thead>
+        <tbody id="strat-table"></tbody>
+        <tfoot><tr id="strat-foot"></tr></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="sec-lbl" style="color:var(--green)">Verified Transaction Ledger Logs</div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Tx Date</th>
+            <th>Operation Type</th>
+            <th>Trading Pair</th>
+            <th>Volume Amount</th>
+            <th>Execution Rate</th>
+            <th>Execution Venue / Log</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="c-m">2026-05-22</td>
+            <td class="c-o">INITIAL_DEPOSIT</td>
+            <td class="c-o">BTC (Core)</td>
+            <td>+0.411909 BTC</td>
+            <td>$75,259.00</td>
+            <td class="c-g">Secured Core Inbound</td>
+          </tr>
+          <tr>
+            <td class="c-m">2026-05-22</td>
+            <td class="c-r">ASSET_SWAP_SELL</td>
+            <td class="c-o">BTCB &rarr; BNB</td>
+            <td>-0.248298 BTC</td>
+            <td>$75,259.00</td>
+            <td class="c-g">PancakeSwap Liquidity Routed</td>
+          </tr>
+          <tr>
+            <td class="c-m">2026-05-22</td>
+            <td class="c-g">ASSET_SWAP_BUY</td>
+            <td class="c-b">BNB (BEP20)</td>
+            <td>+29.000000 BNB</td>
+            <td>$643.00</td>
+            <td class="c-g">Execution Filled · 30/70 Active</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-vault">
+  <div class="card-hot" style="text-align:center;padding:22px;margin-bottom:16px">
+    <div style="font-size:32px;margin-bottom:8px">⚡</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px">Anti-FOMO Core Execution Protocols</div>
+    <div style="font-size:9px;color:var(--muted);letter-spacing:2px">MATH OVER EMOTIONS &middot; DO NOT DISTURB THE ENGINE</div>
+  </div>
+  <div class="vault-rule">
+    <div class="vr-top"><div class="vr-num">1</div><div class="vr-title">No Early Execution Liquidations</div></div>
+    <div class="vr-body">Only sell when specific structural milestones are checked. Never liquidate bags because of brief 20-30% market pumps.</div>
+  </div>
+  <div class="vault-rule" style="border-left-color:var(--bnb)">
+    <div class="vr-top"><div class="vr-num" style="border-color:var(--bnb);color:var(--bnb);background:rgba(240,185,11,.1)">2</div><div class="vr-title">Volatility Shield Strategy</div></div>
+    <div class="vr-body">BNB is a hyper-growth engine token, it will drop hard in flash dips. Do nothing during corrections. Living expenditures do not belong here.</div>
+  </div>
+  <div class="vault-rule" style="border-left-color:var(--green)">
+    <div class="vr-top"><div class="vr-num" style="border-color:var(--green);color:var(--green);background:rgba(76,175,80,.1)">3</div><div class="vr-title">Target Barriers for SWP Running</div></div>
+    <div class="vr-body">$200K BTC is the minimum checkpoint baseline before activating any passive retirement flows. No exceptions.</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const BTC_QTY=0.163611,BTC_AVG=75259,BNB_QTY=29,BNB_AVG=643;
+const COST=BTC_QTY*BTC_AVG+BNB_QTY*BNB_AVG;
+const P2P=95;
+let bP=null,nP=null,pB=null,pN=null,usdInr=95,cdV=5,cdI=null;
+const $=id=>document.getElementById(id);
+const fU=n=>"$"+Math.round(n).toLocaleString("en-US");
+const fI=n=>{if(n>=10000000)return"₹"+(n/10000000).toFixed(2)+" Cr";if(n>=100000)return"₹"+(n/100000).toFixed(2)+" L";return"₹"+Math.round(n).toLocaleString("en-IN")};
+const col=v=>v>0?"var(--green)":v<0?"var(--red)":"var(--muted)";
+let aC=null,sC=null;
+
+function updateUI(){
+  const btcV=BTC_QTY*bP,bnbV=BNB_QTY*nP,total=btcV+bnbV,totalI=total*P2P;
+  const pnl=total-COST,pct=(pnl/COST)*100,pos=pnl>=0;
+  const swp=totalI*0.005;
+  const btcPct=btcV/total*100,bnbPct=bnbV/total*100;
+  const btcPnl=btcV-BTC_QTY*BTC_AVG,bnbPnl=bnbV-BNB_QTY*BNB_AVG;
+  const dB=pB?(bP>pB?"up":"dn"):null,dN=pN?(nP>pN?"up":"dn"):null;
+
+  $("btc-ph").textContent=fU(bP);$("btc-ph").className="ph-price"+(dB?" "+dB:"");
+  $("btc-ph-sub").textContent=fI(bP*usdInr)+" · Fix P2P Base: ₹"+P2P;
+  $("bnb-ph").textContent=fU(nP);$("bnb-ph").className="ph-price"+(dN?" "+dN:"");
+  $("bnb-ph-sub").textContent=fI(nP*usdInr);
+  $("fluct-bar").style.display="block";
+  $("fl-total").textContent=fI(totalI);$("fl-total").style.color=col(pnl);
+  $("fl-pnl").textContent=(pos?"+":"")+fU(Math.round(pnl));$("fl-pnl").style.color=col(pnl);
+  $("fl-pct").textContent=(pct>=0?"+":"")+pct.toFixed(2)+"%";
+  $("fl-swp").textContent="₹"+Math.round(swp).toLocaleString("en-IN");$("fl-swp").style.color=swp>=30000?"var(--green)":"var(--orange)";
+
+  $("swp-amt").textContent="₹"+Math.round(swp).toLocaleString("en-IN");
+  $("swp-usd").textContent=fU(Math.round(total));$("swp-inr").textContent=fI(totalI);$("swp-yr").textContent="₹"+Math.round(swp*12).toLocaleString("en-IN");
+  $("m-total").textContent=fU(Math.round(total));$("m-total").style.color=col(pnl);$("m-total-s").textContent=fI(totalI);
+  $("m-pnl").textContent=(pos?"+":"")+fU(Math.round(pnl));$("m-pnl").style.color=col(pnl);
+  $("m-pnl-s").textContent=(pct>=0?"+":"")+pct.toFixed(2)+"% · "+(pos?"+":"")+fI(Math.round(pnl*P2P));
+  $("a-btc").textContent=btcPct.toFixed(1)+"%";$("a-bnb").textContent=bnbPct.toFixed(1)+"%";
+
+  $("btc-val").textContent=fU(Math.round(btcV));$("btc-inr").textContent=fI(btcV*P2P);
+  $("btc-pnl").textContent=(btcPnl>=0?"+":"")+fU(Math.round(btcPnl));$("btc-pnl").style.color=col(btcPnl);
+  $("btc-pct").textContent=((btcPnl/(BTC_QTY*BTC_AVG))*100>=0?"+":"")+((btcPnl/(BTC_QTY*BTC_AVG))*100).toFixed(2)+"%";
+  $("btc-live").textContent=fU(bP);
+  $("bnb-val").textContent=fU(Math.round(bnbV));$("bnb-inr").textContent=fI(bnbV*P2P);
+  $("bnb-pnl").textContent=(bnbPnl>=0?"+":"")+fU(Math.round(bnbPnl));$("bnb-pnl").style.color=col(bnbPnl);
+  $("bnb-pct").textContent=((bnbPnl/(BNB_QTY*BNB_AVG))*100>=0?"+":"")+((bnbPnl/(BNB_QTY*BNB_AVG))*100).toFixed(2)+"%";
+  $("bnb-live").textContent=nP;
+
+  $("ms-pf").textContent=fI(totalI);$("ms-pf-sub").textContent=fU(Math.round(total))+" · Active Engine Yield Tracker";
+  $("ms1-x").textContent=(200000/bP).toFixed(2)+"× Run";
+  $("ms2-x").textContent=(300000/bP).toFixed(2)+"× Run";
+  $("ms3-x").textContent=(450000/bP).toFixed(2)+"× Run";
+
+  $("strat-table").innerHTML=`
+    <tr><td class="c-o">BTC (Core)</td><td class="c-o">0.163611</td><td>$75,259</td><td class="c-o">${fU(bP)}</td><td>${fU(Math.round(btcV))}</td><td style="color:${col(btcPnl)}">${btcPnl>=0?"+":""}${fU(Math.round(btcPnl))}</td></tr>
+    <tr><td class="c-b">BNB (Boost)</td><td class="c-b">29.0</td><td>$643</td><td class="c-b">${fU(nP)}</td><td>${fU(Math.round(bnbV))}</td><td style="color:${col(bnbPnl)}">${bnbPnl>=0?"+":""}${fU(Math.round(bnbPnl))}</td></tr>`;
+  $("strat-foot").innerHTML=`<td class="c-g">COMBINED</td><td>—</td><td>—</td><td>—</td><td>${fU(Math.round(total))}</td><td style="color:${col(pnl)}">${pos?"+":""}${fU(Math.round(pnl))}</td>`;
+
+  if(!aC){
+    aC=new Chart($("allocChart").getContext("2d"),{type:"doughnut",data:{datasets:[{data:[btcPct,bnbPct],backgroundColor:["#f7931a","#f0b90b"],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:"72%"}});
+  } else {aC.data.datasets[0].data=[btcPct,bnbPct];aC.update("none");}
+  if(!sC){
+    sC=new Chart($("stratChart").getContext("2d"),{type:"doughnut",data:{labels:["Bitcoin Allocation Core","BNB Acceleration Pot"],datasets:[{data:[Math.round(btcV),Math.round(bnbV)],backgroundColor:["rgba(247,147,26,0.85)","rgba(240,185,11,0.85)"],borderColor:["#f7931a","#f0b90b"],borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:"#7a8899",font:{size:11},padding:16}}}}});
+  } else {sC.data.datasets[0].data=[Math.round(btcV),Math.round(bnbV)];sC.update("none");}
+
+  updateSim($("sim-slider").value);
+}
+
+function updateSim(price){
+  price=parseFloat(price);
+  const pct2=((price-50000)/(500000-50000))*100;
+  $("sim-slider").style.setProperty("--pct",pct2+"%");
+  $("sim-p").textContent=fU(price);
+  if(bP)$("sim-sub").textContent=(price/bP).toFixed(2)+"× Run from Current Live Base";
+  const btcV=BTC_QTY*price;
+  const bnbMult=Math.max(1,price/200000*2);
+  const bnbEst=BNB_QTY*BNB_AVG*bnbMult;
+  const total=btcV+bnbEst,totalI=total*P2P,swp=totalI*0.005,pnl=total-COST,pct=(pnl/COST)*100;
+  $("s-btc").textContent=fU(Math.round(btcV));$("s-btc-i").textContent=fI(btcV*P2P);
+  $("s-bnb").textContent=fU(Math.round(bnbEst));$("s-bnb-i").textContent=fI(bnbEst*P2P);
+  $("s-total").textContent=fU(Math.round(total));$("s-total").style.color=col(pnl);$("s-total-i").textContent=fI(totalI);
+  $("s-swp").textContent="₹"+Math.round(swp).toLocaleString("en-IN");$("s-swp").style.color=swp>=30000?"var(--green)":"var(--orange)";
+  $("s-pnl").textContent=(pnl>=0?"+":"")+fU(Math.round(pnl));$("s-pnl").style.color=col(pnl);$("s-pnl-p").textContent=(pct>=0?"+":"")+pct.toFixed(1)+"%";
+  $("s-bnb-m").textContent=bnbMult.toFixed(2)+"× Base Multiplying Power";
+  document.querySelectorAll(".sim-btn").forEach(b=>b.classList.toggle("active",parseInt(b.textContent.replace(/[$K]/g,""))*(b.textContent.includes("K")?1000:1)===price));
+}
+function setSim(p){$("sim-slider").value=p;updateSim(p);}
+
+function setLive(ok){$("pr").className="pulse-ring"+(ok?"":" off");$("pd").className="pulse-dot"+(ok?"":" off");$("lt").textContent=ok?"Binance WebSocket API Live":"Connecting Network…";$("lt").className="live-txt"+(ok?"":" off");}
+function resetCd(){cdV=5;if(cdI)clearInterval(cdI);$("cd").textContent="· 5s";cdI=setInterval(()=>{cdV=Math.max(0,cdV-1);$("cd").textContent="· "+cdV+"s"},1000);}
+
+async function fetchPrices(){
+  try{
+    const [r1,r2]=await Promise.all([fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"),fetch("https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT")]);
+    const [d1,d2]=await Promise.all([r1.json(),r2.json()]);
+    const bp=parseFloat(d1.price),np=parseFloat(d2.price);
+    if(!bp||!np)throw new Error();
+    pB=bP;pN=nP;bP=bp;nP=np;
+    setLive(true);updateUI();resetCd();
+    $("loading").style.display="none";$("app").style.display="block";
+  }catch{setLive(false);}
+}
+async function fetchINR(){try{const r=await fetch("https://api.exchangerate-api.com/v4/latest/USD");const d=await r.json();if(d?.rates?.INR)usdInr=d.rates.INR;}catch{}}
+
+function showTab(name,btn){
+  document.querySelectorAll(".panel").forEach(p=>{p.classList.remove("active");p.style.display="none";});
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  $("panel-"+name).classList.add("active");$("panel-"+name).style.display="block";
+  btn.classList.add("active");
+}
+document.querySelectorAll(".panel").forEach((p,i)=>{p.style.display=i===0?"block":"none";});
+fetchINR();fetchPrices();setInterval(fetchPrices,5000);setInterval(fetchINR,300000);
+</script>
+</body>
+</html>
