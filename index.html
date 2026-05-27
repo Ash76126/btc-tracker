@@ -42,6 +42,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .fluct-sep{background:var(--border);margin:2px 0}
 .fluct-lbl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;font-weight:bold}
 .fluct-val{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;line-height:1.2}
+.fluct-val.mono{font-family:'Share Tech Mono',monospace;font-size:14px;font-weight:normal}
 .fluct-sub{font-size:9px;color:var(--muted);margin-top:2px}
 .tabs{display:flex;background:#070a12;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:50;backdrop-filter:blur(15px);border-top:1px solid rgba(255,255,255,0.02)}
 .tabs::-webkit-scrollbar{display:none}
@@ -131,7 +132,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
       <div class="fluct-sep"></div>
       <div class="fluct-item"><div class="fluct-lbl">Net Valuation P&amp;L</div><div class="fluct-val" id="fl-pnl">—</div><div class="fluct-sub" id="fl-pct"></div></div>
       <div class="fluct-sep"></div>
-      <div class="fluct-item"><div class="fluct-lbl">Live Dynamic SWP</div><div class="fluct-val" id="fl-swp">—</div></div>
+      <div class="fluct-item"><div class="fluct-lbl">Live Dynamic SWP</div><div class="fluct-val mono" id="fl-swp" style="color:var(--green)">—</div></div>
     </div>
   </div>
 </div>
@@ -276,7 +277,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
 
   <div class="ms-card" style="border-left-color:var(--bnb)">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">Checkpoint Beta: $300K BTC Top</div><div style="font-size:10px;color:var(--muted);margin-top:2px">BNB estimated 3× run from baseline ($1,1929)</div></div>
+      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">Checkpoint Beta: $300K BTC Top</div><div style="font-size:10px;color:var(--muted);margin-top:2px">BNB estimated 3× run from baseline ($1,929)</div></div>
       <div style="font-size:11px;color:var(--muted);text-align:right" id="ms2-x">—</div>
     </div>
     <div class="ms-grid">
@@ -418,10 +419,13 @@ function updateUI(){
   $("fl-total").textContent=fI(totalI);$("fl-total").style.color=col(pnl);
   $("fl-pnl").textContent=(pos?"+":"")+fU(Math.round(pnl));$("fl-pnl").style.color=col(pnl);
   $("fl-pct").textContent=(pct>=0?"+":"")+pct.toFixed(2)+"%";
-  $("fl-swp").textContent="₹"+Math.round(swp).toLocaleString("en-IN") + "/mo";$("fl-swp").style.color=col(pnl);
+  
+  // Real-time ticking SWP math
+  $("fl-swp").innerHTML="₹"+swp.toLocaleString("en-IN", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "<span style='font-size:10px'>/mo</span>";
+  $("fl-swp").style.color=col(pnl);
 
   // Overview Main Metric Core
-  $("swp-amt").textContent="₹"+Math.round(swp).toLocaleString("en-IN") + " / mo";
+  $("swp-amt").innerHTML="₹"+swp.toLocaleString("en-IN", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "<span style='font-size:20px; color:var(--muted)'> / mo</span>";
   $("swp-usd").textContent=fU(Math.round(total));$("swp-inr").textContent=fI(totalI);$("swp-yr").textContent="₹"+Math.round(swp*12).toLocaleString("en-IN");
   $("m-total").textContent=fU(Math.round(total));$("m-total").style.color=col(pnl);$("m-total-s").textContent=fI(totalI);
   $("m-pnl").textContent=(pos?"+":"")+fU(Math.round(pnl));$("m-pnl").style.color=col(pnl);
@@ -453,16 +457,18 @@ function updateUI(){
     <tr><td class="c-b">BNB Boost</td><td class="c-b">29.0</td><td>$643</td><td class="c-b">${fU(nP)}</td><td>${fU(Math.round(bnbV))}</td><td style="color:${col(bnbPnl)}">${bnbPnl>=0?"+":""}${fU(Math.round(bnbPnl))}</td></tr>`;
   $("strat-foot").innerHTML=`<td class="c-g">AGGREGATE</td><td>—</td><td>—</td><td>—</td><td>${fU(Math.round(total))}</td><td style="color:${col(pnl)}">${pos?"+":""}${fU(Math.round(pnl))}</td>`;
 
-  // Charts Refresh Engine
-  if(!aC){
-    aC=new Chart($("allocChart").getContext("2d"),{type:"doughnut",data:{datasets:[{data:[btcPct,bnbPct],backgroundColor:["#f7931a","#f0b90b"],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:"75%"}});
-  } else {aC.data.datasets[0].data=[btcPct,bnbPct];aC.update("none");}
-  if(!bC){
-    bC=new Chart($("barChart").getContext("2d"),{type:"bar",data:{labels:["BTC","BNB","Total"],datasets:[{data:[Math.round(btcV),0,Math.round(total)],backgroundColor:"rgba(247,147,26,0.85)",borderRadius:5},{data:[0,Math.round(bnbV),0],backgroundColor:"rgba(240,185,11,0.85)",borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#4a5d78",font:{size:9}},grid:{display:false}},y:{ticks:{color:"#4a5d78",font:{size:9},callback:v=>"$"+(v/1000).toFixed(0)+"k"},grid:{color:"rgba(23,34,55,0.3)"}}}}});
-  } else {bC.data.datasets[0].data=[Math.round(btcV),0,Math.round(total)];bC.data.datasets[1].data=[0,Math.round(bnbV),0];bC.update("none");}
-  if(!sC){
-    sC=new Chart($("stratChart").getContext("2d"),{type:"doughnut",data:{labels:["Bitcoin Core Allocation","BNB Acceleration Pot"],datasets:[{data:[Math.round(btcV),Math.round(bnbV)],backgroundColor:["rgba(247,147,26,0.85)","rgba(240,185,11,0.85)"],borderColor:["#f7931a","#f0b90b"],borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:"#8ea1b8",font:{size:11},padding:12}}},cutout:"65%"}});
-  } else {sC.data.datasets[0].data=[Math.round(btcV),Math.round(bnbV)];sC.update("none");}
+  try {
+    // Charts Refresh Engine
+    if(!aC){
+      aC=new Chart($("allocChart").getContext("2d"),{type:"doughnut",data:{datasets:[{data:[btcPct,bnbPct],backgroundColor:["#f7931a","#f0b90b"],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:"75%"}});
+    } else {aC.data.datasets[0].data=[btcPct,bnbPct];aC.update("none");}
+    if(!bC){
+      bC=new Chart($("barChart").getContext("2d"),{type:"bar",data:{labels:["BTC","BNB","Total"],datasets:[{data:[Math.round(btcV),0,Math.round(total)],backgroundColor:"rgba(247,147,26,0.85)",borderRadius:5},{data:[0,Math.round(bnbV),0],backgroundColor:"rgba(240,185,11,0.85)",borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#4a5d78",font:{size:9}},grid:{display:false}},y:{ticks:{color:"#4a5d78",font:{size:9},callback:v=>"$"+(v/1000).toFixed(0)+"k"},grid:{color:"rgba(23,34,55,0.3)"}}}}});
+    } else {bC.data.datasets[0].data=[Math.round(btcV),0,Math.round(total)];bC.data.datasets[1].data=[0,Math.round(bnbV),0];bC.update("none");}
+    if(!sC){
+      sC=new Chart($("stratChart").getContext("2d"),{type:"doughnut",data:{labels:["Bitcoin Core Allocation","BNB Acceleration Pot"],datasets:[{data:[Math.round(btcV),Math.round(bnbV)],backgroundColor:["rgba(247,147,26,0.85)","rgba(240,185,11,0.85)"],borderColor:["#f7931a","#f0b90b"],borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:"#8ea1b8",font:{size:11},padding:12}}},cutout:"65%"}});
+    } else {sC.data.datasets[0].data=[Math.round(btcV),Math.round(bnbV)];sC.update("none");}
+  } catch(err) { console.log(err); }
 
   updateSim($("sim-slider").value);
 }
@@ -480,26 +486,52 @@ function updateSim(price){
   $("s-btc").textContent=fU(Math.round(btcV));$("s-btc-i").textContent=fI(btcV*P2P);
   $("s-bnb").textContent=fU(Math.round(bnbEst));$("s-bnb-i").textContent=fI(bnbEst*P2P);
   $("s-total").textContent=fU(Math.round(total));$("s-total").style.color=col(pnl);$("s-total-i").textContent=fI(totalI);
-  $("s-swp").textContent="₹"+Math.round(swp).toLocaleString("en-IN") + " / mo";$("s-swp").style.color=swp>=30000?"var(--green)":"var(--orange)";
+  $("s-swp").textContent="₹"+swp.toLocaleString("en-IN", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + " / mo";$("s-swp").style.color=swp>=30000?"var(--green)":"var(--orange)";
   $("s-pnl").textContent=(pnl>=0?"+":"")+fU(Math.round(pnl));$("s-pnl").style.color=col(pnl);$("s-pnl-p").textContent=(pct>=0?"+":"")+pct.toFixed(1)+"%";
   $("s-bnb-m").textContent=bnbMult.toFixed(2)+"× target multiplier";
   document.querySelectorAll(".sim-btn").forEach(b=>b.classList.toggle("active",parseInt(b.textContent.replace(/[$K]/g,""))*(b.textContent.includes("K")?1000:1)===price));
 }
 function setSim(p){$("sim-slider").value=p;updateSim(p);}
 
-function setLive(ok){$("pr").className="pulse-ring"+(ok?"":" off");$("pd").className="pulse-dot"+(ok?"":" off");$("lt").textContent=ok?"Binance WebSocket Core Active":"Network Reconnecting…";$("lt").className="live-txt"+(ok?"":" off");}
+function setLive(ok){$("pr").className="pulse-ring"+(ok?"":" off");$("pd").className="pulse-dot"+(ok?"":" off");$("lt").textContent=ok?"Binance Live Link":"Network Reconnecting…";$("lt").className="live-txt"+(ok?"":" off");}
 function resetCd(){cdV=1;if(cdI)clearInterval(cdI);$("cd").textContent="· "+cdV+"s";cdI=setInterval(()=>{cdV=Math.max(0,cdV-1);$("cd").textContent="· "+cdV+"s"},1000);}
 
 async function fetchPrices(){
   try{
-    const [r1,r2]=await Promise.all([fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"),fetch("https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT")]);
-    const [d1,d2]=await Promise.all([r1.json(),r2.json()]);
+    // Try Binance Vision Official Data Fallback (Bypasses Indian ISP Bans)
+    let res = await fetch("https://data-api.binance.vision/api/v3/ticker/price?symbol=BTCUSDT");
+    if(!res.ok) throw new Error("Vision fail");
+    let d1 = await res.json();
+    
+    let res2 = await fetch("https://data-api.binance.vision/api/v3/ticker/price?symbol=BNBUSDT");
+    let d2 = await res2.json();
+
     const bp=parseFloat(d1.price),np=parseFloat(d2.price);
     if(!bp||!np)throw new Error();
     pB=bP;pN=nP;bP=bp;nP=np;
-    setLive(true);updateUI();resetCd();
+    
+    // Critical fix: Unhide the UI immediately when data arrives
     $("loading").style.display="none";$("app").style.display="block";
-  }catch{setLive(false);}
+    setLive(true);updateUI();resetCd();
+    
+  } catch(e) {
+    try {
+      // Secondary absolute fallback (MEXC API, globally unblocked)
+      let m1 = await fetch("https://api.mexc.com/api/v3/ticker/price?symbol=BTCUSDT");
+      let md1 = await m1.json();
+      let m2 = await fetch("https://api.mexc.com/api/v3/ticker/price?symbol=BNBUSDT");
+      let md2 = await m2.json();
+      
+      const bp=parseFloat(md1.price),np=parseFloat(md2.price);
+      if(!bp||!np)throw new Error();
+      pB=bP;pN=nP;bP=bp;nP=np;
+      
+      $("loading").style.display="none";$("app").style.display="block";
+      setLive(true);updateUI();resetCd();
+    } catch(err) {
+      setLive(false);
+    }
+  }
 }
 async function fetchINR(){try{const r=await fetch("https://api.exchangerate-api.com/v4/latest/USD");const d=await r.json();if(d?.rates?.INR)usdInr=d.rates.INR;}catch{}}
 
