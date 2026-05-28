@@ -3,97 +3,98 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Portfolio Tracker · Ash76126</title>
+<title>Portfolio Tracker · 30/70</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#07090f;--card:#0c1120;--card2:#0e1626;--border:#1a2438;--orange:#f7931a;--bnb:#f0b90b;--green:#4caf50;--red:#ef5350;--muted:#7a8899;--dim:#334455;--text:#dde3ee}
+:root{--bg:#05070c;--card:#0b0f19;--card2:#0f1526;--border:#172237;--orange:#f7931a;--bnb:#f0b90b;--green:#00e676;--red:#ff3d00;--muted:#8ea1b8;--dim:#384c66;--text:#e2e8f0;--glow:rgba(0,230,118,0.15)}
 body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;min-height:100vh;padding-bottom:60px;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% -10%,rgba(247,147,26,0.05) 0%,transparent 60%);pointer-events:none;z-index:0}
-.header{position:relative;z-index:10;background:linear-gradient(160deg,#0c1120,#0e1828);border-bottom:1px solid #f7931a22;padding:14px 16px}
-.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.brand{display:flex;align-items:center;gap:10px}
-.brand-icon{width:36px;height:36px;background:linear-gradient(135deg,#f7931a,#f0b90b);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#000;font-family:'Rajdhani',sans-serif;flex-shrink:0}
-.brand-sub{font-size:8px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:2px}
-.brand-name{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700}
-.live-pill{display:flex;align-items:center;gap:5px;background:#0e1626;border:1px solid #1a2438;border-radius:20px;padding:5px 10px;flex-shrink:0}
-.pulse{position:relative;width:8px;height:8px;display:inline-flex;align-items:center;flex-shrink:0}
-.pulse-ring{position:absolute;inset:0;border-radius:50%;background:var(--green);opacity:.5;animation:ping 1.5s ease-in-out infinite}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 30% -20%,rgba(247,147,26,0.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+.header{position:relative;z-index:10;background:linear-gradient(180deg,#0b0f19,rgba(5,7,12,0.95));border-bottom:1px solid rgba(247,147,26,0.15);padding:16px}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:38px;height:38px;background:linear-gradient(135deg,#f7931a,#f0b90b);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#000;font-family:'Rajdhani',sans-serif;box-shadow:0 0 15px rgba(247,147,26,0.2)}
+.brand-sub{font-size:9px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;font-weight:700}
+.brand-name{font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;letter-spacing:0.5px}
+.live-pill{display:flex;align-items:center;gap:6px;background:#0f1526;border:1px solid var(--border);border-radius:20px;padding:6px 12px;box-shadow:inset 0 1px 3px rgba(0,0,0,0.5)}
+.pulse{position:relative;width:8px;height:8px;display:inline-flex;align-items:center}
+.pulse-ring{position:absolute;inset:0;border-radius:50%;background:var(--green);opacity:.6;animation:ping 1.2s ease-in-out infinite}
 .pulse-dot{position:absolute;inset:2px;border-radius:50%;background:var(--green)}
 .pulse-ring.off{background:var(--red);animation:none}.pulse-dot.off{background:var(--red)}
-@keyframes ping{0%,100%{transform:scale(1);opacity:.5}60%{transform:scale(2.2);opacity:0}}
-.live-txt{font-size:8px;letter-spacing:2px;color:var(--green);white-space:nowrap}.live-txt.off{color:var(--red)}
-.cd{font-size:8px;color:#2a3a50}
-.price-heroes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.ph{background:rgba(255,255,255,0.02);border:1px solid #1a2438;border-radius:12px;padding:12px 14px;position:relative;overflow:hidden;text-align:center}
+@keyframes ping{0%,100%{transform:scale(1);opacity:.6}60%{transform:scale(2.5);opacity:0}}
+.live-txt{font-size:9px;letter-spacing:2px;color:var(--green);font-weight:700;text-transform:uppercase}.live-txt.off{color:var(--red)}
+.cd{font-size:9px;color:var(--dim);font-weight:bold}
+.price-heroes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.ph{background:rgba(11,15,25,0.6);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden;text-align:center;backdrop-filter:blur(10px)}
 .ph::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.ph-btc::before{background:linear-gradient(90deg,transparent,#f7931a,transparent)}
-.ph-bnb::before{background:linear-gradient(90deg,transparent,#f0b90b,transparent)}
-.ph-tag{font-size:8px;letter-spacing:2px;color:var(--muted);margin-bottom:4px}
-.ph-price{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;line-height:1;transition:color .2s}
+.ph-btc::before{background:linear-gradient(90deg,transparent,var(--orange),transparent)}
+.ph-bnb::before{background:linear-gradient(90deg,transparent,var(--bnb),transparent)}
+.ph-tag{font-size:9px;letter-spacing:2.5px;color:var(--muted);margin-bottom:6px;font-weight:bold}
+.ph-price{font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;line-height:1;transition:all .15s}
 .ph-btc .ph-price{color:var(--orange)}.ph-bnb .ph-price{color:var(--bnb)}
-.ph-price.up{color:var(--green)}.ph-price.dn{color:var(--red)}
-.ph-sub{font-size:9px;color:var(--muted);margin-top:3px}
-.fluct-bar{background:#0a0e18;border:1px solid #1a2438;border-radius:10px;padding:10px 8px}
+.ph-price.up{color:var(--green);text-shadow:0 0 10px rgba(0,230,118,0.3)}
+.ph-price.dn{color:var(--red);text-shadow:0 0 10px rgba(255,61,0,0.3)}
+.ph-sub{font-size:10px;color:var(--muted);margin-top:4px}
+.fluct-bar{background:#080c14;border:1px solid var(--border);border-radius:12px;padding:12px 10px;box-shadow:0 4px 20px rgba(0,0,0,0.4)}
 .fluct-row{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr}
-.fluct-item{text-align:center;padding:4px 6px}
-.fluct-sep{background:#1a2438;margin:4px 0}
-.fluct-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
-.fluct-val{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700}
-.fluct-sub{font-size:8px;color:var(--muted);margin-top:1px}
-.tabs{display:flex;background:#090d15;border-bottom:1px solid #111826;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+.fluct-item{text-align:center;padding:2px 4px}
+.fluct-sep{background:var(--border);margin:2px 0}
+.fluct-lbl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;font-weight:bold}
+.fluct-val{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;line-height:1.2}
+.fluct-val.mono{font-family:'Share Tech Mono',monospace;font-size:14px;font-weight:normal}
+.fluct-sub{font-size:9px;color:var(--muted);margin-top:2px}
+.tabs{display:flex;background:#070a12;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:50;backdrop-filter:blur(15px);border-top:1px solid rgba(255,255,255,0.02)}
 .tabs::-webkit-scrollbar{display:none}
-.tab{background:none;border:none;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:12px 14px;white-space:nowrap;color:var(--dim);border-bottom:2px solid transparent;transition:color .2s}
-.tab.active{color:var(--orange);border-bottom:2px solid var(--orange)}
-.panel{display:none;padding:16px;position:relative;z-index:1}.panel.active{display:block}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px}
-.card-hot{background:linear-gradient(135deg,rgba(247,147,26,0.08),rgba(247,147,26,0.02));border:1px solid rgba(247,147,26,0.2);border-radius:14px;padding:16px 18px;margin-bottom:12px;position:relative;overflow:hidden}
-.card-hot::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#f7931a,transparent)}
-.card-bnb{background:linear-gradient(135deg,rgba(240,185,11,0.08),rgba(240,185,11,0.02));border:1px solid rgba(240,185,11,0.2);border-radius:14px;padding:16px 18px;margin-bottom:12px;position:relative;overflow:hidden}
-.card-bnb::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#f0b90b,transparent)}
-.sec-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
-.sec-lbl-bnb{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--bnb);margin-bottom:10px}
-.m2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.mcard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;position:relative;overflow:hidden}
-.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--mc,#f7931a);opacity:.5}
-.ml{font-size:8px;color:#8899aa;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
-.mv{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;line-height:1}
-.ms{font-size:10px;color:var(--muted);margin-top:3px}
+.tab{background:none;border:none;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:14px 16px;white-space:nowrap;color:var(--muted);border-bottom:2px solid transparent;transition:all .2s;font-weight:600}
+.tab.active{color:var(--orange);border-bottom:2px solid var(--orange);background:rgba(247,147,26,0.03)}
+.panel{display:none;padding:16px;position:relative;z-index:1;animation:fadeIn 0.25s ease-out}.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;margin-bottom:12px;box-shadow:0 4px 24px rgba(0,0,0,0.3)}
+.card-hot{background:linear-gradient(135deg,rgba(0,230,118,0.04),rgba(5,7,12,0.4));border:1px solid rgba(0,230,118,0.2);border-radius:16px;padding:18px;margin-bottom:12px;position:relative;overflow:hidden;box-shadow:0 4px 25px rgba(0,0,0,0.3)}
+.card-hot::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.card-bnb{background:linear-gradient(135deg,rgba(240,185,11,0.04),rgba(5,7,12,0.4));border:1px solid rgba(240,185,11,0.18);border-radius:16px;padding:18px;margin-bottom:12px;position:relative;overflow:hidden}
+.card-bnb::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bnb),transparent)}
+.sec-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:12px;font-weight:700}
+.sec-lbl-bnb{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--bnb);margin-bottom:12px;font-weight:700}
+.m2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.mcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.2)}
+.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--mc,#f7931a);opacity:.6}
+.ml{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-weight:bold}
+.mv{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;line-height:1}
+.ms{font-size:10px;color:var(--muted);margin-top:4px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.stat{background:rgba(0,0,0,0.25);border:1px solid #1a2438;border-radius:10px;padding:10px 10px}
-.stat-l{font-size:7px;color:#8899aa;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
-.stat-v{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700}
-.prog-track{background:#111826;border-radius:3px;height:4px;overflow:hidden;margin:8px 0}
-.prog-fill{height:100%;border-radius:3px;transition:width .5s}
-.swp-big{font-family:'Rajdhani',sans-serif;font-size:42px;font-weight:700;color:#fff;line-height:1}
-.ms-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;border-left:3px solid var(--border)}
-.ms-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
-.ms-s{background:var(--card2);border-radius:8px;padding:10px 10px}
-.ms-sl{font-size:7px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
-.ms-sv{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700}
-.sim-hero{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 16px;margin-bottom:12px;text-align:center;border-top:2px solid var(--orange)}
-.sim-price{font-family:'Rajdhani',sans-serif;font-size:46px;font-weight:700;color:var(--orange);line-height:1;letter-spacing:-1px}
-.sim-sub{font-size:10px;color:var(--muted);margin-bottom:14px}
-input[type=range].sim-slider{-webkit-appearance:none;appearance:none;width:100%;height:3px;border-radius:3px;outline:none;cursor:pointer;background:linear-gradient(90deg,#f7931a var(--pct,50%),#1a2438 var(--pct,50%))}
-input[type=range].sim-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--orange);border:3px solid var(--bg);cursor:pointer;box-shadow:0 0 10px rgba(247,147,26,.5)}
-.sim-presets{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:12px}
-.sim-btn{background:rgba(255,255,255,.03);border:1px solid #1a2438;border-radius:6px;padding:5px 12px;font-size:9px;color:var(--muted);cursor:pointer;font-family:'Share Tech Mono',monospace;transition:all .2s}
-.sim-btn:hover,.sim-btn.active{background:rgba(247,147,26,.1);border-color:rgba(247,147,26,.3);color:var(--orange)}
-.vault-rule{background:var(--card);border:1px solid #1e2e44;border-radius:12px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--orange)}
-.vr-top{display:flex;align-items:center;gap:10px;margin-bottom:7px}
-.vr-num{width:26px;height:26px;border-radius:6px;background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.3);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;color:var(--orange);flex-shrink:0}
-.vr-title{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700}
-.vr-body{font-size:11px;color:#8899aa;line-height:1.8;padding-left:36px}
-.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:14px;font-size:11px;color:var(--muted)}
-.spin{width:32px;height:32px;border:2px solid #1a2438;border-top:2px solid var(--orange);border-radius:50%;animation:spin .8s linear infinite}
+.stat{background:rgba(5,7,12,0.6);border:1px solid var(--border);border-radius:10px;padding:10px}
+.stat-l{font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.stat-v{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700}
+.swp-big{font-family:'Rajdhani',sans-serif;font-size:44px;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.5px}
+.ms-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px;border-left:4px solid var(--border)}
+.ms-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
+.ms-s{background:var(--card2);border-radius:10px;padding:10px}
+.ms-sl{font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;font-weight:bold}
+.ms-sv{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700}
+.sim-hero{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 16px;margin-bottom:12px;text-align:center;border-top:2px solid var(--orange)}
+.sim-price{font-family:'Rajdhani',sans-serif;font-size:48px;font-weight:700;color:var(--orange);line-height:1;letter-spacing:-1px}
+.sim-sub{font-size:11px;color:var(--muted);margin-bottom:16px}
+input[type=range].sim-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:4px;outline:none;cursor:pointer;background:linear-gradient(90deg,var(--orange) var(--pct,50%),var(--border) var(--pct,50%))}
+input[type=range].sim-slider::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--orange);border:4px solid var(--bg);cursor:pointer;box-shadow:0 0 12px rgba(247,147,26,.6)}
+.sim-presets{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.sim-btn{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:10px;color:var(--muted);cursor:pointer;font-family:'Share Tech Mono',monospace;transition:all .15s}
+.sim-btn:hover,.sim-btn.active{background:rgba(247,147,26,.1);border-color:rgba(247,147,26,.4);color:var(--orange);font-weight:bold}
+.vault-rule{background:var(--card);border:1px solid #1c273a;border-radius:14px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--orange)}
+.vr-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.vr-num{width:26px;height:26px;border-radius:8px;background:rgba(247,147,26,.08);border:1px solid rgba(247,147,26,.25);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:var(--orange);flex-shrink:0}
+.vr-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:0.3px}
+.vr-body{font-size:12px;color:var(--muted);line-height:1.7;padding-left:38px}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;gap:16px;font-size:12px;color:var(--muted)}
+.spin{width:36px;height:36px;border:3px solid var(--border);border-top:3px solid var(--orange);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .c-o{color:var(--orange)!important}.c-b{color:var(--bnb)!important}
 .c-g{color:var(--green)!important}.c-r{color:var(--red)!important}.c-m{color:var(--muted)!important}
-table{width:100%;border-collapse:collapse;font-size:11px}
-th{padding:8px 10px;text-align:left;background:#090d15;color:var(--dim);font-size:7px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid #1a2438}
-td{padding:10px 10px;border-bottom:1px solid #111826;white-space:nowrap;font-family:'Share Tech Mono',monospace}
-tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2);font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:10px;text-align:left;background:#070a12;color:var(--muted);font-size:8px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid var(--border);font-weight:700}
+td{padding:12px 10px;border-bottom:1px solid rgba(23,34,55,0.4);white-space:nowrap;font-family:'Share Tech Mono',monospace}
+tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.15);font-weight:700}
 </style>
 </head>
 <body>
@@ -104,7 +105,7 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
       <div class="brand-icon">₿</div>
       <div>
         <div class="brand-sub">BTC + BNB Portfolio</div>
-        <div class="brand-name">Portfolio Tracker 2026</div>
+        <div class="brand-name">Portfolio Tracker · 30/70</div>
       </div>
     </div>
     <div class="live-pill">
@@ -127,11 +128,11 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
   </div>
   <div class="fluct-bar" id="fluct-bar" style="display:none">
     <div class="fluct-row">
-      <div class="fluct-item"><div class="fluct-lbl">Portfolio</div><div class="fluct-val" id="fl-total">—</div></div>
+      <div class="fluct-item"><div class="fluct-lbl">Portfolio Value</div><div class="fluct-val" id="fl-total">—</div></div>
       <div class="fluct-sep"></div>
-      <div class="fluct-item"><div class="fluct-lbl">P&amp;L</div><div class="fluct-val" id="fl-pnl">—</div><div class="fluct-sub" id="fl-pct"></div></div>
+      <div class="fluct-item"><div class="fluct-lbl">Net Valuation P&amp;L</div><div class="fluct-val" id="fl-pnl">—</div><div class="fluct-sub" id="fl-pct"></div></div>
       <div class="fluct-sep"></div>
-      <div class="fluct-item"><div class="fluct-lbl">SWP Eligible</div><div class="fluct-val" id="fl-swp">—</div></div>
+      <div class="fluct-item"><div class="fluct-lbl">Live Dynamic SWP</div><div class="fluct-val mono" id="fl-swp" style="color:var(--green)">—</div></div>
     </div>
   </div>
 </div>
@@ -145,165 +146,184 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
   <button class="tab" onclick="showTab('vault',this)">⚡ Vault</button>
 </div>
 
-<div id="loading" class="loading"><div class="spin"></div><div>Loading live prices…</div></div>
+<div id="loading" class="loading"><div class="spin"></div><div>Loading premium real-time feed…</div></div>
 <div id="app" style="display:none">
 
-<!-- OVERVIEW -->
 <div class="panel active" id="panel-overview">
-  <div class="card-hot">
-    <div class="sec-lbl">Eligible Monthly SWP</div>
-    <div class="swp-big" id="swp-amt">—</div>
-    <div style="font-size:10px;color:#8899aa;margin-top:6px">₹95/USDT · 6% Annual SWR · BTC + BNB combined</div>
-    <div style="height:1px;background:rgba(255,255,255,.05);margin:12px 0"></div>
-    <div class="g3">
-      <div class="stat"><div class="stat-l">PF in USD</div><div class="stat-v" id="swp-usd">—</div></div>
-      <div class="stat"><div class="stat-l">PF in INR</div><div class="stat-v" id="swp-inr">—</div></div>
-      <div class="stat"><div class="stat-l">Annual SWP</div><div class="stat-v" id="swp-yr">—</div></div>
+  
+  <div class="card-hot" style="border-color:rgba(247,147,26,0.4); background:linear-gradient(135deg,rgba(247,147,26,0.1),rgba(247,147,26,0.02)); padding-bottom:22px">
+    <div class="sec-lbl" style="color:var(--orange)">ACCUMULATION HARD CAP TARGET</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;line-height:1;color:#fff" id="prog-invested">— / $74K</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:6px">Target: ₹60L Core Engine + ₹9L Self-Funded Buffer</div>
+    
+    <div class="prog-track" style="height:6px;margin:16px 0 12px 0;background:rgba(255,255,255,0.05)">
+      <div class="prog-fill" id="prog-bar" style="width:0%;background:linear-gradient(90deg, #f7931a, #f0b90b)"></div>
+    </div>
+    
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:#8899aa">
+      <span style="color:var(--green);font-weight:bold" id="prog-rem">—</span>
+      <span id="prog-pct-txt">—</span>
     </div>
   </div>
-  <div class="m2">
-    <div class="mcard" style="--mc:#7a8899"><div class="ml">Total Invested</div><div class="mv c-m">$30,960</div><div class="ms">₹29.41L cost basis</div></div>
-    <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Position</div><div class="mv c-o">0.163611 ₿</div><div class="ms">avg $75,259</div></div>
-    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Position</div><div class="mv c-b">29 BNB</div><div class="ms">avg $643</div></div>
-    <div class="mcard" style="--mc:var(--green)"><div class="ml">Total Value</div><div class="mv" id="m-total">—</div><div class="ms" id="m-total-s">—</div></div>
-    <div class="mcard" style="--mc:var(--orange)"><div class="ml">Unrealized P&amp;L</div><div class="mv" id="m-pnl">—</div><div class="ms" id="m-pnl-s">—</div></div>
-    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">Strategy</div><div class="mv" style="font-size:14px;color:var(--muted)">30% BTC</div><div class="ms">70% BNB</div></div>
+
+  <div class="card-hot">
+    <div class="sec-lbl" style="color:var(--green)">Live Dynamic SWP Pot</div>
+    <div class="swp-big" id="swp-amt">—</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:6px">Calculated at ₹95/USDT Fixed Base &middot; 6% Annual Dynamic Harvest</div>
+    <div style="height:1px;background:rgba(255,255,255,.05);margin:14px 0"></div>
+    <div class="g3">
+      <div class="stat"><div class="stat-l">Value USD</div><div class="stat-v" id="swp-usd">—</div></div>
+      <div class="stat"><div class="stat-l">Value INR</div><div class="stat-v" id="swp-inr">—</div></div>
+      <div class="stat"><div class="stat-l">Annualised</div><div class="stat-v" id="swp-yr">—</div></div>
+    </div>
   </div>
+
+  <div class="card" style="border-left: 4px solid var(--green); background: linear-gradient(90deg, rgba(0,230,118,0.03), transparent)">
+    <div class="sec-lbl" style="color:var(--green); font-weight:700">SINCE OPEN · LIFETIME P&amp;L</div>
+    <div style="margin-top:6px">
+      <div class="ml" style="margin-bottom:4px">Total Dollars Gained / Lost</div>
+      <div class="mv" id="open-pnl-usd" style="font-size:36px; font-family:'Rajdhani',sans-serif">—</div>
+      <div style="font-size:12px; color:var(--muted); margin-top:6px" id="open-pnl-inr">—</div>
+    </div>
+  </div>
+
+  <div class="m2">
+    <div class="mcard" style="--mc:#7a8899"><div class="ml">Total Cost Basis</div><div class="mv c-m" id="m-cost-usd">—</div><div class="ms" id="m-cost-inr">—</div></div>
+    <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Core Holding</div><div class="mv c-o">0.163611 ₿</div><div class="ms">Avg: $75,259</div></div>
+    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Boost Holding</div><div class="mv c-b">29.00 BNB</div><div class="ms">Avg: $643</div></div>
+    <div class="mcard" style="--mc:var(--green)"><div class="ml">Gross Valuation</div><div class="mv" id="m-total">—</div><div class="ms" id="m-total-s">—</div></div>
+  </div>
+
   <div class="card">
-    <div class="sec-lbl">Portfolio Allocation (Live)</div>
-    <div style="display:flex;align-items:center;gap:16px">
+    <div class="sec-lbl">Portfolio Asset Shares</div>
+    <div style="display:flex;align-items:center;gap:20px;padding:4px 0">
       <div style="width:90px;height:90px;flex-shrink:0"><canvas id="allocChart"></canvas></div>
       <div style="flex:1">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:3px;background:var(--orange)"></div><span style="font-size:10px;color:var(--muted)">Bitcoin (BTC)</span></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:3px;background:var(--orange)"></div><span style="font-size:11px;color:var(--muted)">Bitcoin Core</span></div>
           <span style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--orange)" id="a-btc">—</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:3px;background:var(--bnb)"></div><span style="font-size:10px;color:var(--muted)">BNB Chain</span></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:3px;background:var(--bnb)"></div><span style="font-size:11px;color:var(--muted)">BNB Acceleration</span></div>
           <span style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--bnb)" id="a-bnb">—</span>
         </div>
-        <div style="font-size:8px;color:var(--dim)">Target: 30% BTC / 70% BNB</div>
+        <div style="font-size:9px;color:var(--dim)">Target Boundary Model: 30% BTC / 70% BNB</div>
       </div>
     </div>
   </div>
   <div class="card">
-    <div class="sec-lbl">Asset Value Comparison</div>
-    <div style="height:160px"><canvas id="barChart"></canvas></div>
+    <div class="sec-lbl">Asset Proportional Comparison</div>
+    <div style="height:150px"><canvas id="barChart"></canvas></div>
   </div>
 </div>
 
-<!-- POSITIONS -->
 <div class="panel" id="panel-positions">
   <div class="card-hot">
-    <div class="sec-lbl">Bitcoin · BTC</div>
+    <div class="sec-lbl">Bitcoin · BTC Core Pot</div>
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
       <div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;color:var(--orange)" id="btc-val">—</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:3px" id="btc-inr">—</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;color:var(--orange)" id="btc-val">—</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px" id="btc-inr">—</div>
       </div>
       <div style="text-align:right">
-        <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700" id="btc-pnl">—</div>
-        <div style="font-size:9px;color:var(--muted)" id="btc-pct">—</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700" id="btc-pnl">—</div>
+        <div style="font-size:10px;color:var(--muted)" id="btc-pct">—</div>
       </div>
     </div>
     <div class="g3">
-      <div class="stat"><div class="stat-l">Balance</div><div class="stat-v c-o">0.163611 ₿</div></div>
-      <div class="stat"><div class="stat-l">Avg Buy</div><div class="stat-v">$75,259</div></div>
-      <div class="stat"><div class="stat-l">Live Price</div><div class="stat-v c-o" id="btc-live">—</div></div>
+      <div class="stat"><div class="stat-l">Holding</div><div class="stat-v c-o">0.163611 ₿</div></div>
+      <div class="stat"><div class="stat-l">Entry Floor</div><div class="stat-v">$75,259</div></div>
+      <div class="stat"><div class="stat-l">Live Spot</div><div class="stat-v c-o" id="btc-live">—</div></div>
     </div>
-    <div style="margin-top:10px;background:rgba(0,0,0,.2);border-radius:8px;padding:10px 12px;font-size:10px;color:#8899aa">
-      Break-even $75,259 &nbsp;·&nbsp; <span id="btc-rally" style="color:var(--orange)">—</span>
+    <div style="margin-top:12px;background:rgba(0,0,0,.3);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--muted)">
+      Break-even Target: $75,259 &nbsp;·&nbsp; <span id="btc-rally" style="font-weight:bold">—</span>
     </div>
   </div>
+
   <div class="card-bnb">
-    <div class="sec-lbl-bnb">BNB Chain · BNB</div>
+    <div class="sec-lbl-bnb">BNB Chain · BNB Accelerator Pot</div>
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
       <div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;color:var(--bnb)" id="bnb-val">—</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:3px" id="bnb-inr">—</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;color:var(--bnb)" id="bnb-val">—</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px" id="bnb-inr">—</div>
       </div>
       <div style="text-align:right">
-        <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700" id="bnb-pnl">—</div>
-        <div style="font-size:9px;color:var(--muted)" id="bnb-pct">—</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700" id="bnb-pnl">—</div>
+        <div style="font-size:10px;color:var(--muted)" id="bnb-pct">—</div>
       </div>
     </div>
     <div class="g3">
-      <div class="stat"><div class="stat-l">Balance</div><div class="stat-v c-b">29 BNB</div></div>
-      <div class="stat"><div class="stat-l">Avg Buy</div><div class="stat-v">$643</div></div>
-      <div class="stat"><div class="stat-l">Live Price</div><div class="stat-v c-b" id="bnb-live">—</div></div>
+      <div class="stat"><div class="stat-l">Holding</div><div class="stat-v c-b">29.00 BNB</div></div>
+      <div class="stat"><div class="stat-l">Entry Floor</div><div class="stat-v">$643</div></div>
+      <div class="stat"><div class="stat-l">Live Spot</div><div class="stat-v c-b" id="bnb-live">—</div></div>
     </div>
-    <div style="margin-top:10px;background:rgba(0,0,0,.2);border-radius:8px;padding:10px 12px;font-size:10px;color:#8899aa">
-      Break-even $643 &nbsp;·&nbsp; <span id="bnb-rally" style="color:var(--bnb)">—</span>
+    <div style="margin-top:12px;background:rgba(0,0,0,.3);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--muted)">
+      Break-even Target: $643 &nbsp;·&nbsp; <span id="bnb-rally" style="font-weight:bold">—</span>
     </div>
   </div>
 </div>
 
-<!-- MILESTONES -->
 <div class="panel" id="panel-milestones">
   <div class="card">
-    <div class="sec-lbl">Combined Portfolio — Live</div>
-    <div style="font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;color:var(--orange)" id="ms-pf">—</div>
-    <div style="font-size:10px;color:var(--muted);margin-top:4px" id="ms-pf-sub">—</div>
+    <div class="sec-lbl">Live Portfolio Benchmark</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;color:var(--orange)" id="ms-pf">—</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px" id="ms-pf-sub">—</div>
   </div>
-  <div style="font-size:8px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:12px">6% SWP Projections — BTC Price Targets</div>
+  <div style="font-size:9px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:14px;font-weight:bold">6% SWP Model Run projections</div>
 
   <div class="ms-card" style="border-left-color:var(--orange)">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
-      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">BTC at $200,000</div><div style="font-size:9px;color:var(--muted);margin-top:3px">BNB estimated 2× from avg ($1,286)</div></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">Checkpoint Alpha: $200K BTC Top</div><div style="font-size:10px;color:var(--muted);margin-top:2px">BNB estimated 2× run from baseline ($1,286)</div></div>
       <div style="font-size:11px;color:var(--muted);text-align:right" id="ms1-x">—</div>
     </div>
     <div class="ms-grid">
-      <div class="ms-s"><div class="ms-sl">BTC Value</div><div class="ms-sv c-o">$32,722</div></div>
-      <div class="ms-s"><div class="ms-sl">BNB Value</div><div class="ms-sv c-b">$37,294</div></div>
-      <div class="ms-s"><div class="ms-sl">Total USD</div><div class="ms-sv">$70,016</div></div>
-      <div class="ms-s"><div class="ms-sl">Total INR</div><div class="ms-sv">₹66.5L</div></div>
-      <div class="ms-s"><div class="ms-sl">Monthly SWP</div><div class="ms-sv c-g">₹33,258</div></div>
-      <div class="ms-s"><div class="ms-sl">Annual SWP</div><div class="ms-sv">₹3.99L</div></div>
+      <div class="ms-s"><div class="ms-sl">BTC Valuation</div><div class="ms-sv c-o">$32,722</div></div>
+      <div class="ms-s"><div class="ms-sl">BNB Valuation</div><div class="ms-sv c-b">$37,294</div></div>
+      <div class="ms-s"><div class="ms-sl">Gross USD</div><div class="ms-sv">$70,016</div></div>
+      <div class="ms-s"><div class="ms-sl">Gross INR</div><div class="ms-sv">₹66.5 L</div></div>
+      <div class="ms-s"><div class="ms-sl">Monthly Yield</div><div class="ms-sv c-g">₹33,258</div></div>
+      <div class="ms-s"><div class="ms-sl">Annual Draw</div><div class="ms-sv">₹3.99 L</div></div>
     </div>
   </div>
 
   <div class="ms-card" style="border-left-color:var(--bnb)">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
-      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">BTC at $300,000</div><div style="font-size:9px;color:var(--muted);margin-top:3px">BNB estimated 3× from avg ($1,929)</div></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">Checkpoint Beta: $300K BTC Top</div><div style="font-size:10px;color:var(--muted);margin-top:2px">BNB estimated 3× run from baseline ($1,929)</div></div>
       <div style="font-size:11px;color:var(--muted);text-align:right" id="ms2-x">—</div>
     </div>
     <div class="ms-grid">
-      <div class="ms-s"><div class="ms-sl">BTC Value</div><div class="ms-sv c-o">$49,083</div></div>
-      <div class="ms-s"><div class="ms-sl">BNB Value</div><div class="ms-sv c-b">$55,941</div></div>
-      <div class="ms-s"><div class="ms-sl">Total USD</div><div class="ms-sv">$105,024</div></div>
-      <div class="ms-s"><div class="ms-sl">Total INR</div><div class="ms-sv">₹99.8L</div></div>
-      <div class="ms-s"><div class="ms-sl">Monthly SWP</div><div class="ms-sv c-g">₹49,887</div></div>
-      <div class="ms-s"><div class="ms-sl">Annual SWP</div><div class="ms-sv">₹5.99L</div></div>
+      <div class="ms-s"><div class="ms-sl">BTC Valuation</div><div class="ms-sv c-o">$49,083</div></div>
+      <div class="ms-s"><div class="ms-sl">BNB Valuation</div><div class="ms-sv c-b">$55,941</div></div>
+      <div class="ms-s"><div class="ms-sl">Gross USD</div><div class="ms-sv">$105,024</div></div>
+      <div class="ms-s"><div class="ms-sl">Gross INR</div><div class="ms-sv">₹99.8 L</div></div>
+      <div class="ms-s"><div class="ms-sl">Monthly Yield</div><div class="ms-sv c-g">₹49,887</div></div>
+      <div class="ms-s"><div class="ms-sl">Annual Draw</div><div class="ms-sv">₹5.99 L</div></div>
     </div>
   </div>
 
   <div class="ms-card" style="border-left-color:var(--green)">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
-      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">BTC at $450,000</div><div style="font-size:9px;color:var(--muted);margin-top:3px">BNB estimated 4.5× from avg ($2,894)</div></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">Ultimate Milestone: $450K Peak</div><div style="font-size:10px;color:var(--muted);margin-top:2px">BNB estimated 4.5× run from baseline ($2,894)</div></div>
       <div style="font-size:11px;color:var(--muted);text-align:right" id="ms3-x">—</div>
     </div>
     <div class="ms-grid">
-      <div class="ms-s"><div class="ms-sl">BTC Value</div><div class="ms-sv c-o">$73,625</div></div>
-      <div class="ms-s"><div class="ms-sl">BNB Value</div><div class="ms-sv c-b">$83,912</div></div>
-      <div class="ms-s"><div class="ms-sl">Total USD</div><div class="ms-sv">$157,536</div></div>
-      <div class="ms-s"><div class="ms-sl">Total INR</div><div class="ms-sv">₹149.7L</div></div>
-      <div class="ms-s"><div class="ms-sl">Monthly SWP</div><div class="ms-sv c-g">₹74,830</div></div>
-      <div class="ms-s"><div class="ms-sl">Annual SWP</div><div class="ms-sv">₹8.98L</div></div>
+      <div class="ms-s"><div class="ms-sl">BTC Valuation</div><div class="ms-sv c-o">$73,625</div></div>
+      <div class="ms-s"><div class="ms-sl">BNB Valuation</div><div class="ms-sv c-b">$83,912</div></div>
+      <div class="ms-s"><div class="ms-sl">Gross USD</div><div class="ms-sv">$157,536</div></div>
+      <div class="ms-s"><div class="ms-sl">Gross INR</div><div class="ms-sv">₹1.49 Cr</div></div>
+      <div class="ms-s"><div class="ms-sl">Monthly Yield</div><div class="ms-sv c-g">₹74,830</div></div>
+      <div class="ms-s"><div class="ms-sl">Annual Draw</div><div class="ms-sv">₹8.98 L</div></div>
     </div>
-  </div>
-  <div style="background:var(--card);border:1px solid #1a2438;border-radius:10px;padding:12px 14px;font-size:9px;color:var(--muted);line-height:1.8">
-    <span style="color:var(--orange)">NOTE &nbsp;</span>BNB estimates based on historical BTC/BNB bull cycle correlation. SWP = 6% annual / 0.5% monthly of total INR portfolio value.
   </div>
 </div>
 
-<!-- SIMULATOR -->
 <div class="panel" id="panel-simulator">
   <div class="sim-hero">
-    <div style="font-size:8px;letter-spacing:4px;color:var(--orange);text-transform:uppercase;margin-bottom:8px">If BTC hits…</div>
+    <div style="font-size:9px;letter-spacing:4px;color:var(--orange);text-transform:uppercase;margin-bottom:8px;font-weight:bold">Interactive Valuation Matrix</div>
     <div class="sim-price" id="sim-p">$100,000</div>
-    <div class="sim-sub" id="sim-sub">— × current price</div>
+    <div class="sim-sub" id="sim-sub">— × live price</div>
     <input type="range" class="sim-slider" id="sim-slider" min="50000" max="500000" step="1000" value="100000" oninput="updateSim(this.value)" style="--pct:12.5%"/>
-    <div style="display:flex;justify-content:space-between;font-size:8px;color:var(--muted);margin-top:6px"><span>$50K</span><span>$500K</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:6px;font-weight:bold"><span>$50K Floor</span><span>$500K Peak</span></div>
     <div class="sim-presets">
       <button class="sim-btn" onclick="setSim(100000)">$100K</button>
       <button class="sim-btn" onclick="setSim(150000)">$150K</button>
@@ -313,214 +333,292 @@ tfoot td{background:rgba(247,147,26,.05);border-top:1px solid rgba(247,147,26,.2
     </div>
   </div>
   <div class="m2">
-    <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Value</div><div class="mv c-o" id="s-btc">—</div><div class="ms" id="s-btc-i">—</div></div>
-    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Value (est)</div><div class="mv c-b" id="s-bnb">—</div><div class="ms" id="s-bnb-i">—</div></div>
-    <div class="mcard" style="--mc:var(--green)"><div class="ml">Total Portfolio</div><div class="mv" id="s-total">—</div><div class="ms" id="s-total-i">—</div></div>
-    <div class="mcard" style="--mc:var(--green)"><div class="ml">Monthly SWP</div><div class="mv" id="s-swp">—</div><div class="ms">@ ₹95 P2P · 6% SWR</div></div>
-    <div class="mcard" style="--mc:var(--orange)"><div class="ml">Unrealized P&amp;L</div><div class="mv" id="s-pnl">—</div><div class="ms" id="s-pnl-p">—</div></div>
-    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Multiplier</div><div class="mv" id="s-bnb-m" style="font-size:14px;color:var(--bnb)">—</div><div class="ms">est from avg</div></div>
-  </div>
-  <div style="background:var(--card);border:1px solid #1a2438;border-radius:10px;padding:12px 14px;font-size:9px;color:var(--muted);line-height:1.8">
-    <span style="color:var(--orange)">NOTE &nbsp;</span>BNB estimated proportionally. Slider controls BTC price only. P2P fixed ₹95/USDT.
+    <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Projected Value</div><div class="mv c-o" id="s-btc">—</div><div class="ms" id="s-btc-i">—</div></div>
+    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Interp Value</div><div class="mv c-b" id="s-bnb">—</div><div class="ms" id="s-bnb-i">—</div></div>
+    <div class="mcard" style="--mc:var(--green)"><div class="ml">Total Scaled Engine</div><div class="mv" id="s-total">—</div><div class="ms" id="s-total-i">—</div></div>
+    <div class="mcard" style="--mc:var(--green)"><div class="ml">Monthly SWP Harvest</div><div class="mv" id="s-swp">—</div><div class="ms">@ ₹95 Fixed Base &middot; 6%</div></div>
+    <div class="mcard" style="--mc:var(--orange)"><div class="ml">Unrealized P&amp;L Delta</div><div class="mv" id="s-pnl">—</div><div class="ms" id="s-pnl-p">—</div></div>
+    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Beta Correl</div><div class="mv" id="s-bnb-m" style="font-size:14px;color:var(--bnb)">—</div><div class="ms">from buy rate</div></div>
   </div>
 </div>
 
-<!-- STRATEGY -->
 <div class="panel" id="panel-strategy">
-  <div class="card-hot" style="margin-bottom:14px">
-    <div class="sec-lbl">Strategy Overview</div>
-    <div style="font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;margin-bottom:10px">30% BTC / 70% BNB Risk Profile</div>
+  <div class="card-hot" style="margin-bottom:14px; background:linear-gradient(135deg, rgba(247,147,26,0.02), rgba(5,7,12,0.5))">
+    <div class="sec-lbl">Engine Architecture</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;margin-bottom:12px">Dual Token Risk Matrix (30/70 Plan)</div>
     <div class="g3">
-      <div class="stat"><div class="stat-l">BTC Cost</div><div class="stat-v c-o">$12,313</div></div>
-      <div class="stat"><div class="stat-l">BNB Cost</div><div class="stat-v c-b">$18,647</div></div>
-      <div class="stat"><div class="stat-l">Total Cost</div><div class="stat-v">$30,960</div></div>
+      <div class="stat"><div class="stat-l">BTC Cost Base</div><div class="stat-v c-o">$12,313</div></div>
+      <div class="stat"><div class="stat-l">BNB Cost Base</div><div class="stat-v c-b">$18,647</div></div>
+      <div class="stat"><div class="stat-l">Aggregate Capital</div><div class="stat-v">$30,960</div></div>
     </div>
   </div>
   <div class="card" style="margin-bottom:14px">
-    <div class="sec-lbl">Asset Allocation Chart</div>
-    <div style="height:180px"><canvas id="stratChart"></canvas></div>
+    <div class="sec-lbl">Dynamic Capital Allocation Balance</div>
+    <div style="height:170px"><canvas id="stratChart"></canvas></div>
   </div>
   <div class="card" style="margin-bottom:14px">
-    <div class="sec-lbl">Position Summary</div>
+    <div class="sec-lbl">Active Ledger Statement</div>
     <div style="overflow-x:auto">
       <table>
-        <thead><tr><th>Asset</th><th>Balance</th><th>Avg Buy</th><th>Live Price</th><th>Value</th><th>P&L</th></tr></thead>
+        <thead><tr><th>Asset Class</th><th>Balance Tokens</th><th>Entry Rate</th><th>Spot Rate</th><th>Net Valuation</th><th>Absolute P&L</th></tr></thead>
         <tbody id="strat-table"></tbody>
         <tfoot><tr id="strat-foot"></tr></tfoot>
       </table>
     </div>
   </div>
-  <div class="card">
-    <div class="sec-lbl">Why This Split?</div>
-    <div style="font-size:11px;color:#8899aa;line-height:1.9">
-      <div style="margin-bottom:8px"><span style="color:var(--orange)">BTC (30%) — </span>Digital gold. Long-term store of value. Less volatile growth. Core wealth preservation asset.</div>
-      <div style="margin-bottom:8px"><span style="color:var(--bnb)">BNB (70%) — </span>BSC ecosystem token. Higher beta than BTC. In bull runs historically outperforms BTC 2-5×.</div>
-      <div><span style="color:var(--green)">Combined SWP — </span>At $200K BTC target, combined portfolio generates ₹33K/month passive income at 6% SWR without touching capital.</div>
-    </div>
-  </div>
 </div>
 
-<!-- VAULT -->
 <div class="panel" id="panel-vault">
-  <div class="card-hot" style="text-align:center;padding:22px;margin-bottom:16px">
-    <div style="font-size:32px;margin-bottom:8px">⚡</div>
-    <div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px">Anti-FOMO Manifesto</div>
-    <div style="font-size:9px;color:var(--muted);letter-spacing:2px">Read before every sell decision</div>
+  <div class="card-hot" style="text-align:center;padding:26px;margin-bottom:16px; border-color: rgba(247,147,26,0.25)">
+    <div style="font-size:36px;margin-bottom:8px">⚡</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:4px;letter-spacing:0.5px">Anti-FOMO Execution Framework</div>
+    <div style="font-size:10px;color:var(--muted);letter-spacing:2.5px;font-weight:bold;text-transform:uppercase">Institutional Rules for Long-Term Wealth</div>
   </div>
 
   <div class="vault-rule">
-    <div class="vr-top"><div class="vr-num">1</div><div class="vr-title">No % Selling</div></div>
-    <div class="vr-body">Only sell when a portfolio milestone is hit. Never sell because price pumped 15% or 40%. Math over emotions, always.</div>
+    <div class="vr-top"><div class="vr-num">1</div><div class="vr-title">No Arbitrary Percent Liquidation</div></div>
+    <div class="vr-body">Never sell assets based on random market pumps or micro emotions. Execution actions trigger ONLY when explicit macro milestones are hit.</div>
   </div>
   <div class="vault-rule" style="border-left-color:var(--bnb)">
-    <div class="vr-top"><div class="vr-num" style="border-color:var(--bnb);color:var(--bnb);background:rgba(240,185,11,.1)">2</div><div class="vr-title">Hold Through Crashes</div></div>
-    <div class="vr-body">BTC and BNB are positions, not trades. During crashes, do nothing. Your living expenses come from savings, not this portfolio.</div>
-  </div>
-  <div class="vault-rule" style="border-left-color:var(--bnb)">
-    <div class="vr-top"><div class="vr-num" style="border-color:var(--bnb);color:var(--bnb);background:rgba(240,185,11,.1)">3</div><div class="vr-title">BNB Is Not A Trade</div></div>
-    <div class="vr-body">29 BNB is a strategic position, not a flip. Don't react to daily swings. Hold until the BTC price target milestones are reached.</div>
+    <div class="vr-top"><div class="vr-num" style="border-color:var(--bnb);color:var(--bnb);background:rgba(240,185,11,.08)">2</div><div class="vr-title">BNB Beta Drift Absorption</div></div>
+    <div class="vr-body">BNB is high-beta and will experience extreme swings during corrections. Do not engage or attempt to swing trade active inventory bags during mid-cycle dips.</div>
   </div>
   <div class="vault-rule" style="border-left-color:var(--green)">
-    <div class="vr-top"><div class="vr-num" style="border-color:var(--green);color:var(--green);background:rgba(76,175,80,.1)">4</div><div class="vr-title">SWP Only At Targets</div></div>
-    <div class="vr-body">$200K BTC is the minimum before any withdrawal begins. Not before. The system only works if you respect the entry price for SWP.</div>
-  </div>
-  <div class="vault-rule" style="border-left-color:var(--green)">
-    <div class="vr-top"><div class="vr-num" style="border-color:var(--green);color:var(--green);background:rgba(76,175,80,.1)">5</div><div class="vr-title">Slice, Don't Kill</div></div>
-    <div class="vr-body">When harvesting for SWP buffer, sell only the exact amount needed. Let the rest of BTC + BNB continue riding the cycle.</div>
+    <div class="vr-top"><div class="vr-num" style="border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)">3</div><div class="vr-title">Harvest Threshold Minimum</div></div>
+    <div class="vr-body">$200K BTC macro price print is the absolute floor criteria before initializing active harvest mechanisms or layout extractions. No exceptions.</div>
   </div>
   <div class="vault-rule" style="border-left-color:var(--red)">
-    <div class="vr-top"><div class="vr-num" style="border-color:var(--red);color:var(--red);background:rgba(239,83,80,.1)">6</div><div class="vr-title">Lifestyle Lockdown</div></div>
-    <div class="vr-body">No SWP upgrade until $300K BTC milestone confirmed. Lifestyle inflation is the silent killer of long-term wealth systems.</div>
-  </div>
-  <div class="vault-rule">
-    <div class="vr-top"><div class="vr-num">7</div><div class="vr-title">The Wait Is The Work</div></div>
-    <div class="vr-body">Accumulation phase is done. The strategy is set. Now patience is the only action required. Checking price daily changes nothing.</div>
+    <div class="vr-top"><div class="vr-num" style="border-color:var(--red);color:var(--red);background:rgba(255,61,0,.08)">4</div><div class="vr-title">Strict Lifestyle Inflation Cap</div></div>
+    <div class="vr-body">No dynamic harvest expansions until the $300K BTC milestone is mathematically claimed and stable. Protect capital base size rules above all.</div>
   </div>
 </div>
 
-</div><!-- end app -->
+</div>
 
 <script>
 const BTC_QTY=0.163611,BTC_AVG=75259,BNB_QTY=29,BNB_AVG=643;
 const COST=BTC_QTY*BTC_AVG+BNB_QTY*BNB_AVG;
 const P2P=95;
-let bP=null,nP=null,pB=null,pN=null,usdInr=95,cdV=5,cdI=null;
-const $=id=>document.getElementById(id);
+const TARGET_CAP=74000;
+let bP=null,nP=null,pB=null,pN=null,usdInr=95,cdV=1,cdI=null;
+
+// Anti-crash safe setter functions
+const $ = id => document.getElementById(id);
+const setTxt = (id, val) => { const el = $(id); if(el) el.innerHTML = val; };
+const setCol = (id, c) => { const el = $(id); if(el) el.style.color = c; };
+const setClass = (id, cls) => { const el = $(id); if(el) el.className = cls; };
+
 const fU=n=>"$"+Math.round(n).toLocaleString("en-US");
 const fI=n=>{if(n>=10000000)return"₹"+(n/10000000).toFixed(2)+" Cr";if(n>=100000)return"₹"+(n/100000).toFixed(2)+" L";return"₹"+Math.round(n).toLocaleString("en-IN")};
 const col=v=>v>0?"var(--green)":v<0?"var(--red)":"var(--muted)";
 let aC=null,bC=null,sC=null;
 
 function updateUI(){
-  const btcV=BTC_QTY*bP,bnbV=BNB_QTY*nP,total=btcV+bnbV,totalI=total*P2P;
-  const pnl=total-COST,pct=(pnl/COST)*100,pos=pnl>=0;
-  const swp=totalI*0.005;
-  const btcPct=btcV/total*100,bnbPct=bnbV/total*100;
-  const btcPnl=btcV-BTC_QTY*BTC_AVG,bnbPnl=bnbV-BNB_QTY*BNB_AVG;
-  const dB=pB?(bP>pB?"up":"dn"):null,dN=pN?(nP>pN?"up":"dn"):null;
+  if(!bP || !nP) return;
+  try {
+    const btcV=BTC_QTY*bP,bnbV=BNB_QTY*nP,total=btcV+bnbV,totalI=total*P2P;
+    const pnl=total-COST,pct=(pnl/COST)*100,pos=pnl>=0;
+    const swp=totalI*0.005;
+    const btcPct=btcV/total*100,bnbPct=bnbV/total*100;
+    const btcPnl=btcV-BTC_QTY*BTC_AVG,bnbPnl=bnbV-BNB_QTY*BNB_AVG;
+    const dB=pB?(bP>pB?"up":"dn"):null,dN=pN?(nP>pN?"up":"dn"):null;
 
-  // heroes
-  $("btc-ph").textContent=fU(bP);$("btc-ph").className="ph-price"+(dB?" "+dB:"");
-  $("btc-ph-sub").textContent=fI(bP*usdInr)+" · ₹"+Math.round(usdInr)+"/USD";
-  $("bnb-ph").textContent=fU(nP);$("bnb-ph").className="ph-price"+(dN?" "+dN:"");
-  $("bnb-ph-sub").textContent=fI(nP*usdInr);
-  $("fluct-bar").style.display="block";
-  $("fl-total").textContent=fI(totalI);$("fl-total").style.color=col(pnl);
-  $("fl-pnl").textContent=(pos?"+":"")+fU(Math.round(pnl));$("fl-pnl").style.color=col(pnl);
-  $("fl-pct").textContent=(pct>=0?"+":"")+pct.toFixed(2)+"%";
-  $("fl-swp").textContent="₹"+Math.round(swp).toLocaleString("en-IN");$("fl-swp").style.color=swp>=30000?"var(--green)":"var(--orange)";
+    // Hard Cap Logic & 31K Call-out
+    const progPct = (COST / TARGET_CAP) * 100;
+    const remainingDeploy = TARGET_CAP - COST;
+    
+    setTxt("prog-invested", fU(Math.round(COST)) + " <span style='font-size:22px;color:var(--muted)'>(~$31K)</span> / $74K");
+    setTxt("prog-pct-txt", progPct.toFixed(1) + "% Deployed");
+    const progBar = $("prog-bar"); if(progBar) progBar.style.width = Math.min(progPct, 100) + "%";
+    setTxt("prog-rem", remainingDeploy > 0 ? fU(Math.round(remainingDeploy)) + " Remaining" : "Hard Cap Reached!");
+    setCol("prog-rem", remainingDeploy > 0 ? "var(--green)" : "var(--red)");
+    
+    // Since Open Absolute Math Log
+    const absolutePnlInr = pnl * P2P;
+    setTxt("open-pnl-usd", (pos ? "+" : "") + fU(pnl) + " <span style='font-size:18px; color:var(--muted)'>(" + (pct >= 0 ? "+" : "") + pct.toFixed(2) + "%)</span>");
+    setCol("open-pnl-usd", col(pnl));
+    setTxt("open-pnl-inr", "INR Equiv: " + (pos ? "+" : "") + fI(absolutePnlInr));
 
-  // overview
-  $("swp-amt").textContent="₹"+Math.round(swp).toLocaleString("en-IN");$("swp-amt").style.color=swp>=30000?"var(--green)":"#fff";
-  $("swp-usd").textContent=fU(Math.round(total));$("swp-inr").textContent=fI(totalI);$("swp-yr").textContent="₹"+Math.round(swp*12).toLocaleString("en-IN");
-  $("m-total").textContent=fU(Math.round(total));$("m-total").style.color=col(pnl);$("m-total-s").textContent=fI(totalI);
-  $("m-pnl").textContent=(pos?"+":"")+fU(Math.round(pnl));$("m-pnl").style.color=col(pnl);
-  $("m-pnl-s").textContent=(pct>=0?"+":"")+pct.toFixed(2)+"% · "+(pos?"+":"")+fI(Math.round(pnl*P2P));
-  $("a-btc").textContent=btcPct.toFixed(1)+"%";$("a-bnb").textContent=bnbPct.toFixed(1)+"%";
+    // Heroes Tickers
+    setTxt("btc-ph", fU(bP)); setClass("btc-ph", "ph-price" + (dB ? " " + dB : ""));
+    setTxt("btc-ph-sub", fI(bP*usdInr)+" · Fix P2P Base: ₹"+P2P);
+    setTxt("bnb-ph", fU(nP)); setClass("bnb-ph", "ph-price" + (dN ? " " + dN : ""));
+    setTxt("bnb-ph-sub", fI(nP*usdInr));
+    
+    const fBar = $("fluct-bar"); if(fBar) fBar.style.display="block";
+    setTxt("fl-total", fI(totalI)); setCol("fl-total", col(pnl));
+    setTxt("fl-pnl", (pos?"+":"")+fU(Math.round(pnl))); setCol("fl-pnl", col(pnl));
+    setTxt("fl-pct", (pct>=0?"+":"")+pct.toFixed(2)+"%");
+    
+    // Real-time ticking SWP math
+    setTxt("fl-swp", "₹"+swp.toLocaleString("en-IN", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "<span style='font-size:10px'>/mo</span>");
+    setCol("fl-swp", col(pnl));
 
-  // positions
-  $("btc-val").textContent=fU(Math.round(btcV));$("btc-inr").textContent=fI(btcV*P2P);
-  $("btc-pnl").textContent=(btcPnl>=0?"+":"")+fU(Math.round(btcPnl));$("btc-pnl").style.color=col(btcPnl);
-  $("btc-pct").textContent=((btcPnl/(BTC_QTY*BTC_AVG))*100>=0?"+":"")+((btcPnl/(BTC_QTY*BTC_AVG))*100).toFixed(2)+"%";
-  $("btc-live").textContent=fU(bP);
-  $("btc-rally").textContent=bP>=BTC_AVG?"✓ In profit":"Need +"+(((BTC_AVG-bP)/bP)*100).toFixed(1)+"% rally";$("btc-rally").style.color=bP>=BTC_AVG?"var(--green)":"var(--orange)";
-  $("bnb-val").textContent=fU(Math.round(bnbV));$("bnb-inr").textContent=fI(bnbV*P2P);
-  $("bnb-pnl").textContent=(bnbPnl>=0?"+":"")+fU(Math.round(bnbPnl));$("bnb-pnl").style.color=col(bnbPnl);
-  $("bnb-pct").textContent=((bnbPnl/(BNB_QTY*BNB_AVG))*100>=0?"+":"")+((bnbPnl/(BNB_QTY*BNB_AVG))*100).toFixed(2)+"%";
-  $("bnb-live").textContent=fU(nP);
-  $("bnb-rally").textContent=nP>=BNB_AVG?"✓ In profit":"Need +"+(((BNB_AVG-nP)/nP)*100).toFixed(1)+"% rally";$("bnb-rally").style.color=nP>=BNB_AVG?"var(--green)":"var(--bnb)";
+    // Overview Main Metric Core
+    setTxt("swp-amt", "₹"+swp.toLocaleString("en-IN", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "<span style='font-size:20px; color:var(--muted)'> / mo</span>");
+    setTxt("swp-usd", fU(Math.round(total))); 
+    setTxt("swp-inr", fI(totalI)); 
+    setTxt("swp-yr", "₹"+Math.round(swp*12).toLocaleString("en-IN"));
+    
+    setTxt("m-cost-usd", fU(Math.round(COST)));
+    setTxt("m-cost-inr", "₹"+((COST*P2P)/100000).toFixed(2)+"L Equivalent");
+    
+    setTxt("m-total", fU(Math.round(total))); setCol("m-total", col(pnl)); setTxt("m-total-s", fI(totalI));
+    setTxt("a-btc", btcPct.toFixed(1)+"%"); 
+    setTxt("a-bnb", bnbPct.toFixed(1)+"%");
 
-  // milestones
-  $("ms-pf").textContent=fI(totalI);$("ms-pf-sub").textContent=fU(Math.round(total))+" · "+(pos?"+":"")+pct.toFixed(2)+"% P&L";
-  $("ms1-x").textContent=(200000/bP).toFixed(2)+"× to $200K";
-  $("ms2-x").textContent=(300000/bP).toFixed(2)+"× to $300K";
-  $("ms3-x").textContent=(450000/bP).toFixed(2)+"× to $450K";
+    // Position Sheets
+    setTxt("btc-val", fU(Math.round(btcV))); setTxt("btc-inr", fI(btcV*P2P));
+    setTxt("btc-pnl", (btcPnl>=0?"+":"")+fU(Math.round(btcPnl))); setCol("btc-pnl", col(btcPnl));
+    setTxt("btc-pct", ((btcPnl/(BTC_QTY*BTC_AVG))*100>=0?"+":"")+((btcPnl/(BTC_QTY*BTC_AVG))*100).toFixed(2)+"%");
+    setTxt("btc-live", fU(bP));
+    setTxt("btc-rally", bP>=BTC_AVG?"✓ Asset In Profit":"Need +"+(((BTC_AVG-bP)/bP)*100).toFixed(1)+"% cycle rally");
+    setCol("btc-rally", bP>=BTC_AVG?"var(--green)":"var(--orange)");
+    
+    setTxt("bnb-val", fU(Math.round(bnbV))); setTxt("bnb-inr", fI(bnbV*P2P));
+    setTxt("bnb-pnl", (bnbPnl>=0?"+":"")+fU(Math.round(bnbPnl))); setCol("bnb-pnl", col(bnbPnl));
+    setTxt("bnb-pct", ((bnbPnl/(BNB_QTY*BNB_AVG))*100>=0?"+":"")+((bnbPnl/(BNB_QTY*BNB_AVG))*100).toFixed(2)+"%");
+    setTxt("bnb-live", fU(nP));
+    setTxt("bnb-rally", nP>=BNB_AVG?"✓ Asset In Profit":"Need +"+(((BNB_AVG-nP)/nP)*100).toFixed(1)+"% cycle rally");
+    setCol("bnb-rally", nP>=BNB_AVG?"var(--green)":"var(--bnb)");
 
-  // strategy table
-  $("strat-table").innerHTML=`
-    <tr><td class="c-o">BTC</td><td class="c-o">0.163611</td><td>$75,259</td><td class="c-o">${fU(bP)}</td><td>${fU(Math.round(btcV))}</td><td style="color:${col(btcPnl)}">${btcPnl>=0?"+":""}${fU(Math.round(btcPnl))}</td></tr>
-    <tr><td class="c-b">BNB</td><td class="c-b">29.0</td><td>$643</td><td class="c-b">${fU(nP)}</td><td>${fU(Math.round(bnbV))}</td><td style="color:${col(bnbPnl)}">${bnbPnl>=0?"+":""}${fU(Math.round(bnbPnl))}</td></tr>`;
-  $("strat-foot").innerHTML=`<td class="c-o">TOTAL</td><td>—</td><td>—</td><td>—</td><td>${fU(Math.round(total))}</td><td style="color:${col(pnl)}">${pos?"+":""}${fU(Math.round(pnl))}</td>`;
+    // Milestone Benchmarks
+    setTxt("ms-pf", fI(totalI)); setTxt("ms-pf-sub", fU(Math.round(total))+" · Active Run Dynamic Ledger");
+    setTxt("ms1-x", (200000/bP).toFixed(2)+"× Run");
+    setTxt("ms2-x", (300000/bP).toFixed(2)+"× Run");
+    setTxt("ms3-x", (450000/bP).toFixed(2)+"× Run");
 
-  // charts
-  if(!aC){
-    aC=new Chart($("allocChart").getContext("2d"),{type:"doughnut",data:{datasets:[{data:[btcPct,bnbPct],backgroundColor:["#f7931a","#f0b90b"],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:"72%"}});
-  } else {aC.data.datasets[0].data=[btcPct,bnbPct];aC.update("none");}
-  if(!bC){
-    bC=new Chart($("barChart").getContext("2d"),{type:"bar",data:{labels:["BTC","BNB","Total"],datasets:[{data:[Math.round(btcV),0,Math.round(total)],backgroundColor:"rgba(247,147,26,0.8)",borderRadius:6},{data:[0,Math.round(bnbV),0],backgroundColor:"rgba(240,185,11,0.8)",borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>fU(i.raw)}}},scales:{x:{ticks:{color:"#334455",font:{size:9}},grid:{display:false}},y:{ticks:{color:"#334455",font:{size:9},callback:v=>"$"+(v/1000).toFixed(0)+"k"},grid:{color:"#111826"}}}}});
-  } else {bC.data.datasets[0].data=[Math.round(btcV),0,Math.round(total)];bC.data.datasets[1].data=[0,Math.round(bnbV),0];bC.update("none");}
-  if(!sC){
-    sC=new Chart($("stratChart").getContext("2d"),{type:"doughnut",data:{labels:["Bitcoin (BTC)","BNB Chain"],datasets:[{data:[Math.round(btcV),Math.round(bnbV)],backgroundColor:["rgba(247,147,26,0.85)","rgba(240,185,11,0.85)"],borderColor:["#f7931a","#f0b90b"],borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:"#7a8899",font:{size:11},padding:16}},tooltip:{callbacks:{label:i=>i.label+": "+fU(i.raw)+" ("+((i.raw/total)*100).toFixed(1)+"%)"}}},cutout:"60%"}});
-  } else {sC.data.datasets[0].data=[Math.round(btcV),Math.round(bnbV)];sC.update("none");}
+    // Position Matrix Statement
+    setTxt("strat-table", `
+      <tr><td class="c-o">BTC Core</td><td class="c-o">0.163611</td><td>$75,259</td><td class="c-o">${fU(bP)}</td><td>${fU(Math.round(btcV))}</td><td style="color:${col(btcPnl)}">${btcPnl>=0?"+":""}${fU(Math.round(btcPnl))}</td></tr>
+      <tr><td class="c-b">BNB Boost</td><td class="c-b">29.0</td><td>$643</td><td class="c-b">${fU(nP)}</td><td>${fU(Math.round(bnbV))}</td><td style="color:${col(bnbPnl)}">${bnbPnl>=0?"+":""}${fU(Math.round(bnbPnl))}</td></tr>`);
+    setTxt("strat-foot", `<td class="c-g">AGGREGATE</td><td>—</td><td>—</td><td>—</td><td>${fU(Math.round(total))}</td><td style="color:${col(pnl)}">${pos?"+":""}${fU(Math.round(pnl))}</td>`);
 
-  updateSim($("sim-slider").value);
+    // Charts Refresh Engine
+    if($("allocChart")){
+      if(!aC){
+        aC=new Chart($("allocChart").getContext("2d"),{type:"doughnut",data:{datasets:[{data:[btcPct,bnbPct],backgroundColor:["#f7931a","#f0b90b"],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:"75%"}});
+      } else {aC.data.datasets[0].data=[btcPct,bnbPct];aC.update("none");}
+    }
+    
+    if($("barChart")){
+      if(!bC){
+        bC=new Chart($("barChart").getContext("2d"),{type:"bar",data:{labels:["BTC","BNB","Total"],datasets:[{data:[Math.round(btcV),0,Math.round(total)],backgroundColor:"rgba(247,147,26,0.85)",borderRadius:5},{data:[0,Math.round(bnbV),0],backgroundColor:"rgba(240,185,11,0.85)",borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#4a5d78",font:{size:9}},grid:{display:false}},y:{ticks:{color:"#4a5d78",font:{size:9},callback:v=>"$"+(v/1000).toFixed(0)+"k"},grid:{color:"rgba(23,34,55,0.3)"}}}}});
+      } else {bC.data.datasets[0].data=[Math.round(btcV),0,Math.round(total)];bC.data.datasets[1].data=[0,Math.round(bnbV),0];bC.update("none");}
+    }
+    
+    if($("stratChart")){
+      if(!sC){
+        sC=new Chart($("stratChart").getContext("2d"),{type:"doughnut",data:{labels:["Bitcoin Core Allocation","BNB Acceleration Pot"],datasets:[{data:[Math.round(btcV),Math.round(bnbV)],backgroundColor:["rgba(247,147,26,0.85)","rgba(240,185,11,0.85)"],borderColor:["#f7931a","#f0b90b"],borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:"#8ea1b8",font:{size:11},padding:12}}},cutout:"65%"}});
+      } else {sC.data.datasets[0].data=[Math.round(btcV),Math.round(bnbV)];sC.update("none");}
+    }
+
+    const simSlider = $("sim-slider");
+    if(simSlider) updateSim(simSlider.value);
+    
+  } catch(err) { 
+    console.error("UI Update Error: ", err); 
+  }
 }
 
 function updateSim(price){
   price=parseFloat(price);
   const pct2=((price-50000)/(500000-50000))*100;
-  $("sim-slider").style.setProperty("--pct",pct2+"%");
-  $("sim-p").textContent=fU(price);
-  if(bP)$("sim-sub").textContent=(price/bP).toFixed(2)+"× current live price";
+  const simSlider = $("sim-slider");
+  if(simSlider) simSlider.style.setProperty("--pct",pct2+"%");
+  
+  setTxt("sim-p", fU(price));
+  if(bP) setTxt("sim-sub", (price/bP).toFixed(2)+"× scale matrix factor from spot");
+  
   const btcV=BTC_QTY*price;
-  // BNB scales: at $200K BTC=2x, $300K=3x, $450K=4.5x - interpolate
   const bnbMult=Math.max(1,price/200000*2);
   const bnbEst=BNB_QTY*BNB_AVG*bnbMult;
   const total=btcV+bnbEst,totalI=total*P2P,swp=totalI*0.005,pnl=total-COST,pct=(pnl/COST)*100;
-  $("s-btc").textContent=fU(Math.round(btcV));$("s-btc-i").textContent=fI(btcV*P2P);
-  $("s-bnb").textContent=fU(Math.round(bnbEst));$("s-bnb-i").textContent=fI(bnbEst*P2P);
-  $("s-total").textContent=fU(Math.round(total));$("s-total").style.color=col(pnl);$("s-total-i").textContent=fI(totalI);
-  $("s-swp").textContent="₹"+Math.round(swp).toLocaleString("en-IN");$("s-swp").style.color=swp>=30000?"var(--green)":"var(--orange)";
-  $("s-pnl").textContent=(pnl>=0?"+":"")+fU(Math.round(pnl));$("s-pnl").style.color=col(pnl);$("s-pnl-p").textContent=(pct>=0?"+":"")+pct.toFixed(1)+"%";
-  $("s-bnb-m").textContent=bnbMult.toFixed(2)+"× from avg";
+  
+  setTxt("s-btc", fU(Math.round(btcV))); setTxt("s-btc-i", fI(btcV*P2P));
+  setTxt("s-bnb", fU(Math.round(bnbEst))); setTxt("s-bnb-i", fI(bnbEst*P2P));
+  setTxt("s-total", fU(Math.round(total))); setCol("s-total", col(pnl)); setTxt("s-total-i", fI(totalI));
+  setTxt("s-swp", "₹"+swp.toLocaleString("en-IN", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + " / mo");
+  setCol("s-swp", swp>=30000?"var(--green)":"var(--orange)");
+  setTxt("s-pnl", (pnl>=0?"+":"")+fU(Math.round(pnl))); setCol("s-pnl", col(pnl)); setTxt("s-pnl-p", (pct>=0?"+":"")+pct.toFixed(1)+"%");
+  setTxt("s-bnb-m", bnbMult.toFixed(2)+"× target multiplier");
+  
   document.querySelectorAll(".sim-btn").forEach(b=>b.classList.toggle("active",parseInt(b.textContent.replace(/[$K]/g,""))*(b.textContent.includes("K")?1000:1)===price));
 }
-function setSim(p){$("sim-slider").value=p;updateSim(p);}
+function setSim(p){const slider=$("sim-slider"); if(slider){ slider.value=p; updateSim(p);}}
 
-function setLive(ok){$("pr").className="pulse-ring"+(ok?"":" off");$("pd").className="pulse-dot"+(ok?"":" off");$("lt").textContent=ok?"Binance · Live":"Connecting…";$("lt").className="live-txt"+(ok?"":" off");}
-function resetCd(){cdV=5;if(cdI)clearInterval(cdI);$("cd").textContent="· 5s";cdI=setInterval(()=>{cdV=Math.max(0,cdV-1);$("cd").textContent="· "+cdV+"s"},1000);}
+function setLive(ok){
+  setClass("pr", "pulse-ring"+(ok?"":" off"));
+  setClass("pd", "pulse-dot"+(ok?"":" off"));
+  setTxt("lt", ok?"Live Sync Active":"Network Reconnecting…");
+  setClass("lt", "live-txt"+(ok?"":" off"));
+}
+
+function resetCd(){
+  cdV=1;
+  if(cdI)clearInterval(cdI);
+  setTxt("cd", "· "+cdV+"s");
+  cdI=setInterval(()=>{
+    cdV=Math.max(0,cdV-1);
+    setTxt("cd", "· "+cdV+"s");
+  },1000);
+}
 
 async function fetchPrices(){
   try{
-    const [r1,r2]=await Promise.all([fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"),fetch("https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT")]);
-    const [d1,d2]=await Promise.all([r1.json(),r2.json()]);
+    // Primary API Route (Binance Vision)
+    let res = await fetch("https://data-api.binance.vision/api/v3/ticker/price?symbol=BTCUSDT");
+    if(!res.ok) throw new Error("Vision fail");
+    let d1 = await res.json();
+    
+    let res2 = await fetch("https://data-api.binance.vision/api/v3/ticker/price?symbol=BNBUSDT");
+    let d2 = await res2.json();
+
     const bp=parseFloat(d1.price),np=parseFloat(d2.price);
     if(!bp||!np)throw new Error();
     pB=bP;pN=nP;bP=bp;nP=np;
-    setLive(true);updateUI();resetCd();
-    $("loading").style.display="none";$("app").style.display="block";
-  }catch{setLive(false);}
+    
+    const loading = $("loading"); if(loading) loading.style.display="none";
+    const app = $("app"); if(app) app.style.display="block";
+    
+    setLive(true); updateUI(); resetCd();
+    
+  } catch(e) {
+    try {
+      // Secondary Fallback Route (MEXC API)
+      let m1 = await fetch("https://api.mexc.com/api/v3/ticker/price?symbol=BTCUSDT");
+      let md1 = await m1.json();
+      let m2 = await fetch("https://api.mexc.com/api/v3/ticker/price?symbol=BNBUSDT");
+      let md2 = await m2.json();
+      
+      const bp=parseFloat(md1.price),np=parseFloat(md2.price);
+      if(!bp||!np)throw new Error();
+      pB=bP;pN=nP;bP=bp;nP=np;
+      
+      const loading = $("loading"); if(loading) loading.style.display="none";
+      const app = $("app"); if(app) app.style.display="block";
+      
+      setLive(true); updateUI(); resetCd();
+    } catch(err) {
+      setLive(false);
+    }
+  }
 }
 async function fetchINR(){try{const r=await fetch("https://api.exchangerate-api.com/v4/latest/USD");const d=await r.json();if(d?.rates?.INR)usdInr=d.rates.INR;}catch{}}
 
 function showTab(name,btn){
   document.querySelectorAll(".panel").forEach(p=>{p.classList.remove("active");p.style.display="none";});
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  $("panel-"+name).classList.add("active");$("panel-"+name).style.display="block";
-  btn.classList.add("active");
+  const targetPanel = $("panel-"+name);
+  if(targetPanel) {
+    targetPanel.classList.add("active");
+    targetPanel.style.display="block";
+  }
+  if(btn) btn.classList.add("active");
 }
+
 document.querySelectorAll(".panel").forEach((p,i)=>{p.style.display=i===0?"block":"none";});
-fetchINR();fetchPrices();setInterval(fetchPrices,5000);setInterval(fetchINR,300000);
+fetchINR(); fetchPrices(); setInterval(fetchPrices, 1000); setInterval(fetchINR, 60000);
 </script>
 </body>
 </html>
