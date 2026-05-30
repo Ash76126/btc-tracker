@@ -42,7 +42,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .fluct-sep{background:var(--border);margin:2px 0}
 .fluct-lbl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;font-weight:bold}
 .fluct-val{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;line-height:1.2}
-.fluct-val.mono{font-family:'Share Tech Mono',monospace;font-size:14px;font-weight:normal}
+.fluct-val.mono{font-family:'Share Tech Mono',monospace;font-size:14px;font-weight:bold}
 .fluct-sub{font-size:9px;color:var(--muted);margin-top:2px}
 .tabs{display:flex;background:#070a12;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:50;backdrop-filter:blur(15px);border-top:1px solid rgba(255,255,255,0.02)}
 .tabs::-webkit-scrollbar{display:none}
@@ -52,4 +52,618 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;margin-bottom:12px;box-shadow:0 4px 24px rgba(0,0,0,0.3)}
 .card-hot{background:linear-gradient(135deg,rgba(0,230,118,0.04),rgba(5,7,12,0.4));border:1px solid rgba(0,230,118,0.2);border-radius:16px;padding:18px;margin-bottom:12px;position:relative;overflow:hidden;box-shadow:0 4px 25px rgba(0,0,0,0.3)}
-.card-hot::before{content
+.card-hot::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.card-bnb{background:linear-gradient(135deg,rgba(240,185,11,0.04),rgba(5,7,12,0.4));border:1px solid rgba(240,185,11,0.18);border-radius:16px;padding:18px;margin-bottom:12px;position:relative;overflow:hidden}
+.card-bnb::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bnb),transparent)}
+.sec-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:12px;font-weight:700}
+.sec-lbl-bnb{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--bnb);margin-bottom:12px;font-weight:700}
+.m2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.mcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.2)}
+.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--mc,#f7931a);opacity:.6}
+.ml{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-weight:bold}
+.mv{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;line-height:1}
+.ms{font-size:10px;color:var(--muted);margin-top:4px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.stat{background:rgba(5,7,12,0.6);border:1px solid var(--border);border-radius:10px;padding:10px}
+.stat-l{font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.stat-v{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700}
+.swp-big{font-family:'Rajdhani',sans-serif;font-size:38px;font-weight:700;color:#fff;line-height:1.1;letter-spacing:-0.5px}
+.swp-badge{display:inline-block;padding:4px 8px;border-radius:6px;font-size:10px;font-family:'Share Tech Mono',monospace;font-weight:bold;margin-top:8px;background:rgba(255,255,255,0.05);border:1px solid var(--border)}
+.ms-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px;border-left:4px solid var(--border)}
+.ms-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
+.ms-s{background:var(--card2);border-radius:10px;padding:10px}
+.ms-sl{font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;font-weight:bold}
+.ms-sv{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700}
+.sim-hero{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 16px;margin-bottom:12px;text-align:center;border-top:2px solid var(--orange)}
+.sim-price{font-family:'Rajdhani',sans-serif;font-size:48px;font-weight:700;color:var(--orange);line-height:1;letter-spacing:-1px}
+.sim-sub{font-size:11px;color:var(--muted);margin-bottom:16px}
+input[type=range].sim-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:4px;outline:none;cursor:pointer;background:linear-gradient(90deg,var(--orange) var(--pct,50%),var(--border) var(--pct,50%))}
+input[type=range].sim-slider::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--orange);border:4px solid var(--bg);cursor:pointer;box-shadow:0 0 12px rgba(247,147,26,.6)}
+.sim-presets{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.sim-btn{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:10px;color:var(--muted);cursor:pointer;font-family:'Share Tech Mono',monospace;transition:all .15s}
+.sim-btn:hover,.sim-btn.active{background:rgba(247,147,26,.1);border-color:rgba(247,147,26,.4);color:var(--orange);font-weight:bold}
+.vault-rule{background:var(--card);border:1px solid #1c273a;border-radius:14px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--orange)}
+.vr-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.vr-num{width:26px;height:26px;border-radius:8px;background:rgba(247,147,26,.08);border:1px solid rgba(247,147,26,.25);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:var(--orange);flex-shrink:0}
+.vr-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:0.3px}
+.vr-body{font-size:12px;color:var(--muted);line-height:1.7;padding-left:38px}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;gap:16px;font-size:12px;color:var(--muted)}
+.spin{width:36px;height:36px;border:3px solid var(--border);border-top:3px solid var(--orange);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.c-o{color:var(--orange)!important}.c-b{color:var(--bnb)!important}
+.c-g{color:var(--green)!important}.c-r{color:var(--red)!important}.c-m{color:var(--muted)!important}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:10px;text-align:left;background:#070a12;color:var(--muted);font-size:8px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid var(--border);font-weight:700}
+td{padding:12px 10px;border-bottom:1px solid rgba(23,34,55,0.4);white-space:nowrap;font-family:'Share Tech Mono',monospace}
+tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.15);font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-icon">₿</div>
+      <div>
+        <div class="brand-sub">BTC + BNB Portfolio</div>
+        <div class="brand-name">Portfolio Tracker · 30/70</div>
+      </div>
+    </div>
+    <div class="live-pill">
+      <span class="pulse"><span class="pulse-ring" id="pr"></span><span class="pulse-dot" id="pd"></span></span>
+      <span class="live-txt" id="lt">Connecting…</span>
+      <span class="cd" id="cd"></span>
+    </div>
+  </div>
+  <div class="price-heroes">
+    <div class="ph ph-btc">
+      <div class="ph-tag">BITCOIN · BTC</div>
+      <div class="ph-price" id="btc-ph">—</div>
+      <div class="ph-sub" id="btc-ph-sub">—</div>
+    </div>
+    <div class="ph ph-bnb">
+      <div class="ph-tag">BNB CHAIN · BNB</div>
+      <div class="ph-price" id="bnb-ph">—</div>
+      <div class="ph-sub" id="bnb-ph-sub">—</div>
+    </div>
+  </div>
+  <div class="fluct-bar" id="fluct-bar" style="display:none">
+    <div class="fluct-row">
+      <div class="fluct-item"><div class="fluct-lbl">Portfolio Value</div><div class="fluct-val" id="fl-total">—</div></div>
+      <div class="fluct-sep"></div>
+      <div class="fluct-item"><div class="fluct-lbl">Net Valuation P&amp;L</div><div class="fluct-val" id="fl-pnl">—</div><div class="fluct-sub" id="fl-pct"></div></div>
+      <div class="fluct-sep"></div>
+      <div class="fluct-item"><div class="fluct-lbl">Active SWP Status</div><div class="fluct-val mono" id="fl-swp" style="color:var(--muted)">—</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('overview',this)">Overview</button>
+  <button class="tab" onclick="showTab('positions',this)">Positions</button>
+  <button class="tab" onclick="showTab('refill',this)">🗓️ 1st Nov Refill</button>
+  <button class="tab" onclick="showTab('simulator',this)">Simulator</button>
+  <button class="tab" onclick="showTab('strategy',this)">Strategy</button>
+  <button class="tab" onclick="showTab('vault',this)">⚡ Vault</button>
+</div>
+
+<div id="loading" class="loading"><div class="spin"></div><div>Loading premium real-time feed…</div></div>
+<div id="app" style="display:none">
+
+<div class="panel active" id="panel-overview">
+  
+  <div class="card-hot" style="border-color:rgba(247,147,26,0.5); background:linear-gradient(135deg,rgba(247,147,26,0.12),rgba(5,7,12,0.6)); padding-bottom:22px">
+    <div class="sec-lbl" style="color:var(--orange)">ACCUMULATION HARD CAP TARGET</div>
+    
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 4px;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:46px;font-weight:700;line-height:1;color:#fff;letter-spacing:-1px" id="prog-invested">— / $74K</div>
+      <div style="font-size:16px;font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--green);margin-bottom:6px" id="prog-pct-txt">—</div>
+    </div>
+    
+    <div style="font-size:10px;color:var(--muted);margin-top:2px;letter-spacing:0.5px">Target: ₹60L Core Engine + ₹9L Self-Funded Buffer</div>
+    
+    <div style="height:14px; margin:18px 0 12px 0; background:#05070c; border:1px solid #172237; border-radius:20px; overflow:hidden; box-shadow: inset 0 3px 6px rgba(0,0,0,0.8);">
+      <div id="prog-bar" style="height:100%; width:0%; background:linear-gradient(90deg, #f7931a, #f0b90b); border-radius:20px; box-shadow: 0 0 12px rgba(247,147,26,0.6); transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+    </div>
+    
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:#8899aa;font-weight:600">
+      <span style="color:var(--green)" id="prog-rem">—</span>
+      <span>Goal: $74,000</span>
+    </div>
+  </div>
+
+  <div class="card-hot" style="border-color:rgba(0,230,118,0.2); background:linear-gradient(135deg,rgba(0,230,118,0.06),rgba(5,7,12,0.6))">
+    <div class="sec-lbl" style="color:var(--green)">Lifestyle Matrix Status</div>
+    <div class="swp-big" id="swp-amt">—</div>
+    <div class="swp-badge" id="swp-source">—</div>
+    <div style="height:1px;background:rgba(255,255,255,.05);margin:14px 0"></div>
+    <div class="g3">
+      <div class="stat"><div class="stat-l">Current PF Tier</div><div class="stat-v" id="swp-tier">—</div></div>
+      <div class="stat"><div class="stat-l">Req. 2.5Y Shield</div><div class="stat-v" id="swp-shield">—</div></div>
+      <div class="stat"><div class="stat-l">Base Funding</div><div class="stat-v" id="swp-state">—</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left: 4px solid var(--green); background: linear-gradient(90deg, rgba(0,230,118,0.03), transparent)">
+    <div class="sec-lbl" style="color:var(--green); font-weight:700">SINCE OPEN · LIFETIME P&amp;L</div>
+    <div style="margin-top:6px">
+      <div class="ml" style="margin-bottom:4px">Total Dollars Gained / Lost</div>
+      <div class="mv" id="open-pnl-usd" style="font-size:36px; font-family:'Rajdhani',sans-serif">—</div>
+      <div style="font-size:12px; color:var(--muted); margin-top:6px" id="open-pnl-inr">—</div>
+    </div>
+  </div>
+
+  <div class="m2">
+    <div class="mcard" style="--mc:#7a8899"><div class="ml">Total Cost Basis</div><div class="mv c-m" id="m-cost-usd">—</div><div class="ms" id="m-cost-inr">—</div></div>
+    <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Core Holding</div><div class="mv c-o">0.163611 ₿</div><div class="ms">Avg: $75,259</div></div>
+    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Boost Holding</div><div class="mv c-b">30.40 BNB</div><div class="ms">Avg: $646</div></div>
+    <div class="mcard" style="--mc:var(--green)"><div class="ml">Gross Valuation</div><div class="mv" id="m-total">—</div><div class="ms" id="m-total-s">—</div></div>
+  </div>
+
+  <div class="card">
+    <div class="sec-lbl">Portfolio Asset Shares</div>
+    <div style="display:flex;align-items:center;gap:20px;padding:4px 0">
+      <div style="width:90px;height:90px;flex-shrink:0"><canvas id="allocChart"></canvas></div>
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:3px;background:var(--orange)"></div><span style="font-size:11px;color:var(--muted)">Bitcoin Core</span></div>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--orange)" id="a-btc">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:3px;background:var(--bnb)"></div><span style="font-size:11px;color:var(--muted)">BNB Acceleration</span></div>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--bnb)" id="a-bnb">—</span>
+        </div>
+        <div style="font-size:9px;color:var(--dim)">Target Boundary Model: 30% BTC / 70% BNB</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="sec-lbl">Asset Proportional Comparison</div>
+    <div style="height:150px"><canvas id="barChart"></canvas></div>
+  </div>
+</div>
+
+<div class="panel" id="panel-positions">
+  <div class="card-hot">
+    <div class="sec-lbl">Bitcoin · BTC Core Pot</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+      <div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;color:var(--orange)" id="btc-val">—</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px" id="btc-inr">—</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700" id="btc-pnl">—</div>
+        <div style="font-size:10px;color:var(--muted)" id="btc-pct">—</div>
+      </div>
+    </div>
+    <div class="g3">
+      <div class="stat"><div class="stat-l">Holding</div><div class="stat-v c-o">0.163611 ₿</div></div>
+      <div class="stat"><div class="stat-l">Entry Floor</div><div class="stat-v">$75,259</div></div>
+      <div class="stat"><div class="stat-l">Live Spot</div><div class="stat-v c-o" id="btc-live">—</div></div>
+    </div>
+    <div style="margin-top:12px;background:rgba(0,0,0,.3);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--muted)">
+      Break-even Target: $75,259 &nbsp;·&nbsp; <span id="btc-rally" style="font-weight:bold">—</span>
+    </div>
+  </div>
+
+  <div class="card-bnb">
+    <div class="sec-lbl-bnb">BNB Chain · BNB Accelerator Pot</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+      <div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;color:var(--bnb)" id="bnb-val">—</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px" id="bnb-inr">—</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700" id="bnb-pnl">—</div>
+        <div style="font-size:10px;color:var(--muted)" id="bnb-pct">—</div>
+      </div>
+    </div>
+    <div class="g3">
+      <div class="stat"><div class="stat-l">Holding</div><div class="stat-v c-b">30.40 BNB</div></div>
+      <div class="stat"><div class="stat-l">Entry Floor</div><div class="stat-v">$646</div></div>
+      <div class="stat"><div class="stat-l">Live Spot</div><div class="stat-v c-b" id="bnb-live">—</div></div>
+    </div>
+    <div style="margin-top:12px;background:rgba(0,0,0,.3);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--muted)">
+      Break-even Target: $646 &nbsp;·&nbsp; <span id="bnb-rally" style="font-weight:bold">—</span>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-refill">
+  <div class="card" style="border-top: 3px solid var(--orange)">
+    <div class="sec-lbl">Next Refill Execution Date</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#fff" id="refill-date">Nov 1, 2026</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">Evaluates Live Portfolio Size for SWP Level-Up</div>
+  </div>
+  
+  <div style="font-size:9px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:14px;font-weight:bold">Current Execution Status</div>
+
+  <div class="ms-card" id="refill-status-card" style="border-left-color:var(--border)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700" id="refill-level">Evaluating Engine...</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px" id="refill-sub">Checking Capital Deployment Limit</div>
+      </div>
+    </div>
+    <div style="background:rgba(0,0,0,0.4);border:1px dashed var(--border);border-radius:8px;padding:14px;margin-top:12px">
+      <div class="ml" style="color:var(--orange)">Action Plan For Nov 1</div>
+      <div style="font-size:13px;color:#fff;line-height:1.5;font-family:'Share Tech Mono',monospace" id="refill-action">—</div>
+    </div>
+    <div class="ms-grid" style="grid-template-columns:1fr 1fr">
+      <div class="ms-s"><div class="ms-sl">Target SWP Rate</div><div class="ms-sv c-g" id="refill-swp">—</div></div>
+      <div class="ms-s"><div class="ms-sl">Target USDT Shield</div><div class="ms-sv c-o" id="refill-shield">—</div></div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="sec-lbl">The 3-Tier Lifestyle Matrix</div>
+    <div style="font-size:10px;color:var(--muted);line-height:1.8">
+      <strong style="color:#fff">Level 1 (PF > ₹1 Cr):</strong> ₹50k/mo SWP &rarr; ₹15L Shield<br>
+      <strong style="color:#fff">Level 2 (PF > ₹1.5 Cr):</strong> ₹75k/mo SWP &rarr; ₹22.5L Shield<br>
+      <strong style="color:#fff">Level 3 (PF > ₹2 Cr):</strong> ₹1L/mo SWP &rarr; ₹30L Shield<br>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-simulator">
+  <div class="sim-hero">
+    <div style="font-size:9px;letter-spacing:4px;color:var(--orange);text-transform:uppercase;margin-bottom:8px;font-weight:bold">Interactive Valuation Matrix</div>
+    <div class="sim-price" id="sim-p">$100,000</div>
+    <div class="sim-sub" id="sim-sub">— × live price</div>
+    <input type="range" class="sim-slider" id="sim-slider" min="50000" max="500000" step="1000" value="100000" oninput="updateSim(this.value)" style="--pct:12.5%"/>
+    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:6px;font-weight:bold"><span>$50K Floor</span><span>$500K Peak</span></div>
+    <div class="sim-presets">
+      <button class="sim-btn" onclick="setSim(100000)">$100K</button>
+      <button class="sim-btn" onclick="setSim(150000)">$150K</button>
+      <button class="sim-btn" onclick="setSim(200000)">$200K</button>
+      <button class="sim-btn" onclick="setSim(300000)">$300K</button>
+      <button class="sim-btn" onclick="setSim(450000)">$450K</button>
+    </div>
+  </div>
+  <div class="m2">
+    <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Projected Value</div><div class="mv c-o" id="s-btc">—</div><div class="ms" id="s-btc-i">—</div></div>
+    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Interp Value</div><div class="mv c-b" id="s-bnb">—</div><div class="ms" id="s-bnb-i">—</div></div>
+    <div class="mcard" style="--mc:var(--green)"><div class="ml">Total Scaled Engine</div><div class="mv" id="s-total">—</div><div class="ms" id="s-total-i">—</div></div>
+    <div class="mcard" style="--mc:var(--green)"><div class="ml">Tiered SWP Harvest</div><div class="mv" id="s-swp">—</div><div class="ms" id="s-swp-sub">Auto-Scaling Matrix</div></div>
+    <div class="mcard" style="--mc:var(--orange)"><div class="ml">Unrealized P&amp;L Delta</div><div class="mv" id="s-pnl">—</div><div class="ms" id="s-pnl-p">—</div></div>
+    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Beta Correl</div><div class="mv" id="s-bnb-m" style="font-size:14px;color:var(--bnb)">—</div><div class="ms">from buy rate</div></div>
+  </div>
+</div>
+
+<div class="panel" id="panel-strategy">
+  <div class="card-hot" style="margin-bottom:14px; background:linear-gradient(135deg, rgba(247,147,26,0.02), rgba(5,7,12,0.5))">
+    <div class="sec-lbl">Engine Architecture</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;margin-bottom:12px">Dual Token Risk Matrix (30/70 Plan)</div>
+    <div class="g3">
+      <div class="stat"><div class="stat-l">BTC Cost Base</div><div class="stat-v c-o">$12,313</div></div>
+      <div class="stat"><div class="stat-l">BNB Cost Base</div><div class="stat-v c-b">$19,644</div></div>
+      <div class="stat"><div class="stat-l">Aggregate Capital</div><div class="stat-v">$31,957</div></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="sec-lbl">Dynamic Capital Allocation Balance</div>
+    <div style="height:170px"><canvas id="stratChart"></canvas></div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="sec-lbl">Active Ledger Statement</div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Asset Class</th><th>Balance Tokens</th><th>Entry Rate</th><th>Spot Rate</th><th>Net Valuation</th><th>Absolute P&L</th></tr></thead>
+        <tbody id="strat-table"></tbody>
+        <tfoot><tr id="strat-foot"></tr></tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-vault">
+  <div class="card-hot" style="text-align:center;padding:26px;margin-bottom:16px; border-color: rgba(247,147,26,0.25)">
+    <div style="font-size:36px;margin-bottom:8px">⚡</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:4px;letter-spacing:0.5px">Anti-FOMO Execution Framework</div>
+    <div style="font-size:10px;color:var(--muted);letter-spacing:2.5px;font-weight:bold;text-transform:uppercase">Institutional Rules for Long-Term Wealth</div>
+  </div>
+
+  <div class="vault-rule">
+    <div class="vr-top"><div class="vr-num">1</div><div class="vr-title">No Arbitrary Percent Liquidation</div></div>
+    <div class="vr-body">Never sell assets based on random market pumps or micro emotions. Execution actions trigger ONLY when explicit macro milestones are hit.</div>
+  </div>
+  <div class="vault-rule" style="border-left-color:var(--bnb)">
+    <div class="vr-top"><div class="vr-num" style="border-color:var(--bnb);color:var(--bnb);background:rgba(240,185,11,.08)">2</div><div class="vr-title">BNB Beta Drift Absorption</div></div>
+    <div class="vr-body">BNB is high-beta and will experience extreme swings during corrections. Do not engage or attempt to swing trade active inventory bags during mid-cycle dips.</div>
+  </div>
+  <div class="vault-rule" style="border-left-color:var(--green)">
+    <div class="vr-top"><div class="vr-num" style="border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)">3</div><div class="vr-title">Harvest Threshold Minimum</div></div>
+    <div class="vr-body">$200K BTC macro price print is the absolute floor criteria before initializing active harvest mechanisms or layout extractions. No exceptions.</div>
+  </div>
+  <div class="vault-rule" style="border-left-color:var(--red)">
+    <div class="vr-top"><div class="vr-num" style="border-color:var(--red);color:var(--red);background:rgba(255,61,0,.08)">4</div><div class="vr-title">Strict Lifestyle Inflation Cap</div></div>
+    <div class="vr-body">No dynamic harvest expansions until the $300K BTC milestone is mathematically claimed and stable. Protect capital base size rules above all.</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const BTC_QTY=0.163611,BTC_AVG=75259,BNB_QTY=30.4,BNB_AVG=646.18;
+const COST=BTC_QTY*BTC_AVG+BNB_QTY*BNB_AVG;
+const P2P=95;
+const TARGET_CAP=74000;
+let bP=null,nP=null,pB=null,pN=null,usdInr=95,cdV=1,cdI=null;
+
+const $ = id => document.getElementById(id);
+const setTxt = (id, val) => { const el = $(id); if(el) el.innerHTML = val; };
+const setCol = (id, c) => { const el = $(id); if(el) el.style.color = c; };
+const setClass = (id, cls) => { const el = $(id); if(el) el.className = cls; };
+
+const fU=n=>"$"+Math.round(n).toLocaleString("en-US");
+const fI=n=>{if(n>=10000000)return"₹"+(n/10000000).toFixed(2)+" Cr";if(n>=100000)return"₹"+(n/100000).toFixed(2)+" L";return"₹"+Math.round(n).toLocaleString("en-IN")};
+const col=v=>v>0?"var(--green)":v<0?"var(--red)":"var(--muted)";
+let aC=null,bC=null,sC=null;
+
+// Core Logic Engine for Tiers
+function getTierInfo(pfInr, isFunded) {
+    if(!isFunded) return { level: -1, name: "Awaiting Engine Deployment", swp: 0, shield: 0, source: "LOCKED" };
+    if (pfInr >= 20000000) return { level: 3, name: "Level 3: Wealth", swp: 100000, shield: 3000000, source: "Profits" };
+    if (pfInr >= 15000000) return { level: 2, name: "Level 2: Comfort", swp: 75000, shield: 2250000, source: "Profits" };
+    if (pfInr >= 10000000) return { level: 1, name: "Level 1: Milestone Alpha", swp: 50000, shield: 1500000, source: "Profits" };
+    return { level: 0, name: "Base Accumulation", swp: 25000, shield: 750000, source: "Self-Funded Shield" };
+}
+
+function updateUI(){
+  if(!bP || !nP) return;
+  try {
+    const btcV=BTC_QTY*bP,bnbV=BNB_QTY*nP,total=btcV+bnbV,totalI=total*P2P;
+    const pnl=total-COST,pct=(pnl/COST)*100,pos=pnl>=0;
+    const btcPct=btcV/total*100,bnbPct=bnbV/total*100;
+    const btcPnl=btcV-BTC_QTY*BTC_AVG,bnbPnl=bnbV-BNB_QTY*BNB_AVG;
+    const dB=pB?(bP>pB?"up":"dn"):null,dN=pN?(nP>pN?"up":"dn"):null;
+
+    // Hard Cap Logic & 32K Call-out
+    const costK = Math.round(COST / 1000);
+    const targetK = Math.round(TARGET_CAP / 1000);
+    const progPct = (COST / TARGET_CAP) * 100;
+    // We allow a small margin (like $100) to consider it fully funded due to price fluctuations on entry
+    const isFunded = COST >= (TARGET_CAP - 100); 
+
+    setTxt("prog-invested", `$${costK}K <span style='color:var(--muted); font-size:32px'>/ $${targetK}K</span>`);
+    setTxt("prog-pct-txt", progPct.toFixed(1) + "%");
+    const progBar = $("prog-bar"); if(progBar) progBar.style.width = Math.min(progPct, 100) + "%";
+    
+    if(isFunded) {
+        setTxt("prog-rem", "✓ HARD CAP REACHED"); setCol("prog-rem", "var(--green)");
+    } else {
+        setTxt("prog-rem", `$${Math.round((TARGET_CAP-COST)/1000)}K Remaining`); setCol("prog-rem", "var(--orange)");
+    }
+    
+    // Evaluate Tier Matrix
+    const currentTier = getTierInfo(totalI, isFunded);
+
+    // Update Header Status
+    if(!isFunded) {
+        setTxt("fl-swp", "🔒 LOCKED (Till 74K)"); setCol("fl-swp", "var(--dim)");
+    } else {
+        setTxt("fl-swp", "₹" + (currentTier.swp/1000) + "K/mo <span style='font-size:10px'>(Active)</span>"); 
+        setCol("fl-swp", "var(--green)");
+    }
+
+    // Overview Main SWP Display
+    if(!isFunded) {
+        setTxt("swp-amt", "🔒 Awaiting $74K"); setCol("swp-amt", "var(--muted)");
+        setTxt("swp-source", "DEPLOYMENT IN PROGRESS"); setCol("swp-source", "var(--dim)");
+        setTxt("swp-tier", "Locked"); setTxt("swp-shield", "₹9L Required"); setTxt("swp-state", "Deploying...");
+        setTxt("swp-usd", "$0"); setTxt("swp-inr", "₹0"); setTxt("swp-yr", "₹0");
+    } else {
+        setTxt("swp-amt", "₹" + currentTier.swp.toLocaleString("en-IN") + "<span style='font-size:20px; color:var(--muted)'> / mo</span>"); 
+        setCol("swp-amt", "#fff");
+        setTxt("swp-source", `Source: ${currentTier.source}`); 
+        setCol("swp-source", currentTier.level > 0 ? "var(--green)" : "var(--orange)");
+        setTxt("swp-tier", currentTier.name); 
+        setTxt("swp-shield", fI(currentTier.shield)); 
+        setTxt("swp-state", "Fully Scaled");
+        setTxt("swp-usd", fU(currentTier.swp/P2P)); setTxt("swp-inr", fI(currentTier.swp)); setTxt("swp-yr", "₹"+(currentTier.swp*12).toLocaleString("en-IN"));
+    }
+
+    // 1st Nov Refill Tab Logic
+    const now = new Date();
+    let refillYear = now.getFullYear();
+    if(now.getMonth() >= 10) refillYear++; // If past Nov, target next Nov
+    setTxt("refill-date", `Nov 1, ${refillYear}`);
+
+    if(!isFunded) {
+        setClass("refill-status-card", "ms-card"); $("refill-status-card").style.borderLeftColor = "var(--dim)";
+        setTxt("refill-level", "🔒 System Locked"); setCol("refill-level", "var(--muted)");
+        setTxt("refill-sub", "Awaiting completion of ₹60L engine deployment.");
+        setTxt("refill-action", "NO ACTION REQUIRED.<br>Keep accumulating until $74,000 Hard Cap is hit.");
+        setTxt("refill-swp", "0"); setTxt("refill-shield", "0");
+    } else if (currentTier.level === 0) {
+        setClass("refill-status-card", "ms-card"); $("refill-status-card").style.borderLeftColor = "var(--orange)";
+        setTxt("refill-level", "🛡️ Self-Funded Base Active"); setCol("refill-level", "var(--orange)");
+        setTxt("refill-sub", "Portfolio under ₹1 Crore. Relying on ₹9L Self-Funded Buffer.");
+        setTxt("refill-action", "DO NOT SELL CRYPTO.<br>Survive strictly on your ₹9L self-funded buffer. Let the engine compound until PF crosses ₹1 Crore.");
+        setTxt("refill-swp", "₹25,000/mo"); setTxt("refill-shield", "₹7.5 Lakhs (From Base)");
+    } else {
+        setClass("refill-status-card", "ms-card"); $("refill-status-card").style.borderLeftColor = "var(--green)";
+        setTxt("refill-level", `🚀 ${currentTier.name}`); setCol("refill-level", "var(--green)");
+        setTxt("refill-sub", `Portfolio crossed threshold. Lifestyle upgraded to ₹${currentTier.swp/1000}k/mo.`);
+        setTxt("refill-action", `SELL FROM PROFITS.<br>Extract exactly what is needed to top-up your USDT shield to <strong>${fI(currentTier.shield)}</strong>.<br>If market is crashed on Nov 1, DO NOT SELL. Use existing shield.`);
+        setTxt("refill-swp", `₹${currentTier.swp.toLocaleString('en-IN')}/mo`); setTxt("refill-shield", fI(currentTier.shield));
+    }
+
+
+    // Since Open Absolute Math Log
+    const absolutePnlInr = pnl * P2P;
+    setTxt("open-pnl-usd", (pos ? "+" : "") + fU(pnl) + " <span style='font-size:18px; color:var(--muted)'>(" + (pct >= 0 ? "+" : "") + pct.toFixed(2) + "%)</span>");
+    setCol("open-pnl-usd", col(pnl));
+    setTxt("open-pnl-inr", "INR Equiv: " + (pos ? "+" : "") + fI(absolutePnlInr));
+
+    // Heroes Tickers
+    setTxt("btc-ph", fU(bP)); setClass("btc-ph", "ph-price" + (dB ? " " + dB : ""));
+    setTxt("btc-ph-sub", fI(bP*usdInr)+" · Fix P2P Base: ₹"+P2P);
+    setTxt("bnb-ph", fU(nP)); setClass("bnb-ph", "ph-price" + (dN ? " " + dN : ""));
+    setTxt("bnb-ph-sub", fI(nP*usdInr));
+    
+    const fBar = $("fluct-bar"); if(fBar) fBar.style.display="block";
+    setTxt("fl-total", fI(totalI)); setCol("fl-total", col(pnl));
+    setTxt("fl-pnl", (pos?"+":"")+fU(Math.round(pnl))); setCol("fl-pnl", col(pnl));
+    setTxt("fl-pct", (pct>=0?"+":"")+pct.toFixed(2)+"%");
+    
+    setTxt("m-cost-usd", fU(Math.round(COST)));
+    setTxt("m-cost-inr", "₹"+((COST*P2P)/100000).toFixed(2)+"L Equivalent");
+    
+    setTxt("m-total", fU(Math.round(total))); setCol("m-total", col(pnl)); setTxt("m-total-s", fI(totalI));
+    setTxt("a-btc", btcPct.toFixed(1)+"%"); 
+    setTxt("a-bnb", bnbPct.toFixed(1)+"%");
+
+    // Position Sheets
+    setTxt("btc-val", fU(Math.round(btcV))); setTxt("btc-inr", fI(btcV*P2P));
+    setTxt("btc-pnl", (btcPnl>=0?"+":"")+fU(Math.round(btcPnl))); setCol("btc-pnl", col(btcPnl));
+    setTxt("btc-pct", ((btcPnl/(BTC_QTY*BTC_AVG))*100>=0?"+":"")+((btcPnl/(BTC_QTY*BTC_AVG))*100).toFixed(2)+"%");
+    setTxt("btc-live", fU(bP));
+    setTxt("btc-rally", bP>=BTC_AVG?"✓ Asset In Profit":"Need +"+(((BTC_AVG-bP)/bP)*100).toFixed(1)+"% cycle rally");
+    setCol("btc-rally", bP>=BTC_AVG?"var(--green)":"var(--orange)");
+    
+    setTxt("bnb-val", fU(Math.round(bnbV))); setTxt("bnb-inr", fI(bnbV*P2P));
+    setTxt("bnb-pnl", (bnbPnl>=0?"+":"")+fU(Math.round(bnbPnl))); setCol("bnb-pnl", col(bnbPnl));
+    setTxt("bnb-pct", ((bnbPnl/(BNB_QTY*BNB_AVG))*100>=0?"+":"")+((bnbPnl/(BNB_QTY*BNB_AVG))*100).toFixed(2)+"%");
+    setTxt("bnb-live", fU(nP));
+    setTxt("bnb-rally", nP>=BNB_AVG?"✓ Asset In Profit":"Need +"+(((BNB_AVG-nP)/nP)*100).toFixed(1)+"% cycle rally");
+    setCol("bnb-rally", nP>=BNB_AVG?"var(--green)":"var(--bnb)");
+
+    // Position Matrix Statement
+    setTxt("strat-table", `
+      <tr><td class="c-o">BTC Core</td><td class="c-o">0.163611</td><td>$75,259</td><td class="c-o">${fU(bP)}</td><td>${fU(Math.round(btcV))}</td><td style="color:${col(btcPnl)}">${btcPnl>=0?"+":""}${fU(Math.round(btcPnl))}</td></tr>
+      <tr><td class="c-b">BNB Boost</td><td class="c-b">30.40</td><td>$646</td><td class="c-b">${fU(nP)}</td><td>${fU(Math.round(bnbV))}</td><td style="color:${col(bnbPnl)}">${bnbPnl>=0?"+":""}${fU(Math.round(bnbPnl))}</td></tr>`);
+    setTxt("strat-foot", `<td class="c-g">AGGREGATE</td><td>—</td><td>—</td><td>—</td><td>${fU(Math.round(total))}</td><td style="color:${col(pnl)}">${pos?"+":""}${fU(Math.round(pnl))}</td>`);
+
+    // Charts Refresh Engine
+    if($("allocChart")){
+      if(!aC){
+        aC=new Chart($("allocChart").getContext("2d"),{type:"doughnut",data:{datasets:[{data:[btcPct,bnbPct],backgroundColor:["#f7931a","#f0b90b"],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:"75%"}});
+      } else {aC.data.datasets[0].data=[btcPct,bnbPct];aC.update("none");}
+    }
+    
+    if($("barChart")){
+      if(!bC){
+        bC=new Chart($("barChart").getContext("2d"),{type:"bar",data:{labels:["BTC","BNB","Total"],datasets:[{data:[Math.round(btcV),0,Math.round(total)],backgroundColor:"rgba(247,147,26,0.85)",borderRadius:5},{data:[0,Math.round(bnbV),0],backgroundColor:"rgba(240,185,11,0.85)",borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#4a5d78",font:{size:9}},grid:{display:false}},y:{ticks:{color:"#4a5d78",font:{size:9},callback:v=>"$"+(v/1000).toFixed(0)+"k"},grid:{color:"rgba(23,34,55,0.3)"}}}}});
+      } else {bC.data.datasets[0].data=[Math.round(btcV),0,Math.round(total)];bC.data.datasets[1].data=[0,Math.round(bnbV),0];bC.update("none");}
+    }
+    
+    if($("stratChart")){
+      if(!sC){
+        sC=new Chart($("stratChart").getContext("2d"),{type:"doughnut",data:{labels:["Bitcoin Core Allocation","BNB Acceleration Pot"],datasets:[{data:[Math.round(btcV),Math.round(bnbV)],backgroundColor:["rgba(247,147,26,0.85)","rgba(240,185,11,0.85)"],borderColor:["#f7931a","#f0b90b"],borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:"#8ea1b8",font:{size:11},padding:12}}},cutout:"65%"}});
+      } else {sC.data.datasets[0].data=[Math.round(btcV),Math.round(bnbV)];sC.update("none");}
+    }
+
+    const simSlider = $("sim-slider");
+    if(simSlider) updateSim(simSlider.value);
+    
+  } catch(err) { 
+    console.error("UI Update Error: ", err); 
+  }
+}
+
+function updateSim(price){
+  price=parseFloat(price);
+  const pct2=((price-50000)/(500000-50000))*100;
+  const simSlider = $("sim-slider");
+  if(simSlider) simSlider.style.setProperty("--pct",pct2+"%");
+  
+  setTxt("sim-p", fU(price));
+  if(bP) setTxt("sim-sub", (price/bP).toFixed(2)+"× scale matrix factor from spot");
+  
+  const btcV=BTC_QTY*price;
+  const bnbMult=Math.max(1,price/200000*2);
+  const bnbEst=BNB_QTY*BNB_AVG*bnbMult;
+  const total=btcV+bnbEst,totalI=total*P2P,pnl=total-COST,pct=(pnl/COST)*100;
+  
+  // Predict simulated tier assuming funded
+  const simTier = getTierInfo(totalI, true);
+  
+  setTxt("s-btc", fU(Math.round(btcV))); setTxt("s-btc-i", fI(btcV*P2P));
+  setTxt("s-bnb", fU(Math.round(bnbEst))); setTxt("s-bnb-i", fI(bnbEst*P2P));
+  setTxt("s-total", fU(Math.round(total))); setCol("s-total", col(pnl)); setTxt("s-total-i", fI(totalI));
+  
+  setTxt("s-swp", "₹"+simTier.swp.toLocaleString("en-IN") + " / mo");
+  setCol("s-swp", simTier.level > 0 ? "var(--green)" : "var(--orange)");
+  setTxt("s-swp-sub", simTier.name);
+  
+  setTxt("s-pnl", (pnl>=0?"+":"")+fU(Math.round(pnl))); setCol("s-pnl", col(pnl)); setTxt("s-pnl-p", (pct>=0?"+":"")+pct.toFixed(1)+"%");
+  setTxt("s-bnb-m", bnbMult.toFixed(2)+"× target multiplier");
+  
+  document.querySelectorAll(".sim-btn").forEach(b=>b.classList.toggle("active",parseInt(b.textContent.replace(/[$K]/g,""))*(b.textContent.includes("K")?1000:1)===price));
+}
+function setSim(p){const slider=$("sim-slider"); if(slider){ slider.value=p; updateSim(p);}}
+
+function setLive(ok){
+  setClass("pr", "pulse-ring"+(ok?"":" off"));
+  setClass("pd", "pulse-dot"+(ok?"":" off"));
+  setTxt("lt", ok?"Live Sync Active":"Network Reconnecting…");
+  setClass("lt", "live-txt"+(ok?"":" off"));
+}
+
+function resetCd(){
+  cdV=1;
+  if(cdI)clearInterval(cdI);
+  setTxt("cd", "· "+cdV+"s");
+  cdI=setInterval(()=>{
+    cdV=Math.max(0,cdV-1);
+    setTxt("cd", "· "+cdV+"s");
+  },1000);
+}
+
+async function fetchPrices(){
+  try{
+    let res = await fetch("https://data-api.binance.vision/api/v3/ticker/price?symbol=BTCUSDT");
+    if(!res.ok) throw new Error("Vision fail");
+    let d1 = await res.json();
+    
+    let res2 = await fetch("https://data-api.binance.vision/api/v3/ticker/price?symbol=BNBUSDT");
+    let d2 = await res2.json();
+
+    const bp=parseFloat(d1.price),np=parseFloat(d2.price);
+    if(!bp||!np)throw new Error();
+    pB=bP;pN=nP;bP=bp;nP=np;
+    
+    const loading = $("loading"); if(loading) loading.style.display="none";
+    const app = $("app"); if(app) app.style.display="block";
+    
+    setLive(true); updateUI(); resetCd();
+    
+  } catch(e) {
+    try {
+      let m1 = await fetch("https://api.mexc.com/api/v3/ticker/price?symbol=BTCUSDT");
+      let md1 = await m1.json();
+      let m2 = await fetch("https://api.mexc.com/api/v3/ticker/price?symbol=BNBUSDT");
+      let md2 = await m2.json();
+      
+      const bp=parseFloat(md1.price),np=parseFloat(md2.price);
+      if(!bp||!np)throw new Error();
+      pB=bP;pN=nP;bP=bp;nP=np;
+      
+      const loading = $("loading"); if(loading) loading.style.display="none";
+      const app = $("app"); if(app) app.style.display="block";
+      
+      setLive(true); updateUI(); resetCd();
+    } catch(err) {
+      setLive(false);
+    }
+  }
+}
+async function fetchINR(){try{const r=await fetch("https://api.exchangerate-api.com/v4/latest/USD");const d=await r.json();if(d?.rates?.INR)usdInr=d.rates.INR;}catch{}}
+
+function showTab(name,btn){
+  document.querySelectorAll(".panel").forEach(p=>{p.classList.remove("active");p.style.display="none";});
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  const targetPanel = $("panel-"+name);
+  if(targetPanel) {
+    targetPanel.classList.add("active");
+    targetPanel.style.display="block";
+  }
+  if(btn) btn.classList.add("active");
+}
+
+document.querySelectorAll(".panel").forEach((p,i)=>{p.style.display=i===0?"block":"none";});
+fetchINR(); fetchPrices(); setInterval(fetchPrices, 1000); setInterval(fetchINR, 60000);
+</script>
+</body>
+</html>
