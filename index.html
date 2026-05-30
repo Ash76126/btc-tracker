@@ -67,7 +67,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .stat{background:rgba(5,7,12,0.6);border:1px solid var(--border);border-radius:10px;padding:10px}
 .stat-l{font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
 .stat-v{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700}
-.swp-big{font-family:'Rajdhani',sans-serif;font-size:38px;font-weight:700;color:#fff;line-height:1.1;letter-spacing:-0.5px}
+.swp-big{font-family:'Rajdhani',sans-serif;font-size:42px;font-weight:700;color:#fff;line-height:1.1;letter-spacing:-0.5px}
 .swp-badge{display:inline-block;padding:4px 8px;border-radius:6px;font-size:10px;font-family:'Share Tech Mono',monospace;font-weight:bold;margin-top:8px;background:rgba(255,255,255,0.05);border:1px solid var(--border)}
 .ms-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px;border-left:4px solid var(--border)}
 .ms-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
@@ -133,7 +133,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
       <div class="fluct-sep"></div>
       <div class="fluct-item"><div class="fluct-lbl">Net Valuation P&amp;L</div><div class="fluct-val" id="fl-pnl">—</div><div class="fluct-sub" id="fl-pct"></div></div>
       <div class="fluct-sep"></div>
-      <div class="fluct-item"><div class="fluct-lbl">Active SWP Status</div><div class="fluct-val mono" id="fl-swp" style="color:var(--muted)">—</div></div>
+      <div class="fluct-item"><div class="fluct-lbl">Live Dynamic SWP</div><div class="fluct-val mono" id="fl-swp" style="color:var(--green)">—</div></div>
     </div>
   </div>
 </div>
@@ -173,14 +173,14 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
   </div>
 
   <div class="card-hot" style="border-color:rgba(0,230,118,0.2); background:linear-gradient(135deg,rgba(0,230,118,0.06),rgba(5,7,12,0.6))">
-    <div class="sec-lbl" style="color:var(--green)">Lifestyle Matrix Status</div>
+    <div class="sec-lbl" style="color:var(--green)">Live Dynamic SWP Pot</div>
     <div class="swp-big" id="swp-amt">—</div>
-    <div class="swp-badge" id="swp-source">—</div>
+    <div class="swp-badge" id="swp-source">LIVE DYNAMIC HARVEST</div>
     <div style="height:1px;background:rgba(255,255,255,.05);margin:14px 0"></div>
     <div class="g3">
-      <div class="stat"><div class="stat-l">Current PF Tier</div><div class="stat-v" id="swp-tier">—</div></div>
-      <div class="stat"><div class="stat-l">Req. 2.5Y Shield</div><div class="stat-v" id="swp-shield">—</div></div>
-      <div class="stat"><div class="stat-l">Base Funding</div><div class="stat-v" id="swp-state">—</div></div>
+      <div class="stat"><div class="stat-l">Value USD</div><div class="stat-v" id="swp-usd">—</div></div>
+      <div class="stat"><div class="stat-l">Value INR</div><div class="stat-v" id="swp-inr">—</div></div>
+      <div class="stat"><div class="stat-l">Annualised</div><div class="stat-v" id="swp-yr">—</div></div>
     </div>
   </div>
 
@@ -201,6 +201,11 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
   </div>
 
   <div class="card">
+    <div class="sec-lbl">Asset Proportional Comparison</div>
+    <div style="height:170px; margin-top:14px; margin-bottom: 6px;"><canvas id="barChart"></canvas></div>
+  </div>
+  
+  <div class="card">
     <div class="sec-lbl">Portfolio Asset Shares</div>
     <div style="display:flex;align-items:center;gap:20px;padding:4px 0">
       <div style="width:90px;height:90px;flex-shrink:0"><canvas id="allocChart"></canvas></div>
@@ -216,10 +221,6 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
         <div style="font-size:9px;color:var(--dim)">Target Boundary Model: 30% BTC / 70% BNB</div>
       </div>
     </div>
-  </div>
-  <div class="card">
-    <div class="sec-lbl">Asset Proportional Comparison</div>
-    <div style="height:150px"><canvas id="barChart"></canvas></div>
   </div>
 </div>
 
@@ -390,6 +391,7 @@ const P2P=95;
 const TARGET_CAP=74000;
 let bP=null,nP=null,pB=null,pN=null,usdInr=95,cdV=1,cdI=null;
 
+// Anti-crash safe setter functions
 const $ = id => document.getElementById(id);
 const setTxt = (id, val) => { const el = $(id); if(el) el.innerHTML = val; };
 const setCol = (id, c) => { const el = $(id); if(el) el.style.color = c; };
@@ -414,15 +416,15 @@ function updateUI(){
   try {
     const btcV=BTC_QTY*bP,bnbV=BNB_QTY*nP,total=btcV+bnbV,totalI=total*P2P;
     const pnl=total-COST,pct=(pnl/COST)*100,pos=pnl>=0;
+    const swp=totalI*0.005; // Always calculate raw dynamic SWP for motivation
     const btcPct=btcV/total*100,bnbPct=bnbV/total*100;
     const btcPnl=btcV-BTC_QTY*BTC_AVG,bnbPnl=bnbV-BNB_QTY*BNB_AVG;
     const dB=pB?(bP>pB?"up":"dn"):null,dN=pN?(nP>pN?"up":"dn"):null;
 
-    // Hard Cap Logic & 32K Call-out
+    // Hard Cap Logic & 31K Call-out
     const costK = Math.round(COST / 1000);
     const targetK = Math.round(TARGET_CAP / 1000);
     const progPct = (COST / TARGET_CAP) * 100;
-    // We allow a small margin (like $100) to consider it fully funded due to price fluctuations on entry
     const isFunded = COST >= (TARGET_CAP - 100); 
 
     setTxt("prog-invested", `$${costK}K <span style='color:var(--muted); font-size:32px'>/ $${targetK}K</span>`);
@@ -432,38 +434,22 @@ function updateUI(){
     if(isFunded) {
         setTxt("prog-rem", "✓ HARD CAP REACHED"); setCol("prog-rem", "var(--green)");
     } else {
-        setTxt("prog-rem", `$${Math.round((TARGET_CAP-COST)/1000)}K Remaining`); setCol("prog-rem", "var(--orange)");
+        setTxt("prog-rem", `$${Math.round((TARGET_CAP-COST)/1000)}K Remaining`); setCol("prog-rem", "var(--green)");
     }
     
-    // Evaluate Tier Matrix
+    // Evaluate Tier Matrix (Used strictly for the Refill Action Logic now)
     const currentTier = getTierInfo(totalI, isFunded);
 
-    // Update Header Status
-    if(!isFunded) {
-        setTxt("fl-swp", "🔒 LOCKED (Till 74K)"); setCol("fl-swp", "var(--dim)");
-    } else {
-        setTxt("fl-swp", "₹" + (currentTier.swp/1000) + "K/mo <span style='font-size:10px'>(Active)</span>"); 
-        setCol("fl-swp", "var(--green)");
-    }
+    // DYNAMIC TICKING SWP IS BACK (Always shows current 6% value)
+    setTxt("fl-swp", "₹" + swp.toLocaleString("en-IN", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "<span style='font-size:10px'>/mo</span>");
+    setCol("fl-swp", col(pnl));
 
-    // Overview Main SWP Display
-    if(!isFunded) {
-        setTxt("swp-amt", "🔒 Awaiting $74K"); setCol("swp-amt", "var(--muted)");
-        setTxt("swp-source", "DEPLOYMENT IN PROGRESS"); setCol("swp-source", "var(--dim)");
-        setTxt("swp-tier", "Locked"); setTxt("swp-shield", "₹9L Required"); setTxt("swp-state", "Deploying...");
-        setTxt("swp-usd", "$0"); setTxt("swp-inr", "₹0"); setTxt("swp-yr", "₹0");
-    } else {
-        setTxt("swp-amt", "₹" + currentTier.swp.toLocaleString("en-IN") + "<span style='font-size:20px; color:var(--muted)'> / mo</span>"); 
-        setCol("swp-amt", "#fff");
-        setTxt("swp-source", `Source: ${currentTier.source}`); 
-        setCol("swp-source", currentTier.level > 0 ? "var(--green)" : "var(--orange)");
-        setTxt("swp-tier", currentTier.name); 
-        setTxt("swp-shield", fI(currentTier.shield)); 
-        setTxt("swp-state", "Fully Scaled");
-        setTxt("swp-usd", fU(currentTier.swp/P2P)); setTxt("swp-inr", fI(currentTier.swp)); setTxt("swp-yr", "₹"+(currentTier.swp*12).toLocaleString("en-IN"));
-    }
+    // Overview Main SWP Display (Unconditional Motivation)
+    setTxt("swp-amt", "₹" + swp.toLocaleString("en-IN", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "<span style='font-size:20px; color:var(--muted)'> / mo</span>"); 
+    setCol("swp-amt", "#fff");
+    setTxt("swp-usd", fU(total * 0.005)); setTxt("swp-inr", fI(swp)); setTxt("swp-yr", "₹"+(swp*12).toLocaleString("en-IN"));
 
-    // 1st Nov Refill Tab Logic
+    // 1st Nov Refill Tab Logic (Here we use the strict Tier logic)
     const now = new Date();
     let refillYear = now.getFullYear();
     if(now.getMonth() >= 10) refillYear++; // If past Nov, target next Nov
@@ -488,7 +474,6 @@ function updateUI(){
         setTxt("refill-action", `SELL FROM PROFITS.<br>Extract exactly what is needed to top-up your USDT shield to <strong>${fI(currentTier.shield)}</strong>.<br>If market is crashed on Nov 1, DO NOT SELL. Use existing shield.`);
         setTxt("refill-swp", `₹${currentTier.swp.toLocaleString('en-IN')}/mo`); setTxt("refill-shield", fI(currentTier.shield));
     }
-
 
     // Since Open Absolute Math Log
     const absolutePnlInr = pnl * P2P;
@@ -542,57 +527,41 @@ function updateUI(){
       } else {aC.data.datasets[0].data=[btcPct,bnbPct];aC.update("none");}
     }
     
+    // Bar Chart is Back
     if($("barChart")){
       if(!bC){
-        bC=new Chart($("barChart").getContext("2d"),{type:"bar",data:{labels:["BTC","BNB","Total"],datasets:[{data:[Math.round(btcV),0,Math.round(total)],backgroundColor:"rgba(247,147,26,0.85)",borderRadius:5},{data:[0,Math.round(bnbV),0],backgroundColor:"rgba(240,185,11,0.85)",borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#4a5d78",font:{size:9}},grid:{display:false}},y:{ticks:{color:"#4a5d78",font:{size:9},callback:v=>"$"+(v/1000).toFixed(0)+"k"},grid:{color:"rgba(23,34,55,0.3)"}}}}});
-      } else {bC.data.datasets[0].data=[Math.round(btcV),0,Math.round(total)];bC.data.datasets[1].data=[0,Math.round(bnbV),0];bC.update("none");}
+        bC=new Chart($("barChart").getContext("2d"),{
+            type:"bar",
+            data:{
+                labels:["BTC","BNB","Total"],
+                datasets:[{
+                    data:[Math.round(btcV), Math.round(bnbV), Math.round(total)],
+                    backgroundColor:["#f7931a", "#f0b90b", "#f7931a"],
+                    borderRadius: 6,
+                    borderSkipped: false
+                }]
+            },
+            options:{
+                responsive:true,
+                maintainAspectRatio:false,
+                animation:false,
+                plugins:{legend:{display:false}},
+                scales:{
+                    x:{ticks:{color:"#8ea1b8",font:{size:11, family:"'Share Tech Mono', monospace"}},grid:{display:false}},
+                    y:{ticks:{color:"#8ea1b8",font:{size:10},callback:v=>"$"+(v/1000).toFixed(0)+"k"},grid:{color:"rgba(23,34,55,0.3)"}}
+                }
+            }
+        });
+      } else {
+          bC.data.datasets[0].data=[Math.round(btcV), Math.round(bnbV), Math.round(total)];
+          bC.update("none");
+      }
     }
-    
-    if($("stratChart")){
-      if(!sC){
-        sC=new Chart($("stratChart").getContext("2d"),{type:"doughnut",data:{labels:["Bitcoin Core Allocation","BNB Acceleration Pot"],datasets:[{data:[Math.round(btcV),Math.round(bnbV)],backgroundColor:["rgba(247,147,26,0.85)","rgba(240,185,11,0.85)"],borderColor:["#f7931a","#f0b90b"],borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:"#8ea1b8",font:{size:11},padding:12}}},cutout:"65%"}});
-      } else {sC.data.datasets[0].data=[Math.round(btcV),Math.round(bnbV)];sC.update("none");}
-    }
-
-    const simSlider = $("sim-slider");
-    if(simSlider) updateSim(simSlider.value);
     
   } catch(err) { 
     console.error("UI Update Error: ", err); 
   }
 }
-
-function updateSim(price){
-  price=parseFloat(price);
-  const pct2=((price-50000)/(500000-50000))*100;
-  const simSlider = $("sim-slider");
-  if(simSlider) simSlider.style.setProperty("--pct",pct2+"%");
-  
-  setTxt("sim-p", fU(price));
-  if(bP) setTxt("sim-sub", (price/bP).toFixed(2)+"× scale matrix factor from spot");
-  
-  const btcV=BTC_QTY*price;
-  const bnbMult=Math.max(1,price/200000*2);
-  const bnbEst=BNB_QTY*BNB_AVG*bnbMult;
-  const total=btcV+bnbEst,totalI=total*P2P,pnl=total-COST,pct=(pnl/COST)*100;
-  
-  // Predict simulated tier assuming funded
-  const simTier = getTierInfo(totalI, true);
-  
-  setTxt("s-btc", fU(Math.round(btcV))); setTxt("s-btc-i", fI(btcV*P2P));
-  setTxt("s-bnb", fU(Math.round(bnbEst))); setTxt("s-bnb-i", fI(bnbEst*P2P));
-  setTxt("s-total", fU(Math.round(total))); setCol("s-total", col(pnl)); setTxt("s-total-i", fI(totalI));
-  
-  setTxt("s-swp", "₹"+simTier.swp.toLocaleString("en-IN") + " / mo");
-  setCol("s-swp", simTier.level > 0 ? "var(--green)" : "var(--orange)");
-  setTxt("s-swp-sub", simTier.name);
-  
-  setTxt("s-pnl", (pnl>=0?"+":"")+fU(Math.round(pnl))); setCol("s-pnl", col(pnl)); setTxt("s-pnl-p", (pct>=0?"+":"")+pct.toFixed(1)+"%");
-  setTxt("s-bnb-m", bnbMult.toFixed(2)+"× target multiplier");
-  
-  document.querySelectorAll(".sim-btn").forEach(b=>b.classList.toggle("active",parseInt(b.textContent.replace(/[$K]/g,""))*(b.textContent.includes("K")?1000:1)===price));
-}
-function setSim(p){const slider=$("sim-slider"); if(slider){ slider.value=p; updateSim(p);}}
 
 function setLive(ok){
   setClass("pr", "pulse-ring"+(ok?"":" off"));
