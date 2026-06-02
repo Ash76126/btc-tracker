@@ -1,39 +1,15 @@
 {
-  "portfolio": {
-    "btc": { "balance": 0.163611, "avg_buy_usd": 75259 },
-    "bnb": { "balance": 29.0,     "avg_buy_usd": 643   },
-    "strategy": "30% BTC / 70% BNB",
-    "p2p_rate": 95
+  "btc": {
+    "qty": 0.170675,
+    "avg": 75083,
+    "cost": 12815
   },
-  "trade_history": [
-    {
-      "date": "2026-05-22",
-      "type": "INITIAL_DEPOSIT",
-      "asset": "BTC",
-      "amount": 0.411909,
-      "price_usd": 75259,
-      "status": "Completed"
-    },
-    {
-      "date": "2026-05-22",
-      "type": "SWAP_SELL",
-      "asset": "BTCB",
-      "amount": -0.248298,
-      "price_usd": 75259,
-      "venue": "PancakeSwap"
-    },
-    {
-      "date": "2026-05-22",
-      "type": "SWAP_BUY",
-      "asset": "BNB",
-      "amount": 29.0,
-      "price_usd": 643,
-      "venue": "PancakeSwap"
-    }
-  ],
-  "swp_milestones": [
-    { "label": "$200K BTC", "btc_price": 200000, "bnb_multiplier": 2.0 },
-    { "label": "$300K BTC", "btc_price": 300000, "bnb_multiplier": 3.0 },
-    { "label": "$450K BTC", "btc_price": 450000, "bnb_multiplier": 4.5 }
-  ]
+  "bnb": {
+    "qty": 31.128,
+    "avg": 648.35,
+    "cost": 20185
+  },
+  "total_invested": 33000,
+  "target_cap": 74000,
+  "p2p_rate": 95
 }
