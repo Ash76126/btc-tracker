@@ -111,7 +111,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
     </div>
     <div class="live-pill">
       <span class="pulse"><span class="pulse-ring" id="pr"></span><span class="pulse-dot" id="pd"></span></span>
-      <span class="live-txt" id="lt">Connecting…</span>
+      <span class="live-txt" id="lt">Loading JSON…</span>
       <span class="cd" id="cd"></span>
     </div>
   </div>
@@ -147,7 +147,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
   <button class="tab" onclick="showTab('vault',this)">⚡ Vault</button>
 </div>
 
-<div id="loading" class="loading"><div class="spin"></div><div>Loading premium real-time feed…</div></div>
+<div id="loading" class="loading"><div class="spin"></div><div>Reading trades.json & Live Feed…</div></div>
 <div id="app" style="display:none">
 
 <div class="panel active" id="panel-overview">
@@ -156,7 +156,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
     <div class="sec-lbl" style="color:var(--orange)">ACCUMULATION HARD CAP TARGET</div>
     
     <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 4px;">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:46px;font-weight:700;line-height:1;color:#fff;letter-spacing:-1px" id="prog-invested">— / $74K</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:46px;font-weight:700;line-height:1;color:#fff;letter-spacing:-1px" id="prog-invested">— / $—K</div>
       <div style="font-size:16px;font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--green);margin-bottom:6px" id="prog-pct-txt">—</div>
     </div>
     
@@ -168,7 +168,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
     
     <div style="display:flex;justify-content:space-between;font-size:11px;color:#8899aa;font-weight:600">
       <span style="color:var(--green)" id="prog-rem">—</span>
-      <span>Goal: $74,000</span>
+      <span id="prog-goal-txt">Goal: $—</span>
     </div>
   </div>
 
@@ -195,8 +195,8 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
 
   <div class="m2">
     <div class="mcard" style="--mc:#7a8899"><div class="ml">Total Cost Basis</div><div class="mv c-m" id="m-cost-usd">—</div><div class="ms" id="m-cost-inr">—</div></div>
-    <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Core Holding</div><div class="mv c-o">0.170675 ₿</div><div class="ms">Avg: $75,083</div></div>
-    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Boost Holding</div><div class="mv c-b">31.128 BNB</div><div class="ms">Avg: $647</div></div>
+    <div class="mcard" style="--mc:var(--orange)"><div class="ml">BTC Core Holding</div><div class="mv c-o" id="ui-btc-hold">—</div><div class="ms" id="ui-btc-avg">—</div></div>
+    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Boost Holding</div><div class="mv c-b" id="ui-bnb-hold">—</div><div class="ms" id="ui-bnb-avg">—</div></div>
     <div class="mcard" style="--mc:var(--green)"><div class="ml">Gross Valuation</div><div class="mv" id="m-total">—</div><div class="ms" id="m-total-s">—</div></div>
   </div>
 
@@ -238,12 +238,12 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
       </div>
     </div>
     <div class="g3">
-      <div class="stat"><div class="stat-l">Holding</div><div class="stat-v c-o">0.170675 ₿</div></div>
-      <div class="stat"><div class="stat-l">Entry Floor</div><div class="stat-v">$75,083</div></div>
+      <div class="stat"><div class="stat-l">Holding</div><div class="stat-v c-o" id="pos-btc-hold">—</div></div>
+      <div class="stat"><div class="stat-l">Entry Floor</div><div class="stat-v" id="pos-btc-avg">—</div></div>
       <div class="stat"><div class="stat-l">Live Spot</div><div class="stat-v c-o" id="btc-live">—</div></div>
     </div>
     <div style="margin-top:12px;background:rgba(0,0,0,.3);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--muted)">
-      Break-even Target: $75,083 &nbsp;·&nbsp; <span id="btc-rally" style="font-weight:bold">—</span>
+      Break-even Target: <span id="pos-btc-be">—</span> &nbsp;·&nbsp; <span id="btc-rally" style="font-weight:bold">—</span>
     </div>
   </div>
 
@@ -260,12 +260,12 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
       </div>
     </div>
     <div class="g3">
-      <div class="stat"><div class="stat-l">Holding</div><div class="stat-v c-b">31.128 BNB</div></div>
-      <div class="stat"><div class="stat-l">Entry Floor</div><div class="stat-v">$647</div></div>
+      <div class="stat"><div class="stat-l">Holding</div><div class="stat-v c-b" id="pos-bnb-hold">—</div></div>
+      <div class="stat"><div class="stat-l">Entry Floor</div><div class="stat-v" id="pos-bnb-avg">—</div></div>
       <div class="stat"><div class="stat-l">Live Spot</div><div class="stat-v c-b" id="bnb-live">—</div></div>
     </div>
     <div style="margin-top:12px;background:rgba(0,0,0,.3);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--muted)">
-      Break-even Target: $647 &nbsp;·&nbsp; <span id="bnb-rally" style="font-weight:bold">—</span>
+      Break-even Target: <span id="pos-bnb-be">—</span> &nbsp;·&nbsp; <span id="bnb-rally" style="font-weight:bold">—</span>
     </div>
   </div>
 </div>
@@ -336,9 +336,9 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
     <div class="sec-lbl">Engine Architecture</div>
     <div style="font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;margin-bottom:12px">Dual Token Risk Matrix (30/70 Plan)</div>
     <div class="g3">
-      <div class="stat"><div class="stat-l">BTC Cost Base</div><div class="stat-v c-o">$12,815</div></div>
-      <div class="stat"><div class="stat-l">BNB Cost Base</div><div class="stat-v c-b">$20,148</div></div>
-      <div class="stat"><div class="stat-l">Aggregate Capital</div><div class="stat-v">$32,963</div></div>
+      <div class="stat"><div class="stat-l">BTC Cost Base</div><div class="stat-v c-o" id="strat-btc-cost">—</div></div>
+      <div class="stat"><div class="stat-l">BNB Cost Base</div><div class="stat-v c-b" id="strat-bnb-cost">—</div></div>
+      <div class="stat"><div class="stat-l">Aggregate Capital</div><div class="stat-v" id="strat-total-cost">—</div></div>
     </div>
   </div>
   <div class="card" style="margin-bottom:14px">
@@ -352,65 +352,6 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
         <thead><tr><th>Asset Class</th><th>Balance Tokens</th><th>Entry Rate</th><th>Spot Rate</th><th>Net Valuation</th><th>Absolute P&L</th></tr></thead>
         <tbody id="strat-table"></tbody>
         <tfoot><tr id="strat-foot"></tr></tfoot>
-      </table>
-    </div>
-  </div>
-  <div class="card" style="margin-bottom:14px">
-    <div class="sec-lbl" style="color:var(--green)">Verified Transaction Ledger Logs</div>
-    <div style="overflow-x:auto">
-      <table>
-        <thead>
-          <tr>
-            <th>Tx Date</th>
-            <th>Operation Type</th>
-            <th>Trading Pair</th>
-            <th>Volume Amount</th>
-            <th>Execution Rate</th>
-            <th>Execution Venue / Log</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="c-m">2026-06-02</td>
-            <td class="c-g">DCA_BUY</td>
-            <td class="c-b">BNB (BEP20)</td>
-            <td>+0.728000 BNB</td>
-            <td>$693.00</td>
-            <td class="c-g">Execution Filled</td>
-          </tr>
-          <tr>
-            <td class="c-m">2026-06-02</td>
-            <td class="c-g">DCA_BUY</td>
-            <td class="c-o">BTCB</td>
-            <td>+0.007064 BTC</td>
-            <td>$71,000.00</td>
-            <td class="c-g">Execution Filled</td>
-          </tr>
-          <tr>
-            <td class="c-m">2026-05-22</td>
-            <td class="c-o">INITIAL_DEPOSIT</td>
-            <td class="c-o">BTC (Core)</td>
-            <td>+0.411909 BTC</td>
-            <td>$75,259.00</td>
-            <td class="c-g">Secured Core Inbound</td>
-          </tr>
-          <tr>
-            <td class="c-m">2026-05-22</td>
-            <td class="c-r">ASSET_SWAP_SELL</td>
-            <td class="c-o">BTCB &rarr; BNB</td>
-            <td>-0.248298 BTC</td>
-            <td>$75,259.00</td>
-            <td class="c-g">PancakeSwap Liquidity Routed</td>
-          </tr>
-          <tr>
-            <td class="c-m">2026-05-22</td>
-            <td class="c-g">ASSET_SWAP_BUY</td>
-            <td class="c-b">BNB (BEP20)</td>
-            <td>+29.000000 BNB</td>
-            <td>$643.00</td>
-            <td class="c-g">Execution Filled · 30/70 Active</td>
-          </tr>
-        </tbody>
       </table>
     </div>
   </div>
@@ -444,13 +385,10 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
 </div>
 
 <script>
-const BTC_QTY=0.170675,BTC_AVG=75083,BNB_QTY=31.128,BNB_AVG=647;
-const COST=BTC_QTY*BTC_AVG+BNB_QTY*BNB_AVG;
-const P2P=95;
-const TARGET_CAP=74000;
+// JSON Configuration Object
+let CFG = null;
 let bP=null,nP=null,pB=null,pN=null,usdInr=95,cdV=1,cdI=null;
 
-// Anti-crash safe setter functions
 const $ = id => document.getElementById(id);
 const setTxt = (id, val) => { const el = $(id); if(el) el.innerHTML = val; };
 const setCol = (id, c) => { const el = $(id); if(el) el.style.color = c; };
@@ -471,16 +409,37 @@ function getTierInfo(pfInr, isFunded) {
 }
 
 function updateUI(){
-  if(!bP || !nP) return;
+  if(!CFG || !bP || !nP) return;
   try {
+    const P2P = CFG.p2p_rate;
+    const TARGET_CAP = CFG.target_cap;
+    const COST = CFG.total_invested;
+    const BTC_QTY = CFG.btc.qty;
+    const BTC_AVG = CFG.btc.avg;
+    const BNB_QTY = CFG.bnb.qty;
+    const BNB_AVG = CFG.bnb.avg;
+
     const btcV=BTC_QTY*bP,bnbV=BNB_QTY*nP,total=btcV+bnbV,totalI=total*P2P;
     const pnl=total-COST,pct=(pnl/COST)*100,pos=pnl>=0;
-    const swp=totalI*0.005; // Always calculate raw dynamic SWP for motivation
+    const swp=totalI*0.005; // 6% dynamic
     const btcPct=btcV/total*100,bnbPct=bnbV/total*100;
-    const btcPnl=btcV-BTC_QTY*BTC_AVG,bnbPnl=bnbV-BNB_QTY*BNB_AVG;
+    
+    // We use actual JSON costs for P&L to perfectly align with flat $33k
+    const btcPnl=btcV-CFG.btc.cost,bnbPnl=bnbV-CFG.bnb.cost;
     const dB=pB?(bP>pB?"up":"dn"):null,dN=pN?(nP>pN?"up":"dn"):null;
 
-    // Hard Cap Logic & 33K Call-out
+    // Populate static text elements driven by JSON
+    setTxt("ui-btc-hold", BTC_QTY + " ₿"); setTxt("ui-btc-avg", "Avg: $" + Math.round(BTC_AVG).toLocaleString("en-US"));
+    setTxt("ui-bnb-hold", BNB_QTY + " BNB"); setTxt("ui-bnb-avg", "Avg: $" + Math.round(BNB_AVG).toLocaleString("en-US"));
+    
+    setTxt("pos-btc-hold", BTC_QTY + " ₿"); setTxt("pos-btc-avg", "$" + Math.round(BTC_AVG).toLocaleString("en-US")); setTxt("pos-btc-be", "$" + Math.round(BTC_AVG).toLocaleString("en-US"));
+    setTxt("pos-bnb-hold", BNB_QTY + " BNB"); setTxt("pos-bnb-avg", "$" + Math.round(BNB_AVG).toLocaleString("en-US")); setTxt("pos-bnb-be", "$" + Math.round(BNB_AVG).toLocaleString("en-US"));
+
+    setTxt("strat-btc-cost", "$" + Math.round(CFG.btc.cost).toLocaleString("en-US"));
+    setTxt("strat-bnb-cost", "$" + Math.round(CFG.bnb.cost).toLocaleString("en-US"));
+    setTxt("strat-total-cost", "$" + Math.round(COST).toLocaleString("en-US"));
+
+    // Hard Cap Logic
     const costK = Math.round(COST / 1000);
     const targetK = Math.round(TARGET_CAP / 1000);
     const progPct = (COST / TARGET_CAP) * 100;
@@ -489,6 +448,7 @@ function updateUI(){
     setTxt("prog-invested", `$${costK}K <span style='color:var(--muted); font-size:32px'>/ $${targetK}K</span>`);
     setTxt("prog-pct-txt", progPct.toFixed(1) + "%");
     const progBar = $("prog-bar"); if(progBar) progBar.style.width = Math.min(progPct, 100) + "%";
+    setTxt("prog-goal-txt", `Goal: $${TARGET_CAP.toLocaleString("en-US")}`);
     
     if(isFunded) {
         setTxt("prog-rem", "✓ HARD CAP REACHED"); setCol("prog-rem", "var(--green)");
@@ -496,35 +456,33 @@ function updateUI(){
         setTxt("prog-rem", `$${Math.round((TARGET_CAP-COST)/1000)}K Remaining`); setCol("prog-rem", "var(--green)");
     }
     
-    // Evaluate Tier Matrix (Used strictly for the Refill Action Logic now)
+    // Evaluate Tier Matrix
     const currentTier = getTierInfo(totalI, isFunded);
 
-    // DYNAMIC TICKING SWP IS BACK (Always shows current 6% value)
+    // Dynamic SWP Tickers
     setTxt("fl-swp", "₹" + swp.toLocaleString("en-IN", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "<span style='font-size:10px'>/mo</span>");
     setCol("fl-swp", col(pnl));
-
-    // Overview Main SWP Display (Unconditional Motivation)
     setTxt("swp-amt", "₹" + swp.toLocaleString("en-IN", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "<span style='font-size:20px; color:var(--muted)'> / mo</span>"); 
     setCol("swp-amt", "#fff");
     setTxt("swp-usd", fU(total * 0.005)); setTxt("swp-inr", fI(swp)); setTxt("swp-yr", "₹"+(swp*12).toLocaleString("en-IN"));
 
-    // 1st Nov Refill Tab Logic (Here we use the strict Tier logic)
+    // 1st Nov Refill Tab Logic
     const now = new Date();
     let refillYear = now.getFullYear();
-    if(now.getMonth() >= 10) refillYear++; // If past Nov, target next Nov
+    if(now.getMonth() >= 10) refillYear++; 
     setTxt("refill-date", `Nov 1, ${refillYear}`);
 
     if(!isFunded) {
         setClass("refill-status-card", "ms-card"); $("refill-status-card").style.borderLeftColor = "var(--dim)";
         setTxt("refill-level", "🔒 System Locked"); setCol("refill-level", "var(--muted)");
         setTxt("refill-sub", "Awaiting completion of ₹60L engine deployment.");
-        setTxt("refill-action", "NO ACTION REQUIRED.<br>Keep accumulating until $74,000 Hard Cap is hit.");
+        setTxt("refill-action", "NO ACTION REQUIRED.<br>Keep accumulating until Hard Cap is hit.");
         setTxt("refill-swp", "0"); setTxt("refill-shield", "0");
     } else if (currentTier.level === 0) {
         setClass("refill-status-card", "ms-card"); $("refill-status-card").style.borderLeftColor = "var(--orange)";
         setTxt("refill-level", "🛡️ Self-Funded Base Active"); setCol("refill-level", "var(--orange)");
-        setTxt("refill-sub", "Portfolio under ₹1 Crore. Relying on ₹9L Self-Funded Buffer.");
-        setTxt("refill-action", "DO NOT SELL CRYPTO.<br>Survive strictly on your ₹9L self-funded buffer. Let the engine compound until PF crosses ₹1 Crore.");
+        setTxt("refill-sub", "Portfolio under ₹1 Crore. Relying on Self-Funded Buffer.");
+        setTxt("refill-action", "DO NOT SELL CRYPTO.<br>Survive strictly on your self-funded buffer. Let the engine compound until PF crosses ₹1 Crore.");
         setTxt("refill-swp", "₹25,000/mo"); setTxt("refill-shield", "₹7.5 Lakhs (From Base)");
     } else {
         setClass("refill-status-card", "ms-card"); $("refill-status-card").style.borderLeftColor = "var(--green)";
@@ -551,7 +509,8 @@ function updateUI(){
     setTxt("fl-pnl", (pos?"+":"")+fU(Math.round(pnl))); setCol("fl-pnl", col(pnl));
     setTxt("fl-pct", (pct>=0?"+":"")+pct.toFixed(2)+"%");
     
-    setTxt("m-cost-usd", fU(Math.round(COST)));
+    // Explicit $33,000 mapping
+    setTxt("m-cost-usd", fU(COST));
     setTxt("m-cost-inr", "₹"+((COST*P2P)/100000).toFixed(2)+"L Equivalent");
     
     setTxt("m-total", fU(Math.round(total))); setCol("m-total", col(pnl)); setTxt("m-total-s", fI(totalI));
@@ -561,22 +520,22 @@ function updateUI(){
     // Position Sheets
     setTxt("btc-val", fU(Math.round(btcV))); setTxt("btc-inr", fI(btcV*P2P));
     setTxt("btc-pnl", (btcPnl>=0?"+":"")+fU(Math.round(btcPnl))); setCol("btc-pnl", col(btcPnl));
-    setTxt("btc-pct", ((btcPnl/(BTC_QTY*BTC_AVG))*100>=0?"+":"")+((btcPnl/(BTC_QTY*BTC_AVG))*100).toFixed(2)+"%");
+    setTxt("btc-pct", ((btcPnl/(CFG.btc.cost))*100>=0?"+":"")+((btcPnl/(CFG.btc.cost))*100).toFixed(2)+"%");
     setTxt("btc-live", fU(bP));
     setTxt("btc-rally", bP>=BTC_AVG?"✓ Asset In Profit":"Need +"+(((BTC_AVG-bP)/bP)*100).toFixed(1)+"% cycle rally");
     setCol("btc-rally", bP>=BTC_AVG?"var(--green)":"var(--orange)");
     
     setTxt("bnb-val", fU(Math.round(bnbV))); setTxt("bnb-inr", fI(bnbV*P2P));
     setTxt("bnb-pnl", (bnbPnl>=0?"+":"")+fU(Math.round(bnbPnl))); setCol("bnb-pnl", col(bnbPnl));
-    setTxt("bnb-pct", ((bnbPnl/(BNB_QTY*BNB_AVG))*100>=0?"+":"")+((bnbPnl/(BNB_QTY*BNB_AVG))*100).toFixed(2)+"%");
+    setTxt("bnb-pct", ((bnbPnl/(CFG.bnb.cost))*100>=0?"+":"")+((bnbPnl/(CFG.bnb.cost))*100).toFixed(2)+"%");
     setTxt("bnb-live", fU(nP));
     setTxt("bnb-rally", nP>=BNB_AVG?"✓ Asset In Profit":"Need +"+(((BNB_AVG-nP)/nP)*100).toFixed(1)+"% cycle rally");
     setCol("bnb-rally", nP>=BNB_AVG?"var(--green)":"var(--bnb)");
 
     // Position Matrix Statement
     setTxt("strat-table", `
-      <tr><td class="c-o">BTC Core</td><td class="c-o">0.170675</td><td>$75,083</td><td class="c-o">${fU(bP)}</td><td>${fU(Math.round(btcV))}</td><td style="color:${col(btcPnl)}">${btcPnl>=0?"+":""}${fU(Math.round(btcPnl))}</td></tr>
-      <tr><td class="c-b">BNB Boost</td><td class="c-b">31.128</td><td>$647</td><td class="c-b">${fU(nP)}</td><td>${fU(Math.round(bnbV))}</td><td style="color:${col(bnbPnl)}">${bnbPnl>=0?"+":""}${fU(Math.round(bnbPnl))}</td></tr>`);
+      <tr><td class="c-o">BTC Core</td><td class="c-o">${BTC_QTY}</td><td>$${Math.round(BTC_AVG).toLocaleString("en-US")}</td><td class="c-o">${fU(bP)}</td><td>${fU(Math.round(btcV))}</td><td style="color:${col(btcPnl)}">${btcPnl>=0?"+":""}${fU(Math.round(btcPnl))}</td></tr>
+      <tr><td class="c-b">BNB Boost</td><td class="c-b">${BNB_QTY}</td><td>$${Math.round(BNB_AVG).toLocaleString("en-US")}</td><td class="c-b">${fU(nP)}</td><td>${fU(Math.round(bnbV))}</td><td style="color:${col(bnbPnl)}">${bnbPnl>=0?"+":""}${fU(Math.round(bnbPnl))}</td></tr>`);
     setTxt("strat-foot", `<td class="c-g">AGGREGATE</td><td>—</td><td>—</td><td>—</td><td>${fU(Math.round(total))}</td><td style="color:${col(pnl)}">${pos?"+":""}${fU(Math.round(pnl))}</td>`);
 
     // Charts Refresh Engine
@@ -586,7 +545,7 @@ function updateUI(){
       } else {aC.data.datasets[0].data=[btcPct,bnbPct];aC.update("none");}
     }
     
-    // Bar Chart is Back
+    // Bar Chart
     if($("barChart")){
       if(!bC){
         bC=new Chart($("barChart").getContext("2d"),{
@@ -616,6 +575,15 @@ function updateUI(){
           bC.update("none");
       }
     }
+    
+    if($("stratChart")){
+      if(!sC){
+        sC=new Chart($("stratChart").getContext("2d"),{type:"doughnut",data:{labels:["Bitcoin Core Allocation","BNB Acceleration Pot"],datasets:[{data:[Math.round(btcV),Math.round(bnbV)],backgroundColor:["rgba(247,147,26,0.85)","rgba(240,185,11,0.85)"],borderColor:["#f7931a","#f0b90b"],borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:"#8ea1b8",font:{size:11},padding:12}}},cutout:"65%"}});
+      } else {sC.data.datasets[0].data=[Math.round(btcV),Math.round(bnbV)];sC.update("none");}
+    }
+
+    const simSlider = $("sim-slider");
+    if(simSlider) updateSim(simSlider.value);
     
   } catch(err) { 
     console.error("UI Update Error: ", err); 
@@ -677,7 +645,30 @@ async function fetchPrices(){
     }
   }
 }
-async function fetchINR(){try{const r=await fetch("https://api.exchangerate-api.com/v4/latest/USD");const d=await r.json();if(d?.rates?.INR)usdInr=d.rates.INR;}catch{}}
+
+async function fetchINR(){
+    try{
+        const r=await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+        const d=await r.json();
+        if(d?.rates?.INR) usdInr=d.rates.INR;
+    } catch{}
+}
+
+async function init() {
+    try {
+        const res = await fetch('trades.json');
+        CFG = await res.json();
+        fetchINR(); 
+        fetchPrices(); 
+        setInterval(fetchPrices, 1000); 
+        setInterval(fetchINR, 60000);
+    } catch (err) {
+        console.error("Missing trades.json", err);
+        setTxt("lt", "ERROR: trades.json missing!");
+        setClass("lt", "live-txt off");
+        $("loading").innerHTML = "<div style='color:var(--red)'>Error: Create trades.json file in the same folder first.</div>";
+    }
+}
 
 function showTab(name,btn){
   document.querySelectorAll(".panel").forEach(p=>{p.classList.remove("active");p.style.display="none";});
@@ -691,9 +682,9 @@ function showTab(name,btn){
 }
 
 document.querySelectorAll(".panel").forEach((p,i)=>{p.style.display=i===0?"block":"none";});
-fetchINR(); fetchPrices(); setInterval(fetchPrices, 1000); setInterval(fetchINR, 60000);
 
 function updateSim(price){
+  if(!CFG) return;
   price=parseFloat(price);
   const pct2=((price-50000)/(500000-50000))*100;
   const simSlider = $("sim-slider");
@@ -702,16 +693,15 @@ function updateSim(price){
   setTxt("sim-p", fU(price));
   if(bP) setTxt("sim-sub", (price/bP).toFixed(2)+"× scale matrix factor from spot");
   
-  const btcV=BTC_QTY*price;
+  const btcV=CFG.btc.qty * price;
   const bnbMult=Math.max(1,price/200000*2);
-  const bnbEst=BNB_QTY*BNB_AVG*bnbMult;
-  const total=btcV+bnbEst,totalI=total*P2P,pnl=total-COST,pct=(pnl/COST)*100;
+  const bnbEst=CFG.bnb.qty * CFG.bnb.avg * bnbMult;
+  const total=btcV+bnbEst, totalI=total*CFG.p2p_rate, pnl=total-CFG.total_invested, pct=(pnl/CFG.total_invested)*100;
   
-  // Predict simulated tier assuming funded
   const simTier = getTierInfo(totalI, true);
   
-  setTxt("s-btc", fU(Math.round(btcV))); setTxt("s-btc-i", fI(btcV*P2P));
-  setTxt("s-bnb", fU(Math.round(bnbEst))); setTxt("s-bnb-i", fI(bnbEst*P2P));
+  setTxt("s-btc", fU(Math.round(btcV))); setTxt("s-btc-i", fI(btcV*CFG.p2p_rate));
+  setTxt("s-bnb", fU(Math.round(bnbEst))); setTxt("s-bnb-i", fI(bnbEst*CFG.p2p_rate));
   setTxt("s-total", fU(Math.round(total))); setCol("s-total", col(pnl)); setTxt("s-total-i", fI(totalI));
   
   setTxt("s-swp", "₹"+simTier.swp.toLocaleString("en-IN") + " / mo");
@@ -724,6 +714,9 @@ function updateSim(price){
   document.querySelectorAll(".sim-btn").forEach(b=>b.classList.toggle("active",parseInt(b.textContent.replace(/[$K]/g,""))*(b.textContent.includes("K")?1000:1)===price));
 }
 function setSim(p){const slider=$("sim-slider"); if(slider){ slider.value=p; updateSim(p);}}
+
+// Boot up
+init();
 
 </script>
 </body>
