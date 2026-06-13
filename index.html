@@ -356,7 +356,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
     <div class="mcard" style="--mc:var(--green)"><div class="ml">Total Scaled Engine</div><div class="mv" id="s-total">—</div><div class="ms" id="s-total-i">—</div></div>
     <div class="mcard" style="--mc:var(--green)"><div class="ml">Tiered SWP Harvest</div><div class="mv" id="s-swp">—</div><div class="ms" id="s-swp-sub">Auto-Scaling Matrix</div></div>
     <div class="mcard" style="--mc:var(--orange)"><div class="ml">Unrealized P&amp;L Delta</div><div class="mv" id="s-pnl">—</div><div class="ms" id="s-pnl-p">—</div></div>
-    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Beta Correl</div><div class="mv" id="s-bnb-m" style="font-size:14px;color:var(--bnb)">—</div><div class="ms">from buy rate</div></div>
+    <div class="mcard" style="--mc:var(--bnb)"><div class="ml">BNB Projected ×</div><div class="mv" id="s-bnb-m" style="font-size:14px;color:var(--bnb)">—</div><div class="ms">1.5β × BTC move from live</div></div>
   </div>
 </div>
 
@@ -624,8 +624,13 @@ function updateSim(price){
   setTxt("sim-p",fU(price));
   if(bP) setTxt("sim-sub",(price/bP).toFixed(2)+"× scale factor from spot");
   const btcV=CFG.btc.qty*price;
-  const bnbMult=Math.max(1,price/200000*2);
-  const bnbEst=CFG.bnb.qty*CFG.bnb.avg*bnbMult;
+  // BNB Beta: 1.5x BTC multiplier from live price
+  // Based on cycle data: 2019=2.18x, 2021=7.1x (outlier/DeFi), 2024=0.98x (DOJ drag)
+  // Conservative base = 1.5x BTC move applied to live BNB price
+  const btcLiveMult = (bP && bP > 0) ? price / bP : price / 77000;
+  const bnbProjPrice = (nP && nP > 0) ? nP * btcLiveMult * 1.5 : CFG.bnb.avg * btcLiveMult * 1.5;
+  const bnbMult = bnbProjPrice / ((nP && nP > 0) ? nP : CFG.bnb.avg);
+  const bnbEst = CFG.bnb.qty * bnbProjPrice;
   const total=btcV+bnbEst, totalI=total*CFG.p2p_rate, pnl=total-CFG.total_invested, pct=(pnl/CFG.total_invested)*100;
   const simTier=getTierInfo(totalI,true);
   setTxt("s-btc",fU(Math.round(btcV))); setTxt("s-btc-i",fI(btcV*CFG.p2p_rate));
@@ -634,7 +639,7 @@ function updateSim(price){
   setTxt("s-swp","₹"+simTier.swp.toLocaleString("en-IN")+" / mo"); setCol("s-swp",simTier.level>0?"var(--green)":"var(--orange)");
   setTxt("s-swp-sub",simTier.name);
   setTxt("s-pnl",(pnl>=0?"+":"")+fU(Math.round(pnl))); setCol("s-pnl",col(pnl)); setTxt("s-pnl-p",(pct>=0?"+":"")+pct.toFixed(1)+"%");
-  setTxt("s-bnb-m",bnbMult.toFixed(2)+"× target multiplier");
+  setTxt("s-bnb-m",bnbMult.toFixed(2)+"× from live · 1.5β");
   document.querySelectorAll(".sim-btn").forEach(b=>b.classList.toggle("active",parseInt(b.textContent.replace(/[$K]/g,""))*(b.textContent.includes("K")?1000:1)===price));
 }
 function setSim(p){ const s=$("sim-slider"); if(s){ s.value=p; updateSim(p); }}
