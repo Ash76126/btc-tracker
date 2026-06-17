@@ -9,12 +9,12 @@
     "avg": 642.15,
     "cost": 22687
   },
-  "total_invested": 36000,
+  "total_invested": 36002,
   "target_cap": 74000,
   "p2p_rate": 99,
   "deploy_targets": {
-    "btc_usd": 19300,
-    "bnb_usd": 45050,
+    "btc_usd": 25740,
+    "bnb_usd": 38610,
     "shield_usd": 9650
   }
 }
