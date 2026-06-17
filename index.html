@@ -167,7 +167,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
 
   <!-- ── NEW: CAPITAL DEPLOYMENT PLAN ── -->
   <div class="card" style="border-top:2px solid var(--orange);margin-bottom:12px">
-    <div class="sec-lbl">Capital Deployment Plan · $40K Remaining</div>
+    <div class="sec-lbl">Capital Deployment Plan · <span id="dep-total-rem">—</span> Remaining</div>
     <div class="g3" style="margin-bottom:14px">
       <div class="stat" style="border-color:rgba(247,147,26,0.3)">
         <div class="stat-l">BTC Remaining</div>
@@ -438,6 +438,9 @@ function updateDeployCard() {
   if(!CFG || !CFG.deploy_targets || !bP || !nP) return;
   const dt = CFG.deploy_targets;
   const btcRem = Math.max(dt.btc_usd - CFG.btc.cost, 0);
+  const totalRem = btcRem + Math.max(dt.bnb_usd - CFG.bnb.cost, 0) + dt.shield_usd;
+  const totalRemK = Math.round(totalRem / 1000);
+  setTxt("dep-total-rem", "$" + totalRemK + "K");
   const bnbRem = Math.max(dt.bnb_usd - CFG.bnb.cost, 0);
   const btcPct = Math.min((CFG.btc.cost / dt.btc_usd) * 100, 100);
   const bnbPct = Math.min((CFG.bnb.cost / dt.bnb_usd) * 100, 100);
