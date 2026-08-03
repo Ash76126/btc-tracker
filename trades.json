@@ -1,15 +1,15 @@
 {
   "btc": {
-    "qty": 0.24993434,
-    "avg": 71278.72,
-    "cost": 17815
+    "qty": 0.26553434,
+    "avg": 70859.00,
+    "cost": 18815
   },
   "bnb": {
     "qty": 43.156,
     "avg": 629.98,
     "cost": 27187
   },
-  "total_invested": 45000,
+  "total_invested": 46000,
   "target_cap": 74000,
   "p2p_rate": 100,
   "deploy_targets": {
