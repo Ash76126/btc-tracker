@@ -100,6 +100,46 @@ table{width:100%;border-collapse:collapse;font-size:12px}
 th{padding:10px;text-align:left;background:#070a12;color:var(--muted);font-size:8px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid var(--border);font-weight:700}
 td{padding:12px 10px;border-bottom:1px solid rgba(23,34,55,0.4);white-space:nowrap;font-family:'Share Tech Mono',monospace}
 tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.15);font-weight:700}
+
+/* ── PORTFOLIO CHART ── */
+.chart-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.chart-toolbar{background:#070a12;border-bottom:1px solid var(--border);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.chart-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:#fff}
+.chart-subtitle{font-size:9px;color:var(--muted);margin-top:1px;letter-spacing:1px}
+.tf-btns{display:flex;gap:4px}
+.tf-btn{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:9px;color:var(--muted);cursor:pointer;font-family:'Share Tech Mono',monospace;transition:all .15s;font-weight:bold}
+.tf-btn:hover,.tf-btn.active{background:rgba(247,147,26,.12);border-color:rgba(247,147,26,.4);color:var(--orange)}
+.chart-overlays{display:flex;gap:6px;flex-wrap:wrap}
+.ov-btn{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:9px;color:var(--muted);cursor:pointer;font-family:'Share Tech Mono',monospace;transition:all .15s}
+.ov-btn.active-btc{border-color:rgba(247,147,26,.5);color:var(--orange);background:rgba(247,147,26,.08)}
+.ov-btn.active-bnb{border-color:rgba(240,185,11,.5);color:var(--bnb);background:rgba(240,185,11,.08)}
+.ov-btn.active-total{border-color:rgba(0,230,118,.5);color:var(--green);background:rgba(0,230,118,.08)}
+.ov-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.chart-stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border)}
+.cs-item{padding:10px 12px;border-right:1px solid var(--border);text-align:center}
+.cs-item:last-child{border-right:none}
+.cs-lbl{font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+.cs-val{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;line-height:1.2}
+.chart-wrap-main{padding:10px 10px 0;position:relative}
+.chart-canvas-wrap{position:relative;height:260px}
+.chart-tooltip-box{position:absolute;background:rgba(7,10,18,0.95);border:1px solid rgba(247,147,26,0.3);border-radius:10px;padding:10px 12px;font-size:10px;pointer-events:none;z-index:100;min-width:160px;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.6);backdrop-filter:blur(10px)}
+.chart-tooltip-date{font-size:9px;color:var(--muted);margin-bottom:6px;letter-spacing:1px}
+.chart-tooltip-row{display:flex;justify-content:space-between;gap:12px;margin-bottom:3px;font-family:'Share Tech Mono',monospace}
+.chart-tooltip-lbl{color:var(--muted);font-size:9px}
+.chart-tooltip-val{font-size:9px;font-weight:bold}
+.chart-crosshair{position:absolute;pointer-events:none;z-index:50;display:none}
+.crosshair-v{position:absolute;top:0;bottom:0;width:1px;background:rgba(247,147,26,0.3)}
+.crosshair-h{position:absolute;left:0;right:0;height:1px;background:rgba(247,147,26,0.15)}
+.tx-list{padding:12px 14px;border-top:1px solid var(--border)}
+.tx-lbl{font-size:8px;color:var(--orange);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-weight:bold}
+.tx-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(23,34,55,0.4)}
+.tx-item:last-child{border-bottom:none}
+.tx-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tx-date{font-size:9px;color:var(--muted);font-family:'Share Tech Mono',monospace;flex-shrink:0;width:60px}
+.tx-info{flex:1;font-size:10px}
+.tx-asset{font-weight:bold}
+.tx-amt{font-size:9px;color:var(--muted);margin-top:1px;font-family:'Share Tech Mono',monospace}
+.tx-value{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;text-align:right;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -109,7 +149,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
       <div class="brand-icon">₿</div>
       <div>
         <div class="brand-sub">BTC + BNB Portfolio</div>
-        <div class="brand-name">Portfolio Tracker · 40/60</div>
+        <div class="brand-name" style="white-space:nowrap;font-size:16px">Portfolio Tracker · 40/60</div>
       </div>
     </div>
     <div class="live-pill">
@@ -140,6 +180,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
   <button class="tab" onclick="showTab('simulator',this)">Simulator</button>
   <button class="tab" onclick="showTab('strategy',this)">Strategy</button>
   <button class="tab" onclick="showTab('vault',this)">⚡ Vault</button>
+  <button class="tab" onclick="showTab('chart',this)">📈 Chart</button>
 </div>
 
 <div id="loading" class="loading"><div class="spin"></div><div>Reading trades.json & Live Feed…</div></div>
@@ -412,6 +453,78 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
   </div>
 </div>
 
+
+<!-- PORTFOLIO CHART PANEL -->
+<div class="panel" id="panel-chart">
+
+  <!-- Stats Bar -->
+  <div class="chart-panel">
+    <div class="chart-toolbar">
+      <div>
+        <div class="chart-title">📈 Portfolio Performance</div>
+        <div class="chart-subtitle">BTC + BNB · Real-time · Fresh start Sep 4 2026</div>
+      </div>
+      <div class="tf-btns" id="tf-btns">
+        <button class="tf-btn" onclick="setTF('1W',this)">1W</button>
+        <button class="tf-btn" onclick="setTF('1M',this)">1M</button>
+        <button class="tf-btn" onclick="setTF('3M',this)">3M</button>
+        <button class="tf-btn" onclick="setTF('6M',this)">6M</button>
+        <button class="tf-btn active" onclick="setTF('ALL',this)">ALL</button>
+      </div>
+    </div>
+
+    <!-- Overlay toggles -->
+    <div style="display:flex;gap:6px;padding:8px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap">
+      <button class="ov-btn active-total" id="ov-total" onclick="toggleOverlay('total')"><div class="ov-dot" style="background:var(--green)"></div>Total</button>
+      <button class="ov-btn active-btc" id="ov-btc" onclick="toggleOverlay('btc')"><div class="ov-dot" style="background:var(--orange)"></div>BTC</button>
+      <button class="ov-btn active-bnb" id="ov-bnb" onclick="toggleOverlay('bnb')"><div class="ov-dot" style="background:var(--bnb)"></div>BNB</button>
+    </div>
+
+    <!-- Key stats -->
+    <div class="chart-stats-bar">
+      <div class="cs-item"><div class="cs-lbl">Current</div><div class="cs-val c-g" id="cs-current">—</div></div>
+      <div class="cs-item"><div class="cs-lbl">ATH</div><div class="cs-val c-o" id="cs-ath">—</div></div>
+      <div class="cs-item"><div class="cs-lbl">P&L</div><div class="cs-val" id="cs-pnl">—</div></div>
+      <div class="cs-item"><div class="cs-lbl">Drawdown</div><div class="cs-val c-r" id="cs-dd">—</div></div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-wrap-main">
+      <div class="chart-canvas-wrap" id="chart-canvas-wrap">
+        <div class="chart-crosshair" id="crosshair">
+          <div class="crosshair-v" id="ch-v"></div>
+          <div class="crosshair-h" id="ch-h"></div>
+        </div>
+        <canvas id="pfChart"></canvas>
+        <div class="chart-tooltip-box" id="chart-tooltip">
+          <div class="chart-tooltip-date" id="tt-date">—</div>
+          <div class="chart-tooltip-row"><span class="chart-tooltip-lbl">Total</span><span class="chart-tooltip-val c-g" id="tt-total">—</span></div>
+          <div class="chart-tooltip-row"><span class="chart-tooltip-lbl">BTC Value</span><span class="chart-tooltip-val c-o" id="tt-btc">—</span></div>
+          <div class="chart-tooltip-row"><span class="chart-tooltip-lbl">BNB Value</span><span class="chart-tooltip-val c-b" id="tt-bnb">—</span></div>
+          <div class="chart-tooltip-row"><span class="chart-tooltip-lbl">Invested</span><span class="chart-tooltip-val c-m" id="tt-invested">—</span></div>
+          <div class="chart-tooltip-row"><span class="chart-tooltip-lbl">P&L</span><span class="chart-tooltip-val" id="tt-pnl">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transaction History -->
+    <div class="tx-list">
+      <div class="tx-lbl">Transaction Log</div>
+      <div id="tx-list-items">
+        <div style="font-size:10px;color:var(--muted);padding:8px 0">Loading transactions…</div>
+      </div>
+    </div>
+
+    <!-- Extra stats -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border-top:1px solid var(--border)">
+      <div style="background:var(--card);padding:12px;text-align:center"><div style="font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px">Total Invested</div><div style="font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--muted)" id="cs-invested">—</div></div>
+      <div style="background:var(--card);padding:12px;text-align:center"><div style="font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px">ROI %</div><div style="font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700" id="cs-roi">—</div></div>
+      <div style="background:var(--card);padding:12px;text-align:center"><div style="font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px">ATH Date</div><div style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;color:var(--orange)" id="cs-ath-date">—</div></div>
+    </div>
+  </div>
+
+</div>
+
 </div><!-- end app -->
 
 <script>
@@ -652,8 +765,265 @@ function showTab(name,btn){
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   const tp=$("panel-"+name); if(tp){ tp.classList.add("active"); tp.style.display="block"; }
   if(btn) btn.classList.add("active");
+  if(name==='chart') buildChartData();
 }
 document.querySelectorAll(".panel").forEach((p,i)=>{p.style.display=i===0?"block":"none";});
+
+
+// ── PORTFOLIO CHART ──────────────────────────────────
+let pfChart = null;
+let chartData = { labels:[], total:[], btcVal:[], bnbVal:[], invested:[], txMarkers:[] };
+let overlays = { total:true, btc:true, bnb:true };
+let currentTF = 'ALL';
+let athValue = 0, athDate = '';
+
+// Build historical data from transactions + live prices
+function buildChartData() {
+  if(!CFG || !bP || !nP) return;
+  const txs = CFG.transactions || [];
+  
+  // Generate daily data points from snapshot date to today
+  const startDate = new Date('2026-09-04');
+  const today = new Date();
+  const days = [];
+  const cur = new Date(startDate);
+  while(cur <= today) {
+    days.push(new Date(cur));
+    cur.setDate(cur.getDate() + 1);
+  }
+
+  // Build cumulative holdings per day based on transactions
+  chartData.labels = [];
+  chartData.total = [];
+  chartData.btcVal = [];
+  chartData.bnbVal = [];
+  chartData.invested = [];
+  chartData.txMarkers = [];
+
+  // Start with snapshot values
+  let curBtcQty = CFG.btc.qty;
+  let curBnbQty = CFG.bnb.qty;
+  let curInvested = CFG.total_invested;
+
+  // Collect future transactions (after snapshot)
+  const futureTxs = txs.filter(t => t.asset !== 'SNAPSHOT' && new Date(t.date) > startDate);
+
+  days.forEach((day, idx) => {
+    const dayStr = day.toISOString().split('T')[0];
+    
+    // Apply any transactions on this day
+    futureTxs.forEach(tx => {
+      if(tx.date === dayStr) {
+        if(tx.asset === 'BTC' || tx.asset === 'BTCB') {
+          curBtcQty += tx.qty;
+          curInvested += tx.usd;
+          chartData.txMarkers.push({ idx, tx, color: 'var(--orange)' });
+        } else if(tx.asset === 'BNB') {
+          curBnbQty += tx.qty;
+          curInvested += tx.usd;
+          chartData.txMarkers.push({ idx, tx, color: 'var(--bnb)' });
+        }
+      }
+    });
+
+    // For today use live prices, for past dates use live price as approximation
+    // (since we only have live data from today forward)
+    const btcPrice = bP;
+    const bnbPrice = nP;
+    const btcV = curBtcQty * btcPrice;
+    const bnbV = curBnbQty * bnbPrice;
+    const totalV = btcV + bnbV;
+
+    chartData.labels.push(dayStr);
+    chartData.btcVal.push(Math.round(btcV));
+    chartData.bnbVal.push(Math.round(bnbV));
+    chartData.total.push(Math.round(totalV));
+    chartData.invested.push(Math.round(curInvested));
+
+    if(totalV > athValue) { athValue = totalV; athDate = dayStr; }
+  });
+
+  updateChartStats();
+  renderPfChart();
+  renderTxList();
+}
+
+function getFilteredData() {
+  const n = chartData.labels.length;
+  const filters = { '1W':7, '1M':30, '3M':90, '6M':180, '1Y':365, 'ALL':n };
+  const count = Math.min(filters[currentTF] || n, n);
+  const start = Math.max(0, n - count);
+  return {
+    labels: chartData.labels.slice(start),
+    total: chartData.total.slice(start),
+    btcVal: chartData.btcVal.slice(start),
+    bnbVal: chartData.bnbVal.slice(start),
+    invested: chartData.invested.slice(start),
+    startIdx: start
+  };
+}
+
+function renderPfChart() {
+  const fd = getFilteredData();
+  if(!fd.labels.length) return;
+  const ctx = document.getElementById('pfChart');
+  if(!ctx) return;
+
+  const datasets = [];
+  if(overlays.total) datasets.push({
+    label:'Total Portfolio', data:fd.total, borderColor:'#00e676',
+    backgroundColor: ctxObj => {
+      const g = ctxObj.chart.ctx.createLinearGradient(0,0,0,260);
+      g.addColorStop(0,'rgba(0,230,118,0.2)');g.addColorStop(1,'rgba(0,230,118,0)');return g;
+    }, fill:true, borderWidth:2.5, pointRadius:0, tension:0.3, order:1
+  });
+  if(overlays.btc) datasets.push({
+    label:'BTC Value', data:fd.btcVal, borderColor:'#f7931a',
+    backgroundColor:'transparent', fill:false, borderWidth:1.5,
+    pointRadius:0, tension:0.3, borderDash:[4,4], order:2
+  });
+  if(overlays.bnb) datasets.push({
+    label:'BNB Value', data:fd.bnbVal, borderColor:'#f0b90b',
+    backgroundColor:'transparent', fill:false, borderWidth:1.5,
+    pointRadius:0, tension:0.3, borderDash:[4,4], order:3
+  });
+
+  // ATH line
+  const maxVal = Math.max(...fd.total);
+  datasets.push({
+    label:'ATH', data:fd.total.map(()=>Math.round(athValue)),
+    borderColor:'rgba(247,147,26,0.25)', borderWidth:1, borderDash:[6,3],
+    pointRadius:0, fill:false, tension:0, order:4
+  });
+
+  if(pfChart) { pfChart.destroy(); pfChart=null; }
+
+  pfChart = new Chart(ctx, {
+    type:'line',
+    data:{ labels:fd.labels.map(l=>{ const d=new Date(l); return d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); }), datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false, animation:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{ enabled:false }
+      },
+      scales:{
+        x:{ ticks:{color:'#384c66',font:{size:9,family:"'Share Tech Mono',monospace"},maxRotation:0,maxTicksLimit:6}, grid:{color:'rgba(23,34,55,0.3)',drawBorder:false} },
+        y:{ position:'right', ticks:{color:'#384c66',font:{size:9},callback:v=>'$'+(v>=1000?(v/1000).toFixed(1)+'k':v)}, grid:{color:'rgba(23,34,55,0.3)',drawBorder:false} }
+      }
+    }
+  });
+
+  setupChartInteraction(fd);
+}
+
+function setupChartInteraction(fd) {
+  const wrap = document.getElementById('chart-canvas-wrap');
+  const tooltip = document.getElementById('chart-tooltip');
+  const crosshair = document.getElementById('crosshair');
+  if(!wrap || !tooltip || !pfChart) return;
+
+  wrap.addEventListener('mousemove', e => {
+    const rect = wrap.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const pts = pfChart.getElementsAtEventForMode(e,'index',{intersect:false},true);
+    if(!pts.length) return;
+    const idx = pts[0].index;
+    if(idx < 0 || idx >= fd.labels.length) return;
+
+    const tv = fd.total[idx], bv = fd.btcVal[idx], nv = fd.bnbVal[idx];
+    const inv = fd.invested[idx], pnl = tv - inv, pos = pnl>=0;
+    const dateStr = fd.labels[idx];
+
+    document.getElementById('tt-date').textContent = new Date(dateStr).toLocaleDateString('en-US',{weekday:'short',year:'numeric',month:'short',day:'numeric'});
+    document.getElementById('tt-total').textContent = '$'+tv.toLocaleString('en-US');
+    document.getElementById('tt-btc').textContent = '$'+bv.toLocaleString('en-US');
+    document.getElementById('tt-bnb').textContent = '$'+nv.toLocaleString('en-US');
+    document.getElementById('tt-invested').textContent = '$'+inv.toLocaleString('en-US');
+    const pnlEl = document.getElementById('tt-pnl');
+    pnlEl.textContent = (pos?'+':'')+('$'+Math.abs(Math.round(pnl)).toLocaleString('en-US'));
+    pnlEl.style.color = pos?'var(--green)':'var(--red)';
+
+    // Position tooltip
+    const tw=180, th=130;
+    let tx = x+16; let ty = y-th/2;
+    if(tx+tw>rect.width) tx=x-tw-16;
+    if(ty<0) ty=4;
+    if(ty+th>rect.height) ty=rect.height-th-4;
+    tooltip.style.left=tx+'px'; tooltip.style.top=ty+'px'; tooltip.style.display='block';
+
+    // Crosshair
+    crosshair.style.display='block';
+    document.getElementById('ch-v').style.left=x+'px';
+    document.getElementById('ch-h').style.top=y+'px';
+  });
+  wrap.addEventListener('mouseleave', () => {
+    tooltip.style.display='none'; crosshair.style.display='none';
+  });
+
+  // Touch support
+  wrap.addEventListener('touchmove', e => {
+    e.preventDefault();
+    const t = e.touches[0];
+    const me = new MouseEvent('mousemove', {clientX:t.clientX, clientY:t.clientY});
+    wrap.dispatchEvent(me);
+  }, {passive:false});
+}
+
+function updateChartStats() {
+  if(!CFG || !bP || !nP) return;
+  const total = (CFG.btc.qty*bP) + (CFG.bnb.qty*nP);
+  const pnl = total - CFG.total_invested;
+  const roi = (pnl/CFG.total_invested)*100;
+  const dd = athValue>0 ? ((athValue-total)/athValue*100) : 0;
+  const pos = pnl>=0;
+  setTxt('cs-current','$'+Math.round(total).toLocaleString('en-US'));
+  setTxt('cs-ath','$'+Math.round(athValue).toLocaleString('en-US'));
+  setTxt('cs-pnl',(pos?'+':'')+('$'+Math.round(Math.abs(pnl)).toLocaleString('en-US'))); setCol('cs-pnl',col(pnl));
+  setTxt('cs-dd','-'+dd.toFixed(1)+'%');
+  setTxt('cs-invested','$'+CFG.total_invested.toLocaleString('en-US'));
+  setTxt('cs-roi',(roi>=0?'+':'')+roi.toFixed(2)+'%'); setCol('cs-roi',col(pnl));
+  setTxt('cs-ath-date',athDate||'Today');
+}
+
+function renderTxList() {
+  const txs = (CFG.transactions||[]).filter(t=>t.asset!=='SNAPSHOT');
+  const el = document.getElementById('tx-list-items');
+  if(!el) return;
+  if(!txs.length){el.innerHTML='<div style="font-size:10px;color:var(--muted);padding:6px 0">No transactions yet. Log your first trade!</div>';return;}
+  el.innerHTML = txs.slice().reverse().map(tx=>{
+    const isbtc=tx.asset==='BTC'||tx.asset==='BTCB';
+    const col=isbtc?'var(--orange)':'var(--bnb)';
+    const val=isbtc?tx.qty+' BTC @ $'+tx.price.toLocaleString('en-US'):tx.qty+' BNB @ $'+tx.price.toLocaleString('en-US');
+    return `<div class="tx-item">
+      <div class="tx-dot" style="background:${col}"></div>
+      <div class="tx-date">${tx.date}</div>
+      <div class="tx-info"><div class="tx-asset" style="color:${col}">${tx.asset}</div><div class="tx-amt">${val}</div></div>
+      <div class="tx-value" style="color:${col}">$${tx.usd.toLocaleString('en-US')}</div>
+    </div>`;
+  }).join('');
+}
+
+function setTF(tf, btn) {
+  currentTF = tf;
+  document.querySelectorAll('.tf-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderPfChart();
+}
+
+function toggleOverlay(which) {
+  overlays[which] = !overlays[which];
+  const btn = document.getElementById('ov-'+which);
+  if(btn) {
+    const cls = 'active-'+which;
+    btn.classList.toggle(cls, overlays[which]);
+  }
+  renderPfChart();
+}
+
+// Hook into showTab
 
 async function init(){
   try{
