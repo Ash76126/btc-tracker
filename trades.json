@@ -16,5 +16,15 @@
     "btc_usd": 25740,
     "bnb_usd": 38610,
     "shield_usd": 9650
-  }
+  },
+  "transactions": [
+    {
+      "date": "2026-09-04",
+      "asset": "SNAPSHOT",
+      "usd": 48002,
+      "qty_btc": 0.2966,
+      "qty_bnb": 43.156,
+      "note": "Fresh start snapshot — BTC avg $70,179 · BNB avg $630"
+    }
+  ]
 }
