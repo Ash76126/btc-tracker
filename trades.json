@@ -5,11 +5,11 @@
     "cost": 25815
   },
   "bnb": {
-    "qty": 48.767,
-    "avg": 639.53,
-    "cost": 31187
+    "qty": 50.165,
+    "avg": 641.07,
+    "cost": 32187
   },
-  "total_invested": 57000,
+  "total_invested": 58000,
   "target_cap": 74000,
   "p2p_rate": 100,
   "deploy_targets": {
