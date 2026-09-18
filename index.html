@@ -777,71 +777,114 @@ let overlays = { total:true, btc:true, bnb:true };
 let currentTF = 'ALL';
 let athValue = 0, athDate = '';
 
-// Build historical data from transactions + live prices
-function buildChartData() {
+// Build historical data using Binance historical klines
+async function buildChartData() {
   if(!CFG || !bP || !nP) return;
-  const txs = CFG.transactions || [];
-  
-  // Generate daily data points from snapshot date to today
+
   const startDate = new Date('2026-09-04');
   const today = new Date();
-  const days = [];
-  const cur = new Date(startDate);
-  while(cur <= today) {
-    days.push(new Date(cur));
-    cur.setDate(cur.getDate() + 1);
+  const startTs = startDate.getTime();
+  const endTs = today.getTime();
+
+  // Show loading state
+  const ctx = document.getElementById('pfChart');
+  if(ctx) {
+    const wrap = document.getElementById('chart-canvas-wrap');
+    if(wrap) wrap.style.opacity = '0.4';
   }
 
-  // Build cumulative holdings per day based on transactions
+  let btcKlines = [], bnbKlines = [];
+  try {
+    const [r1, r2] = await Promise.all([
+      fetch(`https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=${startTs}&endTime=${endTs}&limit=365`),
+      fetch(`https://data-api.binance.vision/api/v3/klines?symbol=BNBUSDT&interval=1d&startTime=${startTs}&endTime=${endTs}&limit=365`)
+    ]);
+    btcKlines = await r1.json();
+    bnbKlines = await r2.json();
+  } catch(e) {
+    // fallback to mexc
+    try {
+      const [r1, r2] = await Promise.all([
+        fetch(`https://api.mexc.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=${startTs}&endTime=${endTs}&limit=365`),
+        fetch(`https://api.mexc.com/api/v3/klines?symbol=BNBUSDT&interval=1d&startTime=${startTs}&endTime=${endTs}&limit=365`)
+      ]);
+      btcKlines = await r1.json();
+      bnbKlines = await r2.json();
+    } catch(e2) { console.error('Klines fetch failed', e2); }
+  }
+
+  // Restore opacity
+  const wrap = document.getElementById('chart-canvas-wrap');
+  if(wrap) wrap.style.opacity = '1';
+
+  // Build price maps: date string -> close price
+  const btcPriceMap = {};
+  const bnbPriceMap = {};
+  if(Array.isArray(btcKlines)) {
+    btcKlines.forEach(k => {
+      const d = new Date(k[0]).toISOString().split('T')[0];
+      btcPriceMap[d] = parseFloat(k[4]); // close price
+    });
+  }
+  if(Array.isArray(bnbKlines)) {
+    bnbKlines.forEach(k => {
+      const d = new Date(k[0]).toISOString().split('T')[0];
+      bnbPriceMap[d] = parseFloat(k[4]);
+    });
+  }
+
+  // Generate days from start to today
   chartData.labels = [];
   chartData.total = [];
   chartData.btcVal = [];
   chartData.bnbVal = [];
   chartData.invested = [];
   chartData.txMarkers = [];
+  athValue = 0; athDate = '';
 
-  // Start with snapshot values
   let curBtcQty = CFG.btc.qty;
   let curBnbQty = CFG.bnb.qty;
   let curInvested = CFG.total_invested;
+  const txs = (CFG.transactions || []).filter(t => t.asset !== 'SNAPSHOT');
 
-  // Collect future transactions (after snapshot)
-  const futureTxs = txs.filter(t => t.asset !== 'SNAPSHOT' && new Date(t.date) > startDate);
+  const cur = new Date(startDate);
+  let idx = 0;
+  while(cur <= today) {
+    const dayStr = cur.toISOString().split('T')[0];
 
-  days.forEach((day, idx) => {
-    const dayStr = day.toISOString().split('T')[0];
-    
-    // Apply any transactions on this day
-    futureTxs.forEach(tx => {
+    // Apply transactions on this day
+    txs.forEach(tx => {
       if(tx.date === dayStr) {
         if(tx.asset === 'BTC' || tx.asset === 'BTCB') {
-          curBtcQty += tx.qty;
-          curInvested += tx.usd;
-          chartData.txMarkers.push({ idx, tx, color: 'var(--orange)' });
+          curBtcQty += tx.qty; curInvested += tx.usd;
+          chartData.txMarkers.push({ idx, tx, color: '#f7931a' });
         } else if(tx.asset === 'BNB') {
-          curBnbQty += tx.qty;
-          curInvested += tx.usd;
-          chartData.txMarkers.push({ idx, tx, color: 'var(--bnb)' });
+          curBnbQty += tx.qty; curInvested += tx.usd;
+          chartData.txMarkers.push({ idx, tx, color: '#f0b90b' });
         }
       }
     });
 
-    // For today use live prices, for past dates use live price as approximation
-    // (since we only have live data from today forward)
-    const btcPrice = bP;
-    const bnbPrice = nP;
-    const btcV = curBtcQty * btcPrice;
-    const bnbV = curBnbQty * bnbPrice;
-    const totalV = btcV + bnbV;
+    // Use historical price if available, else use live price for today
+    const isToday = dayStr === today.toISOString().split('T')[0];
+    const btcP = btcPriceMap[dayStr] || (isToday ? bP : null);
+    const bnbP = bnbPriceMap[dayStr] || (isToday ? nP : null);
 
-    chartData.labels.push(dayStr);
-    chartData.btcVal.push(Math.round(btcV));
-    chartData.bnbVal.push(Math.round(bnbV));
-    chartData.total.push(Math.round(totalV));
-    chartData.invested.push(Math.round(curInvested));
+    if(btcP && bnbP) {
+      const btcV = Math.round(curBtcQty * btcP);
+      const bnbV = Math.round(curBnbQty * bnbP);
+      const totalV = btcV + bnbV;
+      chartData.labels.push(dayStr);
+      chartData.btcVal.push(btcV);
+      chartData.bnbVal.push(bnbV);
+      chartData.total.push(totalV);
+      chartData.invested.push(Math.round(curInvested));
+      if(totalV > athValue) { athValue = totalV; athDate = dayStr; }
+      idx++;
+    }
 
-    if(totalV > athValue) { athValue = totalV; athDate = dayStr; }
-  });
+    cur.setDate(cur.getDate() + 1);
+  }
 
   updateChartStats();
   renderPfChart();
