@@ -743,9 +743,13 @@ function updateSim(price){
   // BNB Beta: 1.5x BTC multiplier from live price
   // Based on cycle data: 2019=2.18x, 2021=7.1x (outlier/DeFi), 2024=0.98x (DOJ drag)
   // Conservative base = 1.5x BTC move applied to live BNB price
-  const btcLiveMult = (bP && bP > 0) ? price / bP : price / 77000;
-  const bnbProjPrice = (nP && nP > 0) ? nP * btcLiveMult * 1.5 : CFG.bnb.avg * btcLiveMult * 1.5;
-  const bnbMult = bnbProjPrice / ((nP && nP > 0) ? nP : CFG.bnb.avg);
+  // BTC multiplier from LIVE price
+  const btcLiveMult = (bP && bP > 0) ? price / bP : 1;
+  // BNB projected: current live BNB × (BTC move × 1.5 beta)
+  // At 1x BTC move → BNB stays at live. At 2x BTC → BNB does 3x from live.
+  const bnbLivePrice = (nP && nP > 0) ? nP : CFG.bnb.avg;
+  const bnbProjPrice = bnbLivePrice * (1 + (btcLiveMult - 1) * 1.5);
+  const bnbMult = (bnbProjPrice / bnbLivePrice);
   const bnbEst = CFG.bnb.qty * bnbProjPrice;
   const total=btcV+bnbEst, totalI=total*CFG.p2p_rate, pnl=total-CFG.total_invested, pct=(pnl/CFG.total_invested)*100;
   const simTier=getTierInfo(totalI,true);
