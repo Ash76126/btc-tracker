@@ -140,6 +140,41 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
 .tx-asset{font-weight:bold}
 .tx-amt{font-size:9px;color:var(--muted);margin-top:1px;font-family:'Share Tech Mono',monospace}
 .tx-value{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;text-align:right;flex-shrink:0}
+
+/* ── MONTHLY RETURNS HEATMAP ── */
+.mr-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:12px;box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.mr-head{padding:14px 16px 12px;border-bottom:1px solid var(--border);background:#070a12}
+.mr-title{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:.3px}
+.mr-sub{font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:2px}
+.mr-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+.mr-st{background:var(--card);padding:10px 6px;text-align:center}
+.mr-st-l{font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+.mr-st-v{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;line-height:1.1}
+.mr-st-s{font-size:8px;color:var(--muted);margin-top:2px;letter-spacing:.3px}
+.mr-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:10px 8px 6px;scrollbar-width:thin;scrollbar-color:#1f2d45 transparent}
+.mr-scroll::-webkit-scrollbar{height:4px}
+.mr-scroll::-webkit-scrollbar-thumb{background:#1f2d45;border-radius:4px}
+.mr-table{border-collapse:separate;border-spacing:3px;width:max-content;min-width:100%}
+.mr-table th{padding:6px 0;text-align:center;font-size:9px;letter-spacing:1.5px;color:var(--muted);background:transparent;border:none;font-weight:700;text-transform:uppercase}
+.mr-table td{padding:9px 0;min-width:54px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:10px;font-weight:700;border:none;border-radius:6px;color:#eafff3;background:rgba(255,255,255,.02);white-space:nowrap}
+.mr-table tbody tr:hover{background:transparent}
+.mr-table td.mr-yr,.mr-table th.mr-yr{position:sticky;left:0;z-index:3;min-width:46px;text-align:left;padding-left:6px;background:var(--card);color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.5px;border-radius:0;box-shadow:6px 0 8px -4px rgba(0,0,0,.7)}
+.mr-table td.mr-yr-now{color:var(--orange)}
+.mr-table td.mr-empty{background:transparent}
+.mr-table td.mr-na{color:var(--dim);font-weight:400;background:rgba(255,255,255,.015)}
+.mr-table td.mr-now{outline:1.5px dashed var(--orange);outline-offset:-1.5px}
+.mr-table tfoot td{border:none;border-top:none}
+.mr-table tfoot td.mr-yr{color:var(--orange)}
+.mr-table tfoot td.mr-sum{background:rgba(255,255,255,.06);font-weight:700}
+.mr-table tfoot tr:first-child td{box-shadow:none}
+.mr-table tfoot tr:first-child td.mr-sum{margin-top:6px}
+.mr-table td.mr-pos{color:var(--green)}
+.mr-table td.mr-neg{color:#ff7a50}
+.mr-legend{display:flex;gap:14px;flex-wrap:wrap;padding:6px 16px 4px;font-size:9px;color:var(--muted)}
+.mr-lg{display:flex;align-items:center;gap:5px}
+.mr-lg i{display:inline-block;width:12px;height:12px;border-radius:3px}
+.mr-lg i.mr-lg-now{background:transparent;outline:1.5px dashed var(--orange);outline-offset:-1.5px}
+.mr-foot{padding:4px 16px 14px;font-size:8px;color:var(--dim);line-height:1.7;letter-spacing:.3px}
 </style>
 </head>
 <body>
@@ -523,6 +558,22 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
     </div>
   </div>
 
+  <!-- BTC MONTHLY RETURNS HEATMAP -->
+  <div class="mr-card">
+    <div class="mr-head">
+      <div class="mr-title">📅 BTC Monthly Returns</div>
+      <div class="mr-sub">% change per calendar month · 2013 → now · swipe ↔ for all months</div>
+    </div>
+    <div class="mr-strip" id="mr-strip"></div>
+    <div class="mr-scroll" id="mr-wrap"><div style="padding:18px;font-size:10px;color:var(--muted)">Loading…</div></div>
+    <div class="mr-legend">
+      <span class="mr-lg"><i style="background:rgba(255,61,0,.65)"></i>Loss</span>
+      <span class="mr-lg"><i style="background:rgba(0,230,118,.65)"></i>Gain</span>
+      <span class="mr-lg"><i class="mr-lg-now"></i>Month in progress</span>
+    </div>
+    <div class="mr-foot" id="mr-foot"></div>
+  </div>
+
 </div>
 
 </div><!-- end app -->
@@ -769,7 +820,7 @@ function showTab(name,btn){
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   const tp=$("panel-"+name); if(tp){ tp.classList.add("active"); tp.style.display="block"; }
   if(btn) btn.classList.add("active");
-  if(name==='chart') buildChartData();
+  if(name==='chart'){ buildChartData(); renderMonthlyReturns(); }
 }
 document.querySelectorAll(".panel").forEach((p,i)=>{p.style.display=i===0?"block":"none";});
 
@@ -1071,6 +1122,136 @@ function toggleOverlay(which) {
 }
 
 // Hook into showTab
+
+
+// ── MONTHLY RETURNS (BTC) ────────────────────────────
+// 2013 → Jan 2026 transcribed from the heatmap screenshot. Later months are filled live from Binance.
+const MR_MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MR_BTC={
+2026:[0.14],
+2025:[9.29,-17.39,-2.3,14.08,10.99,2.49,8.13,-6.49,5.16,-3.69,-17.67,-2.97],
+2024:[0.62,43.55,16.81,-14.76,11.07,-6.96,2.95,-8.6,7.29,10.76,37.29,-2.85],
+2023:[39.63,0.03,22.96,2.81,-6.98,11.98,-4.02,-11.29,3.91,28.52,8.81,12.18],
+2022:[-16.68,12.21,5.39,-17.3,-15.6,-37.28,16.8,-13.88,-3.12,5.56,-16.23,-3.59],
+2021:[14.51,36.78,29.84,-1.98,-35.31,-5.95,18.19,13.8,-7.03,39.93,-7.11,-18.9],
+2020:[29.95,-8.6,-24.92,34.26,9.51,-3.18,24.03,2.83,-7.51,27.7,42.95,46.92],
+2019:[-8.58,11.14,7.05,34.36,52.38,26.67,-6.59,-4.6,-13.38,10.17,-17.27,-5.15],
+2018:[-25.41,0.47,-32.85,33.43,-18.99,-14.62,20.96,-9.27,-5.58,-3.83,-36.57,-5.15],
+2017:[-0.04,23.07,-9.05,32.71,52.71,10.45,17.92,65.32,-7.44,47.81,53.48,38.89],
+2016:[-14.83,20.08,-5.35,7.27,18.78,27.14,-7.67,-7.49,6.04,14.71,5.42,30.8],
+2015:[-33.05,18.43,-4.38,-3.46,-3.17,15.19,8.2,-18.67,2.35,33.49,19.27,13.83],
+2014:[10.03,-31.03,-17.25,-1.6,39.46,2.2,-9.69,-17.55,-19.01,-12.95,12.82,-15.11],
+2013:[44.05,61.77,172.76,50.01,-8.56,-29.89,9.6,30.42,-1.76,60.79,449.35,-34.81]
+};
+let MR_LIVE={}, mrFetchedAt=0, mrLiveOk=null, mrScrolled=false;
+
+function mrVal(y,m){
+  const a=MR_BTC[y];
+  if(a && a[m]!==undefined && a[m]!==null) return a[m];              // screenshot data wins
+  if(MR_LIVE[y] && MR_LIVE[y][m]!==undefined) return MR_LIVE[y][m];  // live fills the gaps
+  return null;
+}
+function mrMedian(a){ if(!a.length) return null; const s=[...a].sort((x,y)=>x-y), n=s.length; return n%2 ? s[(n-1)/2] : (s[n/2-1]+s[n/2])/2; }
+function mrFmt(v){ return (v>0?'+':'')+v.toFixed(2)+'%'; }
+function mrBg(v){
+  const a=(0.12+Math.min(Math.abs(v)/35,1)*0.58).toFixed(2);
+  return v>=0 ? `rgba(0,230,118,${a})` : `rgba(255,61,0,${a})`;
+}
+
+async function fetchMrLive(){
+  const start=Date.UTC(2026,0,1);
+  const urls=[
+    `https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1M&startTime=${start}&limit=60`,
+    `https://api.mexc.com/api/v3/klines?symbol=BTCUSDT&interval=1M&startTime=${start}&limit=60`
+  ];
+  for(const u of urls){
+    try{
+      const r=await fetch(u); if(!r.ok) continue;
+      const k=await r.json();
+      if(!Array.isArray(k)||!k.length) continue;
+      const out={};
+      k.forEach(row=>{
+        const d=new Date(Number(row[0])), y=d.getUTCFullYear(), m=d.getUTCMonth();
+        const o=parseFloat(row[1]), cl=parseFloat(row[4]);
+        if(o>0 && isFinite(cl)){ (out[y]=out[y]||{})[m]=+(((cl-o)/o)*100).toFixed(2); }
+      });
+      MR_LIVE=out; return true;
+    }catch(e){}
+  }
+  return false;
+}
+
+function drawMr(){
+  const wrap=document.getElementById('mr-wrap'); if(!wrap) return;
+  const now=new Date(), cy=now.getFullYear(), cm=now.getMonth();
+  const years=[]; for(let y=cy;y>=2013;y--) years.push(y);
+
+  // Avg / median per month — completed months only (month in progress is excluded)
+  const avg=[],med=[],wins=[],cnt=[];
+  for(let m=0;m<12;m++){
+    const vals=[];
+    years.forEach(y=>{ if(y===cy && m>=cm) return; const v=mrVal(y,m); if(v!==null) vals.push(v); });
+    cnt[m]=vals.length;
+    avg[m]=vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null;
+    med[m]=mrMedian(vals);
+    wins[m]=vals.filter(v=>v>0).length;
+  }
+
+  let h='<table class="mr-table"><thead><tr><th class="mr-yr">Year</th>'+MR_MONTHS.map(n=>`<th>${n}</th>`).join('')+'</tr></thead><tbody>';
+  years.forEach(y=>{
+    h+=`<tr><td class="mr-yr${y===cy?' mr-yr-now':''}">${y}</td>`;
+    for(let m=0;m<12;m++){
+      const v=mrVal(y,m), isNow=(y===cy&&m===cm), future=(y===cy&&m>cm);
+      if(future){ h+='<td class="mr-empty"></td>'; continue; }
+      if(v===null){ h+=`<td class="mr-na${isNow?' mr-now':''}" title="No data">${mrLiveOk===null?'…':'n/a'}</td>`; continue; }
+      h+=`<td class="${isNow?'mr-now':''}" style="background:${mrBg(v)}" title="${MR_MONTHS[m]} ${y}: ${mrFmt(v)}${isNow?' (month to date)':''}">${mrFmt(v)}</td>`;
+    }
+    h+='</tr>';
+  });
+  h+='</tbody><tfoot>';
+  [['Avg',avg],['Med',med]].forEach(([lbl,arr])=>{
+    h+=`<tr><td class="mr-yr">${lbl}</td>`+arr.map(v=> v===null ? '<td class="mr-sum"></td>' : `<td class="mr-sum ${v>=0?'mr-pos':'mr-neg'}">${mrFmt(v)}</td>`).join('')+'</tr>';
+  });
+  h+='</tfoot></table>';
+  wrap.innerHTML=h;
+
+  // Summary strip
+  let bi=-1,wi=-1;
+  avg.forEach((v,m)=>{ if(v===null) return; if(bi<0||v>avg[bi]) bi=m; if(wi<0||v<avg[wi]) wi=m; });
+  const st=document.getElementById('mr-strip');
+  if(st && bi>=0){
+    const up=cnt[cm] ? `${wins[cm]}/${cnt[cm]} yrs up` : '—';
+    const cur=avg[cm]!==null ? mrFmt(avg[cm]) : '—';
+    const curC=(avg[cm]!==null && avg[cm]<0) ? 'var(--red)' : 'var(--green)';
+    st.innerHTML=
+      `<div class="mr-st"><div class="mr-st-l">Best month</div><div class="mr-st-v c-g">${MR_MONTHS[bi]}</div><div class="mr-st-s">avg ${mrFmt(avg[bi])}</div></div>`+
+      `<div class="mr-st"><div class="mr-st-l">Worst month</div><div class="mr-st-v c-r">${MR_MONTHS[wi]}</div><div class="mr-st-s">avg ${mrFmt(avg[wi])}</div></div>`+
+      `<div class="mr-st"><div class="mr-st-l">${MR_MONTHS[cm]} · now</div><div class="mr-st-v" style="color:${curC}">${cur}</div><div class="mr-st-s">${up} · med ${med[cm]!==null?mrFmt(med[cm]):'—'}</div></div>`;
+  }
+
+  const ft=document.getElementById('mr-foot');
+  if(ft){
+    const src = mrLiveOk===true ? 'Later months live from Binance monthly candles (open→close).'
+              : mrLiveOk===false ? 'Live data unavailable — showing screenshot data only (through Jan 2026).'
+              : 'Loading live months…';
+    ft.textContent='2013 → Jan 2026 from your screenshot. '+src+' Avg/Median exclude the month in progress. Historical stats, not a forecast.';
+  }
+
+  // first draw: bring the current month into view on mobile
+  if(!mrScrolled){
+    const th=wrap.querySelectorAll('thead th')[cm+1];
+    if(th && wrap.clientWidth>0){ wrap.scrollLeft=Math.max(0, th.offsetLeft - wrap.clientWidth + th.offsetWidth + 40); mrScrolled=true; }
+  }
+}
+
+async function renderMonthlyReturns(){
+  drawMr();                                   // instant, from screenshot data
+  if(Date.now()-mrFetchedAt<600000) return;   // refresh live months at most every 10 min
+  const ok=await fetchMrLive();
+  mrLiveOk=ok;
+  if(ok) mrFetchedAt=Date.now();
+  drawMr();
+}
 
 async function init(){
   try{
