@@ -1,0 +1,10 @@
+{
+  "_help": "events: fill = USDT added to the buffer. withdraw = USDT sold for INR (inr optional; if left out it is estimated at p2p_rate and shown as est). Dates are YYYY-MM-DD. active_level only changes on the 1 Nov snapshot.",
+  "withdrawals_start": "2027-01-01",
+  "active_level": 1,
+  "buffer": {
+    "target_usdt": 9650,
+    "opening_balance_usdt": 0
+  },
+  "events": []
+}

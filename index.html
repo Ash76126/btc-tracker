@@ -175,6 +175,100 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
 .mr-lg i{display:inline-block;width:12px;height:12px;border-radius:3px}
 .mr-lg i.mr-lg-now{background:transparent;outline:1.5px dashed var(--orange);outline-offset:-1.5px}
 .mr-foot{padding:4px 16px 14px;font-size:8px;color:var(--dim);line-height:1.7;letter-spacing:.3px}
+
+/* ── WITHDRAWALS TAB + LAW #6 ── */
+.wd-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;margin-bottom:12px;box-shadow:0 4px 24px rgba(0,0,0,.3);animation:wdUp .55s cubic-bezier(.2,.7,.2,1) both}
+.wd-card:nth-child(2){animation-delay:.04s}
+.wd-card:nth-child(3){animation-delay:.11s}
+.wd-card:nth-child(4){animation-delay:.18s}
+.wd-card:nth-child(5){animation-delay:.25s}
+.wd-card:nth-child(6){animation-delay:.32s}
+.wd-card:nth-child(7){animation-delay:.39s}
+@keyframes wdUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes wdSlide{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@keyframes wdPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.7)}}
+@keyframes wdShine{to{transform:translateX(100%)}}
+@keyframes wdArrow{0%,100%{transform:translateX(0);opacity:.55}50%{transform:translateX(7px);opacity:1}}
+.wd-hero{background:linear-gradient(135deg,rgba(0,230,118,.07),rgba(5,7,12,.6));border-color:rgba(0,230,118,.22);position:relative;overflow:hidden}
+.wd-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.wd-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.wd-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--green);font-weight:700}
+.wd-chip{display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:1.5px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:rgba(255,255,255,.03)}
+.wd-chip i{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+.wd-chip.ok{color:var(--green);border-color:rgba(0,230,118,.4);background:rgba(0,230,118,.08)}
+.wd-chip.mid{color:var(--orange);border-color:rgba(247,147,26,.4);background:rgba(247,147,26,.08)}
+.wd-chip.low{color:var(--red);border-color:rgba(255,61,0,.4);background:rgba(255,61,0,.08)}
+.wd-chip.ok i,.wd-chip.mid i{animation:wdPulse 1.8s ease-in-out infinite}
+.wd-bal{font-family:'Rajdhani',sans-serif;font-size:46px;font-weight:700;line-height:1;color:#fff;letter-spacing:-1px}
+.wd-bal small{font-size:16px;color:var(--muted);font-weight:600;letter-spacing:0}
+.wd-sub{font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:.3px}
+.wd-bar{height:14px;background:#05070c;border:1px solid var(--border);border-radius:20px;overflow:hidden;margin:14px 0 8px;box-shadow:inset 0 3px 6px rgba(0,0,0,.8)}
+.wd-bar-fill{height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,#00e676,#00bcd4);box-shadow:0 0 12px rgba(0,230,118,.5);transition:width 1.1s cubic-bezier(.2,.7,.2,1);position:relative;overflow:hidden}
+.wd-bar-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-100%);animation:wdShine 2.6s ease-in-out 1.2s infinite}
+.wd-row{display:flex;justify-content:space-between;font-size:10px;color:var(--muted)}
+.wd-banner{display:flex;align-items:center;gap:10px;background:rgba(247,147,26,.07);border:1px solid rgba(247,147,26,.25);border-radius:12px;padding:10px 12px;margin:12px 0;font-size:10px;color:#ffd9a8;line-height:1.5}
+.wd-banner.live{background:rgba(0,230,118,.07);border-color:rgba(0,230,118,.3);color:#b9f6ca}
+.wd-banner .dot{width:8px;height:8px;border-radius:50%;background:currentColor;animation:wdPulse 1.8s ease-in-out infinite;flex-shrink:0}
+.wd-empty{font-size:10px;color:var(--muted);line-height:1.7;padding:6px 0}
+.wd-mrow{display:grid;grid-template-columns:52px 1fr 82px;gap:10px;align-items:center;margin-bottom:9px;animation:wdSlide .45s ease both}
+.wd-mlbl{font-size:10px;color:var(--muted);letter-spacing:.5px}
+.wd-mlbl.now{color:var(--orange);font-weight:700}
+.wd-mtrack{height:10px;background:#05070c;border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative}
+.wd-mfill{height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,#f7931a,#f0b90b);transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.wd-mfill.over{background:linear-gradient(90deg,#ff3d00,#ff7a50)}
+.wd-mark{position:absolute;top:-1px;bottom:-1px;width:2px;background:rgba(255,255,255,.55)}
+.wd-mamt{text-align:right;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700}
+.wd-legend{font-size:9px;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:6px}
+.wd-legend i{display:inline-block;width:2px;height:10px;background:rgba(255,255,255,.55)}
+.wd-ev{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(23,34,55,.5);animation:wdSlide .45s ease both}
+.wd-ev:last-child{border-bottom:none}
+.wd-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.wd-ico.in{background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);color:var(--green)}
+.wd-ico.out{background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.3);color:var(--orange)}
+.wd-ev-main{flex:1;min-width:0}
+.wd-ev-title{font-size:11px;font-weight:700;color:#fff}
+.wd-ev-sub{font-size:9px;color:var(--muted);margin-top:2px;line-height:1.5}
+.wd-ev-amt{text-align:right;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;flex-shrink:0}
+.wd-ev-s2{font-size:9px;color:var(--muted);font-weight:400;font-family:'Share Tech Mono',monospace}
+.wd-lad{display:grid;grid-template-columns:38px 1fr auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;background:rgba(5,7,12,.5);transition:transform .2s,border-color .2s,box-shadow .2s}
+.wd-lad:active{transform:scale(.99)}
+.wd-lad.active{border-color:rgba(0,230,118,.5);background:rgba(0,230,118,.06);box-shadow:0 0 18px rgba(0,230,118,.08)}
+.wd-lad.preview{border-color:rgba(247,147,26,.5);background:rgba(247,147,26,.05)}
+.wd-lad.god{opacity:.75;border-style:dashed}
+.wd-lvl{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:var(--orange);background:rgba(247,147,26,.08);border:1px solid rgba(247,147,26,.25)}
+.wd-lad.active .wd-lvl{color:var(--green);background:rgba(0,230,118,.1);border-color:rgba(0,230,118,.4)}
+.wd-lad-t{font-size:11px;font-weight:700;color:#fff}
+.wd-lad-s{font-size:9px;color:var(--muted);margin-top:2px;line-height:1.5}
+.wd-lad-r{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:#fff;text-align:right}
+.wd-lad-r small{font-size:9px;color:var(--muted);font-weight:400}
+.wd-tag{font-size:8px;letter-spacing:1.5px;font-weight:700;padding:2px 7px;border-radius:10px;margin-left:6px;vertical-align:middle}
+.wd-tag.act{color:var(--green);border:1px solid rgba(0,230,118,.4);background:rgba(0,230,118,.08)}
+.wd-tag.prev{color:var(--orange);border:1px solid rgba(247,147,26,.4);background:rgba(247,147,26,.08)}
+.wd-code{background:#05070c;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:9px;color:#9fb3c8;line-height:1.7;overflow-x:auto;white-space:pre}
+/* Law #6 */
+.law-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.law-chip{font-size:9px;padding:5px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:rgba(255,255,255,.02)}
+.law6{background:linear-gradient(135deg,rgba(240,185,11,.09),rgba(247,147,26,.04),rgba(5,7,12,.6));border:1px solid rgba(240,185,11,.35);border-radius:16px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;animation:wdUp .6s both}
+.law6::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bnb),transparent)}
+.law6-badge{font-size:9px;letter-spacing:3px;color:var(--bnb);font-weight:700;text-transform:uppercase}
+.law6-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#fff;margin:4px 0 4px;line-height:1.2}
+.law6-sub{font-size:10px;color:var(--muted);line-height:1.7}
+.law6-flip{display:flex;align-items:center;gap:10px;margin:14px 0}
+.law6-pill{flex:1;text-align:center;border-radius:12px;padding:10px 6px;border:1px solid var(--border);background:rgba(5,7,12,.6)}
+.law6-pill b{font-family:'Rajdhani',sans-serif;font-size:15px;display:block;color:#fff}
+.law6-pill span{font-size:9px;color:var(--muted)}
+.law6-arrow{font-size:20px;color:var(--orange);animation:wdArrow 1.6s ease-in-out infinite}
+.law6-core{background:rgba(0,0,0,.35);border:1px dashed rgba(247,147,26,.4);border-radius:10px;padding:10px 12px;font-size:10px;color:#ffd9a8;line-height:1.7;margin-bottom:6px}
+.law6-step{display:flex;gap:10px;padding:10px 0;border-top:1px solid rgba(23,34,55,.7)}
+.law6-lv{flex-shrink:0;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;color:var(--orange);background:rgba(247,147,26,.08);border:1px solid rgba(247,147,26,.3)}
+.law6-st{font-size:10px;color:#9fb3c8;line-height:1.7}
+.law6-st b{color:#fff}
+.law6-guard{border-top:1px solid rgba(23,34,55,.7);padding-top:10px;font-size:10px;color:#ffb9a3;line-height:1.7}
+@media (prefers-reduced-motion:reduce){
+  .wd-card,.wd-ev,.wd-mrow,.law6{animation:none!important}
+  .wd-bar-fill::after,.wd-chip i,.wd-banner .dot,.law6-arrow{animation:none!important}
+  .wd-bar-fill,.wd-mfill{transition:none!important}
+}
 </style>
 </head>
 <body>
@@ -212,6 +306,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
   <button class="tab active" onclick="showTab('overview',this)">Overview</button>
   <button class="tab" onclick="showTab('positions',this)">Positions</button>
   <button class="tab" onclick="showTab('refill',this)">🗓️ 1st Nov Refill</button>
+  <button class="tab" onclick="showTab('withdrawals',this)">💸 Withdrawals</button>
   <button class="tab" onclick="showTab('simulator',this)">Simulator</button>
   <button class="tab" onclick="showTab('strategy',this)">Strategy</button>
   <button class="tab" onclick="showTab('vault',this)">⚡ Vault</button>
@@ -258,7 +353,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
       <div class="stat" style="border-color:rgba(0,230,118,0.3)">
         <div class="stat-l">USDT Shield</div>
         <div class="stat-v c-g" id="dep-shield-usd">—</div>
-        <div style="font-size:9px;color:var(--muted);margin-top:3px">Pure Stablecoin</div>
+        <div style="font-size:9px;color:var(--muted);margin-top:3px" id="dep-shield-sub">Pure Stablecoin</div>
       </div>
     </div>
     <div class="deploy-bar-wrap">
@@ -270,8 +365,8 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
       <div class="deploy-bar-track"><div class="deploy-bar-fill" id="dep-bnb-bar" style="width:0%;background:linear-gradient(90deg,#f0b90b,#ffd700)"></div></div>
     </div>
     <div class="deploy-bar-wrap">
-      <div class="deploy-bar-lbl"><span class="c-g">USDT Shield</span><span>0% · Not started</span></div>
-      <div class="deploy-bar-track"><div class="deploy-bar-fill" style="width:0%;background:linear-gradient(90deg,#00e676,#00bcd4)"></div></div>
+      <div class="deploy-bar-lbl"><span class="c-g">USDT Shield</span><span id="dep-shield-pct">—</span></div>
+      <div class="deploy-bar-track"><div class="deploy-bar-fill" id="dep-shield-bar" style="width:0%;background:linear-gradient(90deg,#00e676,#00bcd4)"></div></div>
     </div>
   </div>
 
@@ -401,11 +496,13 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
     </div>
   </div>
   <div class="card">
-    <div class="sec-lbl">The 3-Tier Lifestyle Matrix</div>
-    <div style="font-size:10px;color:var(--muted);line-height:1.8">
-      <strong style="color:#fff">Level 1 (PF > ₹1 Cr):</strong> ₹50k/mo SWP → ₹15L Shield<br>
-      <strong style="color:#fff">Level 2 (PF > ₹1.5 Cr):</strong> ₹75k/mo SWP → ₹22.5L Shield<br>
-      <strong style="color:#fff">Level 3 (PF > ₹2 Cr):</strong> ₹1L/mo SWP → ₹30L Shield<br>
+    <div class="sec-lbl">Master Plan · Tier Ladder (Law #6)</div>
+    <div style="font-size:10px;color:var(--muted);line-height:1.9">
+      <strong style="color:#fff">Level 1 (to ₹1.19Cr):</strong> ₹25–30K/mo · vault ₹9.0–10.5L · no crypto sold<br>
+      <strong style="color:#fff">Level 2 (₹1.20Cr+):</strong> ₹50K/mo · vault ₹18L · harvest both coins, keep 40/60<br>
+      <strong style="color:#fff">Level 3 (₹2.00Cr+):</strong> ₹1L/mo · vault ₹36L · THE FLIP: 100% BNB, 0 BTC<br>
+      <strong style="color:#fff">Level 4 (₹5.00Cr+ at 70/30):</strong> ₹2L/mo · vault ₹72L · slice 70% BTC / 30% BNB<br>
+      <strong style="color:#fff">God Mode:</strong> ₹5L/mo · vault ₹1.80Cr<br>
     </div>
   </div>
 </div>
@@ -470,6 +567,32 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
     <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:4px;letter-spacing:0.5px">Anti-FOMO Execution Framework</div>
     <div style="font-size:10px;color:var(--muted);letter-spacing:2.5px;font-weight:bold;text-transform:uppercase">Institutional Rules for Long-Term Wealth</div>
   </div>
+
+  <!-- MASTER PLAN LAWS -->
+  <div class="law-chips">
+    <span class="law-chip" style="border-color:rgba(247,147,26,.4);color:var(--orange)">Laws #1–#5 · unchanged</span>
+    <span class="law-chip">100% Pure Spot BTC/BNB</span>
+    <span class="law-chip">100% Liquid Idle USDT Buffer</span>
+    <span class="law-chip">Zero DeFi / Staking / Launchpools</span>
+    <span class="law-chip">1st November Snapshot</span>
+    <span class="law-chip">15% Max Harvest Cap</span>
+  </div>
+  <div class="law6">
+    <div class="law6-badge">Law #6 · Master Plan</div>
+    <div class="law6-title">The Post-₹2.5 Crore Asymmetric Flip</div>
+    <div class="law6-sub">Harvest-driven rebalancing (zero-swap flip). BNB is the high-beta rocket to ₹2.0–2.5Cr in Cycle 1; then the portfolio drifts to a 70% BTC fortress for multi-decade safety — without ever swapping BNB for BTC (zero spread, zero slippage).</div>
+    <div class="law6-flip">
+      <div class="law6-pill"><b style="color:var(--orange)">40% BTC</b><b style="color:var(--bnb)">60% BNB</b><span>Rocket</span></div>
+      <div class="law6-arrow">➔</div>
+      <div class="law6-pill"><b style="color:var(--orange)">70% BTC</b><b style="color:var(--bnb)">30% BNB</b><span>Fortress</span></div>
+    </div>
+    <div class="law6-core"><b>Withdrawals &amp; harvests NEVER stop.</b> Monthly SWP and the 1 Nov Delta Harvest stay active in every tier from Day 1 (1 Jan 2027). The ₹2.0–2.5Cr threshold only changes <b>which coin is sold</b> on 1 Nov to refill the 3-year liquid USDT vault.</div>
+    <div class="law6-step"><div class="law6-lv">L1</div><div class="law6-st"><b>Day 1 → ₹1.19Cr · uninterrupted cashflow.</b> From 1 Jan 2027 withdraw ₹25,000–₹30,000 every month from the liquid USDT buffer. Spot BTC (40%) and BNB (60%) stay untouched in cold storage.</div></div>
+    <div class="law6-step"><div class="law6-lv">L2</div><div class="law6-st"><b>₹1.20–₹1.50Cr · normal harvest &amp; upgrade.</b> Withdrawals don't wait for ₹2Cr. On a 1 Nov snapshot, upgrade payouts to ₹50,000/month. Delta shortfall = ₹18,00,000 − remaining USDT buffer (≈ ₹10.4–11.5L). Harvest it from both BTC and BNB (trim whichever outperformed) so the mix stays 40/60.</div></div>
+    <div class="law6-step"><div class="law6-lv">L3</div><div class="law6-st"><b>₹2.00–₹2.50Cr · activate the "Zero BTC Sold" flip.</b> Payout ₹1,00,000/month; new 36-month vault ₹36.0L. Delta shortfall = ₹36,00,000 − ₹12,00,000 remaining = ₹24,00,000. Lock spot Bitcoin (<b>0.00 BTC sold</b>) and sell 100% of the harvest from BNB into the USDT vault. Every later 1 Nov refill in this zone (₹12.0L/yr): 100% BNB, 0% BTC. BTC compounds untouched, so the mix drifts 40/60 → 70/30 over 3–4 harvests.</div></div>
+    <div class="law6-step"><div class="law6-lv">L4</div><div class="law6-st"><b>70/30 reached · ₹5.0Cr+ fortress mode.</b> Stop draining BNB alone. All future 1 Nov harvests (₹72.0L vault for ₹2,00,000/mo at Level 4; ₹1.80Cr vault for ₹5,00,000/mo at God Mode) are sliced <b>70% BTC / 30% BNB</b> to hold 70/30.</div></div>
+    <div class="law6-guard"><b>Exception guardrail:</b> if BNB underperforms and a solo Bitcoin rally pushes BTC above 70% on its own, take that year's 1 Nov harvest from BTC instead, to hold 70/30.</div>
+  </div>
   <div class="vault-rule">
     <div class="vr-top"><div class="vr-num">1</div><div class="vr-title">No Arbitrary Percent Liquidation</div></div>
     <div class="vr-body">Never sell assets based on random market pumps or micro emotions. Execution actions trigger ONLY when explicit macro milestones are hit.</div>
@@ -488,6 +611,69 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
   </div>
 </div>
 
+
+<!-- 💸 WITHDRAWALS PANEL -->
+<div class="panel" id="panel-withdrawals">
+
+  <div class="wd-card" id="wd-missing" style="display:none"></div>
+
+  <!-- 1) Buffer vault -->
+  <div class="wd-card wd-hero">
+    <div class="wd-head">
+      <div class="wd-lbl">USDT Buffer Vault</div>
+      <div class="wd-chip" id="wd-chip"><i></i><span id="wd-chip-t">—</span></div>
+    </div>
+    <div class="wd-bal"><span id="wd-bal-n">$0</span> <small>USDT</small></div>
+    <div class="wd-sub" id="wd-of">—</div>
+    <div class="wd-bar"><div class="wd-bar-fill" id="wd-bar-fill"></div></div>
+    <div class="wd-row"><span id="wd-pct">—</span><span id="wd-def">—</span></div>
+    <div class="g3" style="margin-top:14px">
+      <div class="stat"><div class="stat-l">Value in INR</div><div class="stat-v" id="wd-inr">—</div></div>
+      <div class="stat"><div class="stat-l">Still to fill</div><div class="stat-v c-o" id="wd-short">—</div></div>
+      <div class="stat"><div class="stat-l">Months of cover</div><div class="stat-v c-g" id="wd-cover">—</div></div>
+    </div>
+  </div>
+
+  <!-- 2) Spending pace -->
+  <div class="wd-card">
+    <div class="wd-lbl" style="color:var(--orange)">Spending Pace</div>
+    <div class="wd-banner" id="wd-banner" style="display:none"></div>
+    <div class="m2" style="margin-bottom:0;margin-top:10px">
+      <div class="mcard" style="--mc:var(--orange)"><div class="ml">This month</div><div class="mv" id="wd-t-month">—</div><div class="ms" id="wd-t-month-s">—</div></div>
+      <div class="mcard" style="--mc:var(--bnb)"><div class="ml">Avg / month</div><div class="mv" id="wd-t-avg">—</div><div class="ms" id="wd-t-avg-s">—</div></div>
+      <div class="mcard" style="--mc:var(--green)"><div class="ml">Runway @ your pace</div><div class="mv c-g" id="wd-t-run">—</div><div class="ms" id="wd-t-run-s">—</div></div>
+      <div class="mcard" style="--mc:#7a8899"><div class="ml">Actual P2P rate</div><div class="mv" id="wd-t-rate">—</div><div class="ms" id="wd-t-rate-s">—</div></div>
+    </div>
+  </div>
+
+  <!-- 3) Month by month -->
+  <div class="wd-card">
+    <div class="wd-lbl" style="color:var(--bnb);margin-bottom:12px">Month by Month</div>
+    <div id="wd-months-body"></div>
+  </div>
+
+  <!-- 4) Ledger -->
+  <div class="wd-card">
+    <div class="wd-lbl" style="color:var(--green);margin-bottom:6px">Ledger</div>
+    <div id="wd-ledger-body"></div>
+  </div>
+
+  <!-- 5) Tier ladder -->
+  <div class="wd-card">
+    <div class="wd-lbl" style="color:var(--orange);margin-bottom:12px">Tier Ladder · Law #6</div>
+    <div id="wd-ladder-body"></div>
+    <div class="wd-sub" style="margin-top:8px">Active level changes only on the 1 Nov snapshot. "Snapshot today" shows where your portfolio would land if the snapshot were taken now.</div>
+  </div>
+
+  <!-- 6) How to log -->
+  <div class="wd-card">
+    <div class="wd-lbl" style="color:var(--muted);margin-bottom:10px">How to log</div>
+    <div class="wd-code">{ "date": "2027-01-05", "type": "withdraw", "usdt": 300, "inr": 29700, "note": "Jan living" }
+{ "date": "2026-11-10", "type": "fill", "usdt": 1000, "source": "savings" }</div>
+    <div class="wd-sub" style="margin-top:8px"><b>fill</b> = USDT added to the buffer · <b>withdraw</b> = USDT sold for INR (leave out inr and it is estimated at your plan rate, marked "est").</div>
+  </div>
+
+</div>
 
 <!-- PORTFOLIO CHART PANEL -->
 <div class="panel" id="panel-chart">
@@ -590,35 +776,47 @@ const fI=n=>{if(n>=10000000)return"₹"+(n/10000000).toFixed(2)+" Cr";if(n>=1000
 const col=v=>v>0?"var(--green)":v<0?"var(--red)":"var(--muted)";
 let aC=null,bC=null,sC=null;
 
-function getTierInfo(pfInr, isFunded) {
-  if(!isFunded) return { level:-1, name:"Awaiting Engine Deployment", swp:0, shield:0, source:"LOCKED" };
-  if(pfInr >= 20000000) return { level:3, name:"Level 3: Wealth", swp:100000, shield:3000000, source:"Profits" };
-  if(pfInr >= 15000000) return { level:2, name:"Level 2: Comfort", swp:75000, shield:2250000, source:"Profits" };
-  if(pfInr >= 10000000) return { level:1, name:"Level 1: Milestone Alpha", swp:50000, shield:1500000, source:"Profits" };
-  return { level:0, name:"Base Accumulation", swp:25000, shield:750000, source:"Self-Funded Shield" };
+// Master Plan tiers (Law #6). Thresholds are portfolio value in INR on the 1 Nov snapshot.
+const MASTER_TIERS=[
+ {level:1,short:'L1',name:'Day 1 · Base',   min:0,        payMin:25000,  payMax:30000,  vaultInr:null,    vaultText:'₹9.0L – ₹10.5L',range:'₹64L – ₹1.19Cr',   pay:'₹25,000–₹30,000',payShort:'₹25K–₹30K'},
+ {level:2,short:'L2',name:'Comfort',        min:12000000, payMin:50000,  payMax:50000,  vaultInr:1800000, vaultText:'₹18.0L',        range:'₹1.20Cr+',         pay:'₹50,000',        payShort:'₹50,000'},
+ {level:3,short:'L3',name:'The Flip',       min:20000000, payMin:100000, payMax:100000, vaultInr:3600000, vaultText:'₹36.0L',        range:'₹2.00Cr+',         pay:'₹1,00,000',      payShort:'₹1,00,000'},
+ {level:4,short:'L4',name:'Fortress',       min:50000000, payMin:200000, payMax:200000, vaultInr:7200000, vaultText:'₹72.0L',        range:'₹5.00Cr+ · at 70/30',pay:'₹2,00,000',    payShort:'₹2,00,000'}
+];
+const GOD_MODE={short:'GM',name:'God Mode',pay:'₹5,00,000',vaultText:'₹1.80Cr',range:'threshold not set'};
+
+function getTierInfo(pfInr) {
+  let t=MASTER_TIERS[0];
+  for(const x of MASTER_TIERS){ if(pfInr>=x.min) t=x; }
+  return { level:t.level, name:`Level ${t.level} · ${t.name}`, swp:t.payMax, swpShort:t.payShort, pay:t.pay, vaultInr:t.vaultInr };
 }
 
 function updateDeployCard() {
   if(!CFG || !CFG.deploy_targets || !bP || !nP) return;
   const dt = CFG.deploy_targets;
   const btcRem = Math.max(dt.btc_usd - CFG.btc.cost, 0);
-  const totalRem = btcRem + Math.max(dt.bnb_usd - CFG.bnb.cost, 0) + dt.shield_usd;
-  const totalRemK = Math.round(totalRem / 1000);
-  setTxt("dep-total-rem", "$" + totalRemK + "K");
   const bnbRem = Math.max(dt.bnb_usd - CFG.bnb.cost, 0);
+  const bufBal = wdBalance();                          // null until withdrawals.json is loaded
+  const known = bufBal !== null;
+  const shieldRem = known ? Math.max(dt.shield_usd - bufBal, 0) : dt.shield_usd;
+  const shieldPct = known ? Math.min(Math.max(bufBal / dt.shield_usd * 100, 0), 100) : 0;
+  setTxt("dep-total-rem", "$" + Math.round((btcRem + bnbRem + shieldRem) / 1000) + "K");
   const btcPct = Math.min((CFG.btc.cost / dt.btc_usd) * 100, 100);
   const bnbPct = Math.min((CFG.bnb.cost / dt.bnb_usd) * 100, 100);
   const btcQty = btcRem > 0 ? (btcRem / bP).toFixed(4) : "0";
   const bnbQty = bnbRem > 0 ? Math.round(bnbRem / nP) : 0;
   setTxt("dep-btc-usd", "$" + Math.round(btcRem).toLocaleString("en-US"));
   setTxt("dep-bnb-usd", "$" + Math.round(bnbRem).toLocaleString("en-US"));
-  setTxt("dep-shield-usd", "$" + dt.shield_usd.toLocaleString("en-US"));
+  setTxt("dep-shield-usd", "$" + Math.round(shieldRem).toLocaleString("en-US"));
+  setTxt("dep-shield-sub", known ? (shieldRem <= 0 ? "✓ Buffer funded" : "to fill · " + shieldPct.toFixed(0) + "% done") : (WD_STATE === 'err' ? "withdrawals.json missing" : "loading buffer…"));
+  setTxt("dep-shield-pct", known ? (shieldPct >= 100 ? "100% · Funded ✓" : shieldPct.toFixed(1) + "% filled") : "—");
   setTxt("dep-btc-qty", "~" + btcQty + " BTC @ live");
   setTxt("dep-bnb-qty", "~" + bnbQty + " BNB @ live");
   setTxt("dep-btc-pct", btcPct.toFixed(1) + "% deployed");
   setTxt("dep-bnb-pct", bnbPct.toFixed(1) + "% deployed");
   const bb = $("dep-btc-bar"); if(bb) bb.style.width = btcPct + "%";
   const nb = $("dep-bnb-bar"); if(nb) nb.style.width = bnbPct + "%";
+  const sb = $("dep-shield-bar"); if(sb) sb.style.width = shieldPct + "%";
 }
 
 function updateUI(){
@@ -643,17 +841,19 @@ function updateUI(){
     setTxt("strat-total-cost", "$" + Math.round(COST).toLocaleString("en-US"));
 
     // Hard cap progress
-    const costK=Math.round(COST/1000), targetK=Math.round(TARGET_CAP/1000), progPct=(COST/TARGET_CAP)*100;
-    const isFunded=COST>=(TARGET_CAP-100);
+    const bufBal=wdBalance();
+    const deployed=COST+(bufBal===null?0:Math.max(bufBal,0));          // core engine + USDT buffer
+    const costK=Math.round(deployed/1000), targetK=Math.round(TARGET_CAP/1000), progPct=(deployed/TARGET_CAP)*100;
+    const isFunded=deployed>=(TARGET_CAP-100);
+    const shieldTarget=(CFG.deploy_targets&&Number(CFG.deploy_targets.shield_usd))||0;
+    const coreFunded=COST>=(TARGET_CAP-shieldTarget-100);               // BTC + BNB engine complete
     setTxt("prog-invested", `$${costK}K <span style='color:var(--muted);font-size:32px'>/ $${targetK}K</span>`);
     setTxt("prog-pct-txt", progPct.toFixed(1) + "%");
     const pb = $("prog-bar"); if(pb) pb.style.width = Math.min(progPct,100) + "%";
     setTxt("prog-goal-txt", `Goal: $${TARGET_CAP.toLocaleString("en-US")}`);
-    setTxt("prog-rem", isFunded ? "✓ HARD CAP REACHED" : "$" + Math.round((TARGET_CAP-COST)/1000) + "K Remaining");
+    setTxt("prog-rem", isFunded ? "✓ HARD CAP REACHED" : "$" + Math.round((TARGET_CAP-deployed)/1000) + "K Remaining");
     setCol("prog-rem", "var(--green)");
 
-    // Tier
-    const currentTier = getTierInfo(totalI, isFunded);
 
     // SWP
     setTxt("fl-swp", "₹" + swp.toLocaleString("en-IN",{minimumFractionDigits:1,maximumFractionDigits:1}) + "<span style='font-size:10px'>/mo</span>");
@@ -661,28 +861,8 @@ function updateUI(){
     setTxt("swp-amt", "₹" + swp.toLocaleString("en-IN",{minimumFractionDigits:1,maximumFractionDigits:1}) + "<span style='font-size:20px;color:var(--muted)'> / mo</span>");
     setTxt("swp-usd", fU(total*0.005)); setTxt("swp-inr", fI(swp)); setTxt("swp-yr", "₹"+(swp*12).toLocaleString("en-IN"));
 
-    // Nov 1 Refill
-    const now=new Date(); let refillYear=now.getFullYear(); if(now.getMonth()>=10) refillYear++;
-    setTxt("refill-date", `Nov 1, ${refillYear}`);
-    if(!isFunded){
-      $("refill-status-card").style.borderLeftColor="var(--dim)";
-      setTxt("refill-level","🔒 System Locked"); setCol("refill-level","var(--muted)");
-      setTxt("refill-sub","Awaiting completion of ₹60L engine deployment.");
-      setTxt("refill-action","NO ACTION REQUIRED.<br>Keep accumulating until Hard Cap is hit.");
-      setTxt("refill-swp","0"); setTxt("refill-shield","0");
-    } else if(currentTier.level===0){
-      $("refill-status-card").style.borderLeftColor="var(--orange)";
-      setTxt("refill-level","🛡️ Self-Funded Base Active"); setCol("refill-level","var(--orange)");
-      setTxt("refill-sub","Portfolio under ₹1 Crore. Relying on Self-Funded Buffer.");
-      setTxt("refill-action","DO NOT SELL CRYPTO.<br>Survive on self-funded buffer. Let engine compound until PF crosses ₹1 Crore.");
-      setTxt("refill-swp","₹25,000/mo"); setTxt("refill-shield","₹7.5 Lakhs (From Base)");
-    } else {
-      $("refill-status-card").style.borderLeftColor="var(--green)";
-      setTxt("refill-level",`🚀 ${currentTier.name}`); setCol("refill-level","var(--green)");
-      setTxt("refill-sub",`Portfolio crossed threshold. Lifestyle upgraded to ₹${currentTier.swp/1000}k/mo.`);
-      setTxt("refill-action",`SELL FROM PROFITS.<br>Extract exactly what is needed to top-up USDT shield to <strong>${fI(currentTier.shield)}</strong>.<br>If market is crashed on Nov 1, DO NOT SELL. Use existing shield.`);
-      setTxt("refill-swp",`₹${currentTier.swp.toLocaleString('en-IN')}/mo`); setTxt("refill-shield",fI(currentTier.shield));
-    }
+    // Nov 1 Refill (Master Plan · Law #6)
+    updateRefill(totalI, btcV, bnbV, P2P, coreFunded);
 
     // P&L
     const absolutePnlInr=pnl*P2P;
@@ -807,7 +987,7 @@ function updateSim(price){
   setTxt("s-btc",fU(Math.round(btcV))); setTxt("s-btc-i",fI(btcV*CFG.p2p_rate));
   setTxt("s-bnb",fU(Math.round(bnbEst))); setTxt("s-bnb-i",fI(bnbEst*CFG.p2p_rate));
   setTxt("s-total",fU(Math.round(total))); setCol("s-total",col(pnl)); setTxt("s-total-i",fI(totalI));
-  setTxt("s-swp","₹"+simTier.swp.toLocaleString("en-IN")+" / mo"); setCol("s-swp",simTier.level>0?"var(--green)":"var(--orange)");
+  setTxt("s-swp",simTier.swpShort+" / mo"); setCol("s-swp",simTier.level>1?"var(--green)":"var(--orange)");
   setTxt("s-swp-sub",simTier.name);
   setTxt("s-pnl",(pnl>=0?"+":"")+fU(Math.round(pnl))); setCol("s-pnl",col(pnl)); setTxt("s-pnl-p",(pct>=0?"+":"")+pct.toFixed(1)+"%");
   setTxt("s-bnb-m",bnbMult.toFixed(2)+"× from live · 1.5β");
@@ -821,6 +1001,7 @@ function showTab(name,btn){
   const tp=$("panel-"+name); if(tp){ tp.classList.add("active"); tp.style.display="block"; }
   if(btn) btn.classList.add("active");
   if(name==='chart'){ buildChartData(); }
+  if(name==='withdrawals'){ renderWithdrawals(); }
 }
 document.querySelectorAll(".panel").forEach((p,i)=>{p.style.display=i===0?"block":"none";});
 
@@ -1226,10 +1407,237 @@ function drawMr(){
   }
 }
 
+// ── 💸 WITHDRAWALS · BUFFER TRACKER + SPENDING LOG ───
+// Data lives in withdrawals.json (kept separate from trades.json). Balance = opening + fills − withdrawals.
+let WD=null, WD_STATE='loading';
+
+function wdEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function wdUsd(n,d){ return '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:d===undefined?2:d}); }
+function wdInr(n){ return '₹'+Math.round(n).toLocaleString('en-IN'); }
+function wdDate(iso){ const d=new Date(iso+'T00:00:00'); return isNaN(d.getTime()) ? iso : d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
+function wdReduced(){ try{ return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }catch(e){ return false; } }
+function wdCountUp(el,to,fmt){
+  if(!el) return;
+  if(wdReduced() || !isFinite(to)){ el.textContent=fmt(to); return; }
+  const t0=performance.now(), dur=800;
+  const step=t=>{ const k=Math.min((t-t0)/dur,1), e=1-Math.pow(1-k,3); el.textContent=fmt(to*e); if(k<1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function wdAnimBar(el,pct){
+  if(!el) return;
+  el.style.transition='none'; el.style.width='0%'; void el.offsetWidth;   // flush, then animate to target
+  el.style.transition=''; el.style.width=pct+'%';
+}
+
+async function loadWithdrawals(){
+  try{
+    const r=await fetch('withdrawals.json?v='+Date.now());
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    WD=await r.json(); WD_STATE='ok';
+  }catch(e){ WD=null; WD_STATE='err'; console.warn('withdrawals.json not loaded',e); }
+  renderWithdrawals();
+  if(CFG && bP && nP) updateUI();
+}
+
+function wdCompute(){
+  if(!WD || !CFG) return null;
+  const p2p=Number(CFG.p2p_rate)||95;
+  const b=WD.buffer||{};
+  const level=Math.min(Math.max(parseInt(WD.active_level,10)||1,1),MASTER_TIERS.length);
+  const tier=MASTER_TIERS[level-1];
+  const shieldUsd=Number(b.target_usdt)||(CFG.deploy_targets&&Number(CFG.deploy_targets.shield_usd))||0;
+  const targetInr= level===1 ? shieldUsd*p2p : tier.vaultInr;
+  const targetUsdt=targetInr/p2p;
+  const open=Number(b.opening_balance_usdt)||0;
+  const evs=(Array.isArray(WD.events)?WD.events:[])
+    .filter(e=>e && e.date && (e.type==='fill'||e.type==='withdraw'))
+    .map(e=>({...e, usdt:Number(e.usdt)||0, inrRaw:(e.inr===undefined||e.inr===null||e.inr==='')?null:Number(e.inr)}))
+    .sort((x,y)=> x.date<y.date?-1 : x.date>y.date?1 : 0);
+  let fills=0,out=0,outInr=0,rU=0,rI=0; const months={};
+  evs.forEach(e=>{
+    if(e.type==='fill'){ fills+=e.usdt; return; }
+    const est=(e.inrRaw===null||!isFinite(e.inrRaw)); const inr= est ? e.usdt*p2p : e.inrRaw;
+    e._inr=inr; e._est=est; out+=e.usdt; outInr+=inr;
+    if(!est){ rU+=e.usdt; rI+=inr; }
+    const k=String(e.date).slice(0,7); const mo=months[k]||(months[k]={inr:0,usdt:0});
+    mo.inr+=inr; mo.usdt+=e.usdt;
+  });
+  const balance=open+fills-out;
+  const now=new Date();
+  const nk=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  const keys=Object.keys(months).sort(); const series=[];
+  if(keys.length){
+    let [y,m]=keys[0].split('-').map(Number);
+    const cy=now.getFullYear(), cm=now.getMonth()+1;
+    while(y<cy || (y===cy && m<=cm)){
+      const k=y+'-'+String(m).padStart(2,'0'); const mm=months[k]||{inr:0,usdt:0};
+      series.push({k,label:MR_MONTHS[m-1]+" '"+String(y).slice(2),inr:mm.inr,usdt:mm.usdt,cur:k===nk});
+      m++; if(m>12){m=1;y++;}
+    }
+  }
+  const done=series.filter(s=>!s.cur);
+  let avgMonthly=null, avgNote='no withdrawals yet';
+  if(done.length){ avgMonthly=done.reduce((a,s)=>a+s.inr,0)/done.length; avgNote=done.length+' completed month'+(done.length>1?'s':''); }
+  else if(series.length){ avgMonthly=series[series.length-1].inr; avgNote='this month so far'; }
+  if(!(avgMonthly>0)) avgMonthly=null;
+  const budget=tier.payMax;
+  const cover=(balance*p2p)/budget;
+  const runway=avgMonthly ? (balance*p2p)/avgMonthly : null;
+  const curM=series.find(s=>s.cur); const thisMonthInr=curM?curM.inr:0;
+  let status;
+  if(balance<-0.005) status={cls:'low',text:'CHECK LEDGER'};
+  else if(balance>=targetUsdt-0.005) status={cls:'ok',text:'FULLY FUNDED'};
+  else if(balance>0.005) status={cls:'mid',text:'FILLING'};
+  else status={cls:'low',text:'EMPTY'};
+  const shortUsdt=Math.max(targetUsdt-balance,0);
+  const sd= WD.withdrawals_start ? new Date(WD.withdrawals_start+'T00:00:00') : null;
+  const today0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const daysToStart= (sd && !isNaN(sd.getTime())) ? Math.round((sd-today0)/86400000) : null;
+  return {p2p,level,tier,targetInr,targetUsdt,balance,shortUsdt,shortInr:shortUsdt*p2p,status,evs,series,avgMonthly,avgNote,budget,cover,runway,thisMonthInr,effRate:rU>0?rI/rU:null,daysToStart,startIso:WD.withdrawals_start||null,out,outInr,fills,open};
+}
+function wdBalance(){ const d=wdCompute(); return d ? d.balance : null; }
+
+// Which coin pays the 1 Nov Delta Harvest (Law #6). H is in USD.
+function splitHarvest(T,H,btcV,bnbV){
+  const V=btcV+bnbV, btcW=V>0?btcV/V:0;
+  let btcSell,bnbSell,rule;
+  if(T.level===2){
+    btcSell=btcV-0.4*(V-H); bnbSell=bnbV-0.6*(V-H);
+    if(btcSell<0){ btcSell=0; bnbSell=H; } else if(bnbSell<0){ bnbSell=0; btcSell=H; }
+    rule='Trim whichever coin outperformed so the mix stays 40/60.';
+  } else if(T.level===3){
+    if(btcW>0.70){ btcSell=H; bnbSell=0; rule="Guardrail: BTC is already above 70% — this year's harvest comes from BTC."; }
+    else { btcSell=0; bnbSell=H; rule='THE FLIP: 0 BTC sold. 100% of the harvest comes from BNB.'; }
+  } else {
+    if(btcW>=0.70){ btcSell=0.7*H; bnbSell=0.3*H; rule='Fortress mode: slice 70% BTC / 30% BNB to hold 70/30.'; }
+    else { btcSell=0; bnbSell=H; rule='BTC is still below 70% — keep selling 100% BNB until the mix reaches 70/30.'; }
+  }
+  return {btcSell,bnbSell,rule};
+}
+
+function refillAction(T,shortfallInr,totalI,btcV,bnbV,P2P){
+  if(T.level===1){
+    if(shortfallInr===null) return 'DO NOT SELL CRYPTO.<br>Spend only from the liquid USDT buffer. (Buffer data not loaded.)';
+    return shortfallInr>0
+      ? `DO NOT SELL CRYPTO.<br>Top up the USDT buffer from outside funds — <strong>${fI(shortfallInr)}</strong> (≈ ${fU(shortfallInr/P2P)}) short of target.`
+      : 'DO NOT SELL CRYPTO.<br>Buffer is funded. Spend the monthly payout from the USDT buffer; BTC and BNB stay untouched.';
+  }
+  if(shortfallInr===null) return 'Delta Harvest = vault target − remaining USDT buffer. Load withdrawals.json to compute it.';
+  if(shortfallInr<=0) return 'No harvest needed — the USDT vault is already at target. Do not sell on 1 Nov.';
+  const Hu=shortfallInr/P2P, sp=splitHarvest(T,Hu,btcV,bnbV);
+  const pctPf=shortfallInr/totalI*100, capOk=pctPf<=15;
+  const line=(label,usd,price,sym,dec)=> usd>0.5 ? `<br>• ${label}: <strong>${fI(usd*P2P)}</strong> ≈ ${(usd/price).toFixed(dec)} ${sym}` : '';
+  return `DELTA HARVEST <strong>${fI(shortfallInr)}</strong> (${pctPf.toFixed(1)}% of portfolio · ${capOk?'within':'<span style="color:var(--red)">ABOVE</span>'} 15% cap)<br>${sp.rule}`
+    + line('Sell BTC',sp.btcSell,bP,'BTC',4) + line('Sell BNB',sp.bnbSell,nP,'BNB',2)
+    + '<br><span style="font-size:11px;color:var(--muted)">If the market has crashed on 1 Nov, spend the existing vault instead.</span>';
+}
+
+function updateRefill(totalI,btcV,bnbV,P2P,coreFunded){
+  const now=new Date(); let ry=now.getFullYear(); if(now.getMonth()>=10) ry++;
+  setTxt('refill-date',`Nov 1, ${ry}`);
+  const card=$('refill-status-card');
+  if(!coreFunded){
+    card.style.borderLeftColor='var(--dim)';
+    setTxt('refill-level','🔒 System Locked'); setCol('refill-level','var(--muted)');
+    setTxt('refill-sub','Awaiting completion of the BTC + BNB core engine.');
+    setTxt('refill-action','NO ACTION REQUIRED.<br>Keep accumulating until the core engine is complete.');
+    setTxt('refill-swp','—'); setTxt('refill-shield','—'); return;
+  }
+  const live=getTierInfo(totalI);
+  const d=wdCompute();
+  const activeLvl=d?d.level:1;
+  const T=MASTER_TIERS[Math.max(live.level,activeLvl)-1];
+  const shieldUsd=(WD&&WD.buffer&&Number(WD.buffer.target_usdt))||(CFG.deploy_targets&&Number(CFG.deploy_targets.shield_usd))||0;
+  const vaultInr= T.level===1 ? shieldUsd*P2P : T.vaultInr;
+  const shortfall= d ? Math.max(vaultInr-d.balance*P2P,0) : null;
+  let title,sub,color;
+  if(live.level>activeLvl){ title=`🚀 Upgrade due → Level ${live.level}`; sub=`Today's snapshot (${fI(totalI)}) is in Level ${live.level} range. On 1 Nov the payout becomes ${T.pay}/month.`; color='var(--green)'; }
+  else if(live.level<activeLvl){ title=`⚠️ Level ${activeLvl} active · snapshot below range`; sub=`Today's snapshot (${fI(totalI)}) is under Level ${activeLvl}'s range.`; color='var(--orange)'; }
+  else { title=`🛡️ Level ${T.level} · ${T.name}`; sub=`Snapshot today ${fI(totalI)} · same level as active.`; color=T.level>1?'var(--green)':'var(--orange)'; }
+  card.style.borderLeftColor=color;
+  setTxt('refill-level',title); setCol('refill-level',color);
+  setTxt('refill-sub',sub);
+  setTxt('refill-action',refillAction(T,shortfall,totalI,btcV,bnbV,P2P));
+  setTxt('refill-swp',`${T.pay}/mo`); setTxt('refill-shield',fI(vaultInr));
+}
+
+function renderWithdrawals(){
+  const miss=$('wd-missing'); if(!miss) return;
+  const d=wdCompute();
+  if(!d){
+    miss.style.display='block';
+    miss.innerHTML = WD_STATE==='err'
+      ? '<div class="wd-lbl" style="color:var(--red);margin-bottom:8px">withdrawals.json not found</div><div class="wd-empty">Upload <b>withdrawals.json</b> next to index.html and trades.json. The buffer tracker and spending log fill in as soon as it loads.</div>'
+      : '<div class="wd-empty">Loading buffer data…</div>';
+    return;
+  }
+  miss.style.display='none';
+
+  // 1) vault
+  const pct=d.targetUsdt>0 ? Math.min(Math.max(d.balance/d.targetUsdt*100,0),100) : 0;
+  $('wd-chip').className='wd-chip '+d.status.cls; setTxt('wd-chip-t',d.status.text);
+  wdCountUp($('wd-bal-n'),d.balance,v=>'$'+Number(v).toLocaleString('en-US',{maximumFractionDigits:2}));
+  setTxt('wd-of',`of ${wdUsd(d.targetUsdt)} target · Level ${d.level} vault (${wdInr(d.targetInr)})`);
+  wdAnimBar($('wd-bar-fill'),pct);
+  setTxt('wd-pct',pct.toFixed(1)+'% filled');
+  setTxt('wd-def', d.shortUsdt>0.005 ? wdUsd(d.shortUsdt)+' to go' : '✓ target met');
+  setTxt('wd-inr',wdInr(d.balance*d.p2p));
+  setTxt('wd-short', d.shortUsdt>0.005 ? wdInr(d.shortInr) : '₹0');
+  setTxt('wd-cover',Math.max(d.cover,0).toFixed(1)+' mo');
+
+  // 2) pace
+  const ban=$('wd-banner');
+  if(d.daysToStart===null){ ban.style.display='none'; }
+  else {
+    ban.style.display='flex';
+    if(d.daysToStart>0){ ban.className='wd-banner'; ban.innerHTML=`<span class="dot"></span><span>Withdrawals begin <b>${wdDate(d.startIso)}</b> · ${d.daysToStart} day${d.daysToStart===1?'':'s'} to go. Spending is tracked from the first withdrawal you log.</span>`; }
+    else { ban.className='wd-banner live'; ban.innerHTML=`<span class="dot"></span><span>Withdrawals active since <b>${wdDate(d.startIso)}</b>.</span>`; }
+  }
+  const over=d.thisMonthInr>d.budget;
+  setTxt('wd-t-month',wdInr(d.thisMonthInr)); setCol('wd-t-month',over?'var(--red)':(d.thisMonthInr>0?'var(--orange)':'var(--muted)'));
+  setTxt('wd-t-month-s',`${d.budget>0?Math.round(d.thisMonthInr/d.budget*100):0}% of ${wdInr(d.budget)} budget`);
+  setTxt('wd-t-avg',d.avgMonthly===null?'—':wdInr(d.avgMonthly)); setCol('wd-t-avg',(d.avgMonthly!==null&&d.avgMonthly>d.budget)?'var(--red)':'#fff');
+  setTxt('wd-t-avg-s',d.avgNote);
+  setTxt('wd-t-run',d.runway===null?'—':d.runway.toFixed(1)+' mo'); setTxt('wd-t-run-s',`${Math.max(d.cover,0).toFixed(1)} mo at plan pace`);
+  setTxt('wd-t-rate',d.effRate===null?'—':'₹'+d.effRate.toFixed(2)); setTxt('wd-t-rate-s',`plan rate ₹${d.p2p}`);
+
+  // 3) month by month
+  const mb=$('wd-months-body');
+  if(!d.series.length){ mb.innerHTML='<div class="wd-empty">Month-by-month spending appears here after your first logged withdrawal.</div>'; }
+  else {
+    const mx=Math.max(d.budget,...d.series.map(s=>s.inr))*1.12;
+    mb.innerHTML=d.series.map((s,i)=>{
+      const w=mx>0?Math.min(s.inr/mx*100,100):0, bm=mx>0?d.budget/mx*100:0;
+      return `<div class="wd-mrow" style="animation-delay:${i*50}ms"><div class="wd-mlbl${s.cur?' now':''}">${s.label}</div><div class="wd-mtrack"><div class="wd-mfill${s.inr>d.budget?' over':''}" data-w="${w.toFixed(1)}" style="width:0"></div><div class="wd-mark" style="left:${bm.toFixed(1)}%"></div></div><div class="wd-mamt">${wdInr(s.inr)}</div></div>`;
+    }).join('')+`<div class="wd-legend"><i></i>Budget line ${wdInr(d.budget)}/mo</div>`;
+    void mb.offsetWidth;
+    mb.querySelectorAll('.wd-mfill').forEach(el=>{ el.style.width=el.dataset.w+'%'; });
+  }
+
+  // 4) ledger
+  const lb=$('wd-ledger-body');
+  const list=d.evs.slice().reverse();
+  if(!list.length){ lb.innerHTML='<div class="wd-empty">No entries yet. Top-ups and withdrawals you log in withdrawals.json appear here, newest first.</div>'; }
+  else lb.innerHTML=list.map((e,i)=>{
+    const isIn=e.type==='fill';
+    const sub=[wdDate(e.date)].concat(e.source?[wdEsc(e.source)]:[]).concat(e.note?[wdEsc(e.note)]:[]).join(' · ');
+    const rate=(!isIn&&e.usdt>0)?` · ₹${(e._inr/e.usdt).toFixed(2)}/USDT${e._est?' (est)':''}`:'';
+    return `<div class="wd-ev" style="animation-delay:${Math.min(i,12)*55}ms"><div class="wd-ico ${isIn?'in':'out'}">${isIn?'↓':'↑'}</div><div class="wd-ev-main"><div class="wd-ev-title">${isIn?'Buffer top-up':'Withdrawal'}</div><div class="wd-ev-sub">${sub}${rate}</div></div><div class="wd-ev-amt ${isIn?'c-g':'c-o'}">${isIn?'+'+wdUsd(e.usdt):'−'+wdInr(e._inr)}${isIn?'':`<div class="wd-ev-s2">−${wdUsd(e.usdt)}</div>`}</div></div>`;
+  }).join('');
+
+  // 5) ladder
+  const liveLvl=(bP&&nP&&CFG)?getTierInfo((CFG.btc.qty*bP+CFG.bnb.qty*nP)*d.p2p).level:null;
+  $('wd-ladder-body').innerHTML=MASTER_TIERS.map(t=>{
+    const act=t.level===d.level, prev=(liveLvl!==null&&liveLvl===t.level&&liveLvl!==d.level);
+    return `<div class="wd-lad${act?' active':''}${prev?' preview':''}"><div class="wd-lvl">${t.short}</div><div><div class="wd-lad-t">${t.name}${act?'<span class="wd-tag act">ACTIVE</span>':''}${prev?'<span class="wd-tag prev">SNAPSHOT TODAY</span>':''}</div><div class="wd-lad-s">${t.range} · vault ${t.vaultText}</div></div><div class="wd-lad-r">${t.pay}<small>/mo</small></div></div>`;
+  }).join('')+`<div class="wd-lad god"><div class="wd-lvl">${GOD_MODE.short}</div><div><div class="wd-lad-t">${GOD_MODE.name}</div><div class="wd-lad-s">${GOD_MODE.range} · vault ${GOD_MODE.vaultText}</div></div><div class="wd-lad-r">${GOD_MODE.pay}<small>/mo</small></div></div>`;
+}
+
 async function init(){
   try{
     const res=await fetch('trades.json');
     CFG=await res.json();
+    loadWithdrawals();
     fetchINR();
     fetchPrices();
     setInterval(fetchPrices,1000);
