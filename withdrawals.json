@@ -4,7 +4,7 @@
   "active_level": 1,
   "buffer": {
     "target_usdt": 9650,
-    "opening_balance_usdt": 0
+    "opening_balance_usdt": 1000
   },
   "events": []
 }
