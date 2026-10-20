@@ -1,7 +1,8 @@
 {
-  "_help": "events: fill = USDT added to the buffer. withdraw = USDT sold for INR (inr optional; if left out it is estimated at p2p_rate and shown as est). Dates are YYYY-MM-DD. active_level only changes on the 1 Nov snapshot.",
+  "_help": "events: fill = USDT added to the buffer. withdraw = USDT sold for INR (inr optional; if left out it is estimated at p2p_rate and shown as est). Dates are YYYY-MM-DD. active_level only changes on the 1 Nov snapshot. prior_cycle_high_usd (optional): if set, the 1 Nov harvest is 0 whenever the portfolio is below it.",
   "withdrawals_start": "2027-01-01",
   "active_level": 1,
+  "prior_cycle_high_usd": null,
   "buffer": {
     "target_usdt": 9650,
     "opening_balance_usdt": 1000
