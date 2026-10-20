@@ -269,6 +269,42 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
   .wd-bar-fill::after,.wd-chip i,.wd-banner .dot,.law6-arrow{animation:none!important}
   .wd-bar-fill,.wd-mfill{transition:none!important}
 }
+
+/* ── EXECUTION ACTION CARD + Law #6 formulas ── */
+.ex-card{background:linear-gradient(135deg,rgba(247,147,26,.07),rgba(5,7,12,.7));border:1px solid rgba(247,147,26,.3);border-radius:16px;padding:16px 18px;margin-bottom:12px;position:relative;overflow:hidden;animation:wdUp .55s cubic-bezier(.2,.7,.2,1) both}
+.ex-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--orange),transparent)}
+.ex-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.ex-lbl{font-size:9px;letter-spacing:3px;color:var(--orange);font-weight:700;text-transform:uppercase}
+.ex-chip{font-size:8px;letter-spacing:1.2px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted);text-align:right}
+.ex-chip.ok{color:var(--green);border-color:rgba(0,230,118,.4);background:rgba(0,230,118,.08)}
+.ex-chip.go{color:var(--orange);border-color:rgba(247,147,26,.45);background:rgba(247,147,26,.1);animation:wdPulse 2s ease-in-out infinite}
+.ex-chip.cap{color:var(--red);border-color:rgba(255,61,0,.45);background:rgba(255,61,0,.1);animation:wdPulse 1.4s ease-in-out infinite}
+.ex-row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.ex-tile{background:rgba(5,7,12,.6);border:1px solid var(--border);border-radius:12px;padding:11px 12px;min-width:0}
+.ex-tile.bnb{border-color:rgba(240,185,11,.38)}
+.ex-tile.btc{border-color:rgba(247,147,26,.38)}
+.ex-tl{font-size:8px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.ex-tv{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:#fff;line-height:1.1}
+.ex-ts{font-size:9px;color:var(--muted);margin-top:3px;line-height:1.5}
+.ex-cap{height:8px;background:#05070c;border:1px solid var(--border);border-radius:20px;overflow:hidden;margin:2px 0 4px}
+.ex-cap-fill{height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,#00e676,#f0b90b);transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.ex-cap-fill.hit{background:linear-gradient(90deg,#f7931a,#ff3d00)}
+.ex-cap-txt{display:flex;justify-content:space-between;font-size:8px;color:var(--dim);margin-bottom:6px}
+.ex-flag{font-size:10px;line-height:1.7;color:#ffd9a8;margin:6px 0 12px}
+.ex-ratio{height:24px;border-radius:8px;overflow:hidden;display:flex;position:relative;border:1px solid var(--border);margin:4px 0 6px}
+.ex-seg{height:100%;transition:width .9s cubic-bezier(.2,.7,.2,1);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#0b0f19;white-space:nowrap;overflow:hidden}
+.ex-seg.btc{background:linear-gradient(90deg,#f7931a,#ffb347)}
+.ex-seg.bnb{background:linear-gradient(90deg,#f0b90b,#ffd84d)}
+.ex-tick{position:absolute;top:-2px;bottom:-2px;width:2px;background:#fff;box-shadow:0 0 6px rgba(255,255,255,.7);transition:left .6s}
+.ex-trail{background:#05070c;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:9px;line-height:1.9;color:#9fb3c8;margin-top:10px;overflow-x:auto;white-space:nowrap}
+.ex-note{font-size:8px;color:var(--dim);margin-top:8px;letter-spacing:.3px;line-height:1.6}
+.law6-formula{background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:10px;color:#9fb3c8;line-height:1.9;margin:10px 0}
+.law6-formula b{color:#fff}
+@media (prefers-reduced-motion:reduce){
+  .ex-card{animation:none!important}
+  .ex-chip.go,.ex-chip.cap{animation:none!important}
+  .ex-cap-fill,.ex-seg,.ex-tick{transition:none!important}
+}
 </style>
 </head>
 <body>
@@ -486,23 +522,39 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
         <div style="font-size:10px;color:var(--muted);margin-top:2px" id="refill-sub">Checking Capital Deployment Limit</div>
       </div>
     </div>
-    <div style="background:rgba(0,0,0,0.4);border:1px dashed var(--border);border-radius:8px;padding:14px;margin-top:12px">
-      <div class="ml" style="color:var(--orange)">Action Plan For Nov 1</div>
-      <div style="font-size:13px;color:#fff;line-height:1.5;font-family:'Share Tech Mono',monospace" id="refill-action">—</div>
-    </div>
     <div class="ms-grid" style="grid-template-columns:1fr 1fr">
       <div class="ms-s"><div class="ms-sl">Target SWP Rate</div><div class="ms-sv c-g" id="refill-swp">—</div></div>
       <div class="ms-s"><div class="ms-sl">Target USDT Shield</div><div class="ms-sv c-o" id="refill-shield">—</div></div>
     </div>
   </div>
+  <!-- EXECUTION ACTION CARD -->
+  <div class="ex-card" id="ex-card">
+    <div class="ex-head"><div class="ex-lbl">Execution Action Card</div><div class="ex-chip" id="ex-mode">—</div></div>
+    <div class="ex-row2">
+      <div class="ex-tile"><div class="ex-tl">① Active tier</div><div class="ex-tv" id="ex-tier" style="font-size:15px">—</div><div class="ex-ts" id="ex-swp">—</div></div>
+      <div class="ex-tile"><div class="ex-tl">② Harvest H</div><div class="ex-tv" id="ex-h">—</div><div class="ex-ts" id="ex-hpct">—</div></div>
+    </div>
+    <div class="ex-cap"><div class="ex-cap-fill" id="ex-cap-fill"></div></div>
+    <div class="ex-cap-txt"><span>H vs 15% cap</span><span>cap = 15% × portfolio</span></div>
+    <div class="ex-flag" id="ex-flag">—</div>
+    <div class="ex-row2">
+      <div class="ex-tile bnb"><div class="ex-tl">③ Sell BNB</div><div class="ex-tv" id="ex-bnb">—</div><div class="ex-ts" id="ex-bnb-s">—</div></div>
+      <div class="ex-tile btc"><div class="ex-tl">④ Sell BTC</div><div class="ex-tv" id="ex-btc">—</div><div class="ex-ts" id="ex-btc-s">—</div></div>
+    </div>
+    <div class="ex-tl" style="margin-top:4px">⑤ Post-harvest ratio (BTC / BNB)</div>
+    <div class="ex-ratio"><div class="ex-seg btc" id="ex-seg-btc"></div><div class="ex-seg bnb" id="ex-seg-bnb"></div><div class="ex-tick" id="ex-tick"></div></div>
+    <div class="ex-ts" id="ex-ratio-t">—</div>
+    <div class="ex-trail" id="ex-trail">—</div>
+    <div class="ex-note">Live preview using today's prices and your USDT buffer. The numbers that count are the ones on 1 Nov. No swaps — only the coin amounts above are sold.</div>
+  </div>
   <div class="card">
     <div class="sec-lbl">Master Plan · Tier Ladder (Law #6)</div>
     <div style="font-size:10px;color:var(--muted);line-height:1.9">
-      <strong style="color:#fff">Level 1 (to ₹1.19Cr):</strong> ₹25–30K/mo · vault ₹9.0–10.5L · no crypto sold<br>
-      <strong style="color:#fff">Level 2 (₹1.20Cr+):</strong> ₹50K/mo · vault ₹18L · harvest both coins, keep 40/60<br>
-      <strong style="color:#fff">Level 3 (₹2.00Cr+):</strong> ₹1L/mo · vault ₹36L · THE FLIP: 100% BNB, 0 BTC<br>
-      <strong style="color:#fff">Level 4 (₹5.00Cr+ at 70/30):</strong> ₹2L/mo · vault ₹72L · slice 70% BTC / 30% BNB<br>
-      <strong style="color:#fff">God Mode:</strong> ₹5L/mo · vault ₹1.80Cr<br>
+      <strong style="color:#fff">Level 1 (₹64.35L – ₹1.19Cr):</strong> ₹25–30K/mo · vault ₹9.0–10.5L · 0% sold, use the buffer<br>
+      <strong style="color:#fff">Level 2 (₹1.20Cr – ₹1.99Cr):</strong> ₹50K/mo · vault ₹18L · keep 40/60<br>
+      <strong style="color:#fff">Level 3 (₹2.00Cr – ₹4.99Cr):</strong> ₹1L/mo · vault ₹36L · drain BNB until 70/30<br>
+      <strong style="color:#fff">Level 4 (₹5.00Cr – ₹11.99Cr):</strong> ₹2L/mo · vault ₹72L · hold 70/30<br>
+      <strong style="color:#fff">Level 5 · God Mode (₹12.00Cr+):</strong> ₹5L/mo · vault ₹1.80Cr · hold 70/30<br>
     </div>
   </div>
 </div>
@@ -586,12 +638,18 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
       <div class="law6-arrow">➔</div>
       <div class="law6-pill"><b style="color:var(--orange)">70% BTC</b><b style="color:var(--bnb)">30% BNB</b><span>Fortress</span></div>
     </div>
-    <div class="law6-core"><b>Withdrawals &amp; harvests NEVER stop.</b> Monthly SWP and the 1 Nov Delta Harvest stay active in every tier from Day 1 (1 Jan 2027). The ₹2.0–2.5Cr threshold only changes <b>which coin is sold</b> on 1 Nov to refill the 3-year liquid USDT vault.</div>
-    <div class="law6-step"><div class="law6-lv">L1</div><div class="law6-st"><b>Day 1 → ₹1.19Cr · uninterrupted cashflow.</b> From 1 Jan 2027 withdraw ₹25,000–₹30,000 every month from the liquid USDT buffer. Spot BTC (40%) and BNB (60%) stay untouched in cold storage.</div></div>
-    <div class="law6-step"><div class="law6-lv">L2</div><div class="law6-st"><b>₹1.20–₹1.50Cr · normal harvest &amp; upgrade.</b> Withdrawals don't wait for ₹2Cr. On a 1 Nov snapshot, upgrade payouts to ₹50,000/month. Delta shortfall = ₹18,00,000 − remaining USDT buffer (≈ ₹10.4–11.5L). Harvest it from both BTC and BNB (trim whichever outperformed) so the mix stays 40/60.</div></div>
-    <div class="law6-step"><div class="law6-lv">L3</div><div class="law6-st"><b>₹2.00–₹2.50Cr · activate the "Zero BTC Sold" flip.</b> Payout ₹1,00,000/month; new 36-month vault ₹36.0L. Delta shortfall = ₹36,00,000 − ₹12,00,000 remaining = ₹24,00,000. Lock spot Bitcoin (<b>0.00 BTC sold</b>) and sell 100% of the harvest from BNB into the USDT vault. Every later 1 Nov refill in this zone (₹12.0L/yr): 100% BNB, 0% BTC. BTC compounds untouched, so the mix drifts 40/60 → 70/30 over 3–4 harvests.</div></div>
-    <div class="law6-step"><div class="law6-lv">L4</div><div class="law6-st"><b>70/30 reached · ₹5.0Cr+ fortress mode.</b> Stop draining BNB alone. All future 1 Nov harvests (₹72.0L vault for ₹2,00,000/mo at Level 4; ₹1.80Cr vault for ₹5,00,000/mo at God Mode) are sliced <b>70% BTC / 30% BNB</b> to hold 70/30.</div></div>
-    <div class="law6-guard"><b>Exception guardrail:</b> if BNB underperforms and a solo Bitcoin rally pushes BTC above 70% on its own, take that year's 1 Nov harvest from BTC instead, to hold 70/30.</div>
+    <div class="law6-core"><b>Withdrawals &amp; harvests NEVER stop.</b> Tier upgrades and harvests begin at <b>Level 2 (₹1.20Cr / $120K)</b>. Only <b>Spot BTC selling is paused</b> from Level 3 (₹2.00Cr) until the portfolio naturally flips from 40% BTC / 60% BNB to 70% BTC / 30% BNB — without ever swapping BNB for BTC.</div>
+    <div class="law6-step"><div class="law6-lv">L1</div><div class="law6-st"><b>Base Floor · ₹64.35L – ₹1.19Cr.</b> SWP ₹25,000–₹30,000 · 3Y USDT vault ₹9.0–10.5L. 0% sold — live off the initial buffer. Target 40/60.</div></div>
+    <div class="law6-step"><div class="law6-lv">L2</div><div class="law6-st"><b>Comfort · ₹1.20Cr – ₹1.99Cr.</b> SWP ₹50,000 · vault ₹18.0L ($18,000). Harvest the Delta and maintain the 40/60 growth ratio.</div></div>
+    <div class="law6-step"><div class="law6-lv">L3</div><div class="law6-st"><b>Flip Trigger · ₹2.00Cr – ₹4.99Cr.</b> SWP ₹1,00,000 · vault ₹36.0L ($36,000). Target 70/30: BNB is drained first, so <b>zero BTC is sold</b> until 70/30 is reached.</div></div>
+    <div class="law6-step"><div class="law6-lv">L4</div><div class="law6-st"><b>Executive · ₹5.00Cr – ₹11.99Cr.</b> SWP ₹2,00,000 · vault ₹72.0L ($72,000). Maintain the 70/30 fortress.</div></div>
+    <div class="law6-step"><div class="law6-lv">L5</div><div class="law6-st"><b>God Mode · ₹12.00Cr+.</b> SWP ₹5,00,000 · vault ₹1.80Cr ($180,000). Maintain 70/30.</div></div>
+    <div class="law6-formula"><b>Every 1 Nov</b> (B = BTC, N = BNB, P = B + N, U = USDT buffer left)<br>
+      Δ = max(0, V_target − U) &nbsp;·&nbsp; <b>H = min(Δ, 15% × P)</b> &nbsp;·&nbsp; P_after = P − H<br>
+      Sell_BNB = min(H, max(0, N − <b>0.60</b>·P_after)) at Level 2 &nbsp;|&nbsp; <b>0.30</b> at Levels 3–5<br>
+      Sell_BTC = H − Sell_BNB<br>
+      If the cap triggers: harvest only 15% of P and carry the rest to next year. In a bear market (P below Level 2 or below the prior cycle high) H = 0.</div>
+    <div class="law6-guard"><b>Solo BTC rally exception:</b> if BTC rises above 70% on its own, so N is already below 0.30·P_after, Sell_BNB clamps to 0 and 100% of H comes from BTC.</div>
   </div>
   <div class="vault-rule">
     <div class="vr-top"><div class="vr-num">1</div><div class="vr-title">No Arbitrary Percent Liquidation</div></div>
@@ -601,15 +659,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
     <div class="vr-top"><div class="vr-num" style="border-color:var(--bnb);color:var(--bnb);background:rgba(240,185,11,.08)">2</div><div class="vr-title">BNB Beta Drift Absorption</div></div>
     <div class="vr-body">BNB is high-beta and will experience extreme swings during corrections. Do not engage or attempt to swing trade active inventory bags during mid-cycle dips.</div>
   </div>
-  <div class="vault-rule" style="border-left-color:var(--green)">
-    <div class="vr-top"><div class="vr-num" style="border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)">3</div><div class="vr-title">Harvest Threshold Minimum</div></div>
-    <div class="vr-body">$200K BTC macro price print is the absolute floor criteria before initializing active harvest mechanisms or layout extractions. No exceptions.</div>
-  </div>
-  <div class="vault-rule" style="border-left-color:var(--red)">
-    <div class="vr-top"><div class="vr-num" style="border-color:var(--red);color:var(--red);background:rgba(255,61,0,.08)">4</div><div class="vr-title">Strict Lifestyle Inflation Cap</div></div>
-    <div class="vr-body">No dynamic harvest expansions until the $300K BTC milestone is mathematically claimed and stable. Protect capital base size rules above all.</div>
-  </div>
-</div>
+    </div>
 
 
 <!-- 💸 WITHDRAWALS PANEL -->
@@ -776,19 +826,21 @@ const fI=n=>{if(n>=10000000)return"₹"+(n/10000000).toFixed(2)+" Cr";if(n>=1000
 const col=v=>v>0?"var(--green)":v<0?"var(--red)":"var(--muted)";
 let aC=null,bC=null,sC=null;
 
-// Master Plan tiers (Law #6). Thresholds are portfolio value in INR on the 1 Nov snapshot.
+// Master Plan tiers (Law #6). Thresholds are fixed at ₹100/USDT, so they are held in USD (₹1.20Cr = $120K).
+const TIER_FX=100;
 const MASTER_TIERS=[
- {level:1,short:'L1',name:'Day 1 · Base',   min:0,        payMin:25000,  payMax:30000,  vaultInr:null,    vaultText:'₹9.0L – ₹10.5L',range:'₹64L – ₹1.19Cr',   pay:'₹25,000–₹30,000',payShort:'₹25K–₹30K'},
- {level:2,short:'L2',name:'Comfort',        min:12000000, payMin:50000,  payMax:50000,  vaultInr:1800000, vaultText:'₹18.0L',        range:'₹1.20Cr+',         pay:'₹50,000',        payShort:'₹50,000'},
- {level:3,short:'L3',name:'The Flip',       min:20000000, payMin:100000, payMax:100000, vaultInr:3600000, vaultText:'₹36.0L',        range:'₹2.00Cr+',         pay:'₹1,00,000',      payShort:'₹1,00,000'},
- {level:4,short:'L4',name:'Fortress',       min:50000000, payMin:200000, payMax:200000, vaultInr:7200000, vaultText:'₹72.0L',        range:'₹5.00Cr+ · at 70/30',pay:'₹2,00,000',    payShort:'₹2,00,000'}
+ {level:1,short:'L1',name:'Base Floor',  minUsd:0,       payMin:25000, payMax:30000, vaultUsd:null,   bnbShare:0.60,ratio:'40 : 60',range:'₹64.35L – ₹1.19Cr',  vaultText:'₹9.0L – ₹10.5L',pay:'₹25,000–₹30,000',payShort:'₹25K–₹30K'},
+ {level:2,short:'L2',name:'Comfort',     minUsd:120000,  payMin:50000, payMax:50000, vaultUsd:18000,  bnbShare:0.60,ratio:'40 : 60',range:'₹1.20Cr – ₹1.99Cr',  vaultText:'₹18.0L',        pay:'₹50,000',        payShort:'₹50,000'},
+ {level:3,short:'L3',name:'Flip Trigger',minUsd:200000,  payMin:100000,payMax:100000,vaultUsd:36000,  bnbShare:0.30,ratio:'70 : 30',range:'₹2.00Cr – ₹4.99Cr',  vaultText:'₹36.0L',        pay:'₹1,00,000',      payShort:'₹1,00,000'},
+ {level:4,short:'L4',name:'Executive',   minUsd:500000,  payMin:200000,payMax:200000,vaultUsd:72000,  bnbShare:0.30,ratio:'70 : 30',range:'₹5.00Cr – ₹11.99Cr', vaultText:'₹72.0L',        pay:'₹2,00,000',      payShort:'₹2,00,000'},
+ {level:5,short:'L5',name:'God Mode',    minUsd:1200000, payMin:500000,payMax:500000,vaultUsd:180000, bnbShare:0.30,ratio:'70 : 30',range:'₹12.00Cr+',          vaultText:'₹1.80Cr',       pay:'₹5,00,000',      payShort:'₹5,00,000'}
 ];
-const GOD_MODE={short:'GM',name:'God Mode',pay:'₹5,00,000',vaultText:'₹1.80Cr',range:'threshold not set'};
 
-function getTierInfo(pfInr) {
+// pfUsd = total crypto portfolio in USD
+function getTierInfo(pfUsd) {
   let t=MASTER_TIERS[0];
-  for(const x of MASTER_TIERS){ if(pfInr>=x.min) t=x; }
-  return { level:t.level, name:`Level ${t.level} · ${t.name}`, swp:t.payMax, swpShort:t.payShort, pay:t.pay, vaultInr:t.vaultInr };
+  for(const x of MASTER_TIERS){ if(pfUsd>=x.minUsd) t=x; }
+  return { level:t.level, name:`Level ${t.level} · ${t.name}`, swp:t.payMax, swpShort:t.payShort, pay:t.pay, vaultUsd:t.vaultUsd };
 }
 
 function updateDeployCard() {
@@ -983,7 +1035,7 @@ function updateSim(price){
   const bnbMult = (bnbProjPrice / bnbLivePrice);
   const bnbEst = CFG.bnb.qty * bnbProjPrice;
   const total=btcV+bnbEst, totalI=total*CFG.p2p_rate, pnl=total-CFG.total_invested, pct=(pnl/CFG.total_invested)*100;
-  const simTier=getTierInfo(totalI,true);
+  const simTier=getTierInfo(total);
   setTxt("s-btc",fU(Math.round(btcV))); setTxt("s-btc-i",fI(btcV*CFG.p2p_rate));
   setTxt("s-bnb",fU(Math.round(bnbEst))); setTxt("s-bnb-i",fI(bnbEst*CFG.p2p_rate));
   setTxt("s-total",fU(Math.round(total))); setCol("s-total",col(pnl)); setTxt("s-total-i",fI(totalI));
@@ -1446,8 +1498,8 @@ function wdCompute(){
   const level=Math.min(Math.max(parseInt(WD.active_level,10)||1,1),MASTER_TIERS.length);
   const tier=MASTER_TIERS[level-1];
   const shieldUsd=Number(b.target_usdt)||(CFG.deploy_targets&&Number(CFG.deploy_targets.shield_usd))||0;
-  const targetInr= level===1 ? shieldUsd*p2p : tier.vaultInr;
-  const targetUsdt=targetInr/p2p;
+  const targetUsdt= level===1 ? shieldUsd : tier.vaultUsd;
+  const targetInr=targetUsdt*p2p;
   const open=Number(b.opening_balance_usdt)||0;
   const evs=(Array.isArray(WD.events)?WD.events:[])
     .filter(e=>e && e.date && (e.type==='fill'||e.type==='withdraw'))
@@ -1497,39 +1549,96 @@ function wdCompute(){
 }
 function wdBalance(){ const d=wdCompute(); return d ? d.balance : null; }
 
-// Which coin pays the 1 Nov Delta Harvest (Law #6). H is in USD.
-function splitHarvest(T,H,btcV,bnbV){
-  const V=btcV+bnbV, btcW=V>0?btcV/V:0;
-  let btcSell,bnbSell,rule;
-  if(T.level===2){
-    btcSell=btcV-0.4*(V-H); bnbSell=bnbV-0.6*(V-H);
-    if(btcSell<0){ btcSell=0; bnbSell=H; } else if(bnbSell<0){ bnbSell=0; btcSell=H; }
-    rule='Trim whichever coin outperformed so the mix stays 40/60.';
-  } else if(T.level===3){
-    if(btcW>0.70){ btcSell=H; bnbSell=0; rule="Guardrail: BTC is already above 70% — this year's harvest comes from BTC."; }
-    else { btcSell=0; bnbSell=H; rule='THE FLIP: 0 BTC sold. 100% of the harvest comes from BNB.'; }
-  } else {
-    if(btcW>=0.70){ btcSell=0.7*H; bnbSell=0.3*H; rule='Fortress mode: slice 70% BTC / 30% BNB to hold 70/30.'; }
-    else { btcSell=0; bnbSell=H; rule='BTC is still below 70% — keep selling 100% BNB until the mix reaches 70/30.'; }
-  }
-  return {btcSell,bnbSell,rule};
+// ── Law #6 · 1 Nov harvest maths (all USD) ──
+//   Δ = max(0, V_target − U)      H = min(Δ, 15% × P)      P_after = P − H
+//   Sell_BNB = min(H, max(0, N − bnbShare × P_after))      Sell_BTC = H − Sell_BNB
+//   bnbShare = 0.60 at Levels 1–2 (40/60), 0.30 at Levels 3–5 (70/30). H = 0 below Level 2 or below the prior cycle high.
+function harvestPlan(T,liveLevel,vTarget,B,N,U,cycleHigh){
+  const P=B+N;
+  const delta=Math.max(0,vTarget-U);
+  const capAmt=0.15*P;
+  let H=Math.min(delta,capAmt);
+  const capRaw=delta>capAmt+1e-9;
+  let blocked=null;
+  if(liveLevel<2) blocked='P is below Level 2 ($120K / ₹1.20Cr) — no crypto is sold, the buffer carries you';
+  else if(cycleHigh>0 && P<cycleHigh) blocked='P is below the prior cycle high';
+  if(blocked) H=0;
+  const capHit=capRaw && !blocked;
+  const carry=capHit ? delta-capAmt : 0;
+  const Pa=P-H;
+  const sellBnb=Math.min(H,Math.max(0,N-T.bnbShare*Pa));
+  const sellBtc=H-sellBnb;
+  return {P,B,N,U,vTarget,delta,capAmt,H,capHit,carry,blocked,Pa,bnbShare:T.bnbShare,sellBnb,sellBtc,
+    hPct:P>0?H/P*100:0,
+    btcNow:P>0?B/P*100:0, bnbNow:P>0?N/P*100:0,
+    btcAfter:Pa>0?(B-sellBtc)/Pa*100:0, bnbAfter:Pa>0?(N-sellBnb)/Pa*100:0};
 }
 
-function refillAction(T,shortfallInr,totalI,btcV,bnbV,P2P){
-  if(T.level===1){
-    if(shortfallInr===null) return 'DO NOT SELL CRYPTO.<br>Spend only from the liquid USDT buffer. (Buffer data not loaded.)';
-    return shortfallInr>0
-      ? `DO NOT SELL CRYPTO.<br>Top up the USDT buffer from outside funds — <strong>${fI(shortfallInr)}</strong> (≈ ${fU(shortfallInr/P2P)}) short of target.`
-      : 'DO NOT SELL CRYPTO.<br>Buffer is funded. Spend the monthly payout from the USDT buffer; BTC and BNB stay untouched.';
+function exLocked(){
+  $('ex-mode').className='ex-chip'; setTxt('ex-mode','LOCKED');
+  ['ex-tier','ex-h','ex-bnb','ex-btc'].forEach(id=>setTxt(id,'—'));
+  ['ex-swp','ex-hpct','ex-bnb-s','ex-btc-s','ex-ratio-t'].forEach(id=>setTxt(id,''));
+  setTxt('ex-flag','Locked until the BTC + BNB core engine is complete.'); setTxt('ex-trail','—');
+  $('ex-cap-fill').style.width='0%';
+}
+
+function exRender(T,live,plan,P2P,cycleHigh){
+  const inr=usd=>fI(usd*P2P);
+  setTxt('ex-tier',`Level ${T.level} · ${T.name}`);
+  setTxt('ex-swp',`SWP ${T.pay}/mo`);
+  if(!plan){
+    $('ex-mode').className='ex-chip'; setTxt('ex-mode','NO BUFFER DATA');
+    ['ex-h','ex-bnb','ex-btc','ex-trail'].forEach(id=>setTxt(id,'—'));
+    ['ex-hpct','ex-bnb-s','ex-btc-s','ex-ratio-t'].forEach(id=>setTxt(id,''));
+    setTxt('ex-flag','Load withdrawals.json to compute the vault shortfall (U).'); $('ex-cap-fill').style.width='0%';
+    return;
   }
-  if(shortfallInr===null) return 'Delta Harvest = vault target − remaining USDT buffer. Load withdrawals.json to compute it.';
-  if(shortfallInr<=0) return 'No harvest needed — the USDT vault is already at target. Do not sell on 1 Nov.';
-  const Hu=shortfallInr/P2P, sp=splitHarvest(T,Hu,btcV,bnbV);
-  const pctPf=shortfallInr/totalI*100, capOk=pctPf<=15;
-  const line=(label,usd,price,sym,dec)=> usd>0.5 ? `<br>• ${label}: <strong>${fI(usd*P2P)}</strong> ≈ ${(usd/price).toFixed(dec)} ${sym}` : '';
-  return `DELTA HARVEST <strong>${fI(shortfallInr)}</strong> (${pctPf.toFixed(1)}% of portfolio · ${capOk?'within':'<span style="color:var(--red)">ABOVE</span>'} 15% cap)<br>${sp.rule}`
-    + line('Sell BTC',sp.btcSell,bP,'BTC',4) + line('Sell BNB',sp.bnbSell,nP,'BNB',2)
-    + '<br><span style="font-size:11px;color:var(--muted)">If the market has crashed on 1 Nov, spend the existing vault instead.</span>';
+  // mode chip
+  let cls='ok',txt='NO SALE';
+  if(plan.blocked){ cls='ok'; txt='NO SALE · '+(live.level<2?'BELOW L2':'BELOW CYCLE HIGH'); }
+  else if(plan.capHit){ cls='cap'; txt='15% CAP HIT'; }
+  else if(plan.H>0){ cls='go'; txt='HARVEST DAY'; }
+  else txt='VAULT FULL · NO SALE';
+  $('ex-mode').className='ex-chip '+cls; setTxt('ex-mode',txt);
+
+  // ② harvest
+  setTxt('ex-h',inr(plan.H));
+  setTxt('ex-hpct',`${fU(plan.H)} · ${plan.hPct.toFixed(1)}% of portfolio (cap 15%)`);
+  const cf=$('ex-cap-fill'); cf.className='ex-cap-fill'+(plan.capHit?' hit':'');
+  cf.style.width=(plan.capAmt>0?Math.min(plan.H/plan.capAmt,1)*100:0)+'%';
+
+  // flags
+  let flag;
+  if(plan.blocked) flag=`⛔ ${plan.blocked} → H = 0.`+(plan.delta>0?` Vault shortfall today: ${inr(plan.delta)} (${fU(plan.delta)}).`:'');
+  else if(plan.capHit) flag=`⚠️ 15% cap triggered — harvest limited to ${fU(plan.capAmt)}. Carry the remaining shortfall of <b>${inr(plan.carry)}</b> (${fU(plan.carry)}) to next year's 1 Nov review.`;
+  else if(plan.delta<=0) flag='✓ USDT vault is already at target — nothing to sell.';
+  else flag='✓ Harvest is within the 15% cap.';
+  if(!(cycleHigh>0) && live.level>=2) flag+='<br><span style="color:var(--muted)">Prior-cycle-high check is off — set prior_cycle_high_usd in withdrawals.json to enable it.</span>';
+  setTxt('ex-flag',flag);
+
+  // ③ ④ coin amounts
+  const bnbQty=plan.sellBnb/nP, btcQty=plan.sellBtc/bP;
+  setTxt('ex-bnb',inr(plan.sellBnb));
+  setTxt('ex-bnb-s',`${fU(plan.sellBnb)} · ${bnbQty.toFixed(2)} BNB · ${plan.N>0?(plan.sellBnb/plan.N*100).toFixed(1):'0.0'}% of your BNB`);
+  setTxt('ex-btc',inr(plan.sellBtc));
+  setTxt('ex-btc-s',`${fU(plan.sellBtc)} · ${btcQty.toFixed(4)} BTC · ${plan.B>0?(plan.sellBtc/plan.B*100).toFixed(1):'0.0'}% of your BTC`);
+
+  // ⑤ post-harvest ratio
+  const sb=$('ex-seg-btc'), sn=$('ex-seg-bnb');
+  sb.style.width=plan.btcAfter+'%'; sn.style.width=plan.bnbAfter+'%';
+  setTxt('ex-seg-btc',`BTC ${plan.btcAfter.toFixed(1)}%`); setTxt('ex-seg-bnb',`BNB ${plan.bnbAfter.toFixed(1)}%`);
+  $('ex-tick').style.left=((1-plan.bnbShare)*100)+'%';
+  setTxt('ex-ratio-t',`Now ${plan.btcNow.toFixed(1)} / ${plan.bnbNow.toFixed(1)} → after harvest <b>${plan.btcAfter.toFixed(1)} / ${plan.bnbAfter.toFixed(1)}</b> · target ${T.ratio}`);
+
+  // calculation trail so every number can be checked
+  const sh=Math.round(plan.bnbShare*100);
+  setTxt('ex-trail',
+    `P = B + N = ${fU(plan.P)}<br>`+
+    `Δ = max(0, V_target − U) = max(0, ${fU(plan.vTarget)} − ${fU(plan.U)}) = ${fU(plan.delta)}<br>`+
+    `H = min(Δ, 15%·P) = min(${fU(plan.delta)}, ${fU(plan.capAmt)}) = ${fU(plan.H)}${plan.blocked?' → forced to 0':''}<br>`+
+    `P_after = P − H = ${fU(plan.Pa)}<br>`+
+    `Sell_BNB = min(H, max(0, N − 0.${sh}·P_after)) = ${fU(plan.sellBnb)}<br>`+
+    `Sell_BTC = H − Sell_BNB = ${fU(plan.sellBtc)}`);
 }
 
 function updateRefill(totalI,btcV,bnbV,P2P,coreFunded){
@@ -1540,16 +1649,17 @@ function updateRefill(totalI,btcV,bnbV,P2P,coreFunded){
     card.style.borderLeftColor='var(--dim)';
     setTxt('refill-level','🔒 System Locked'); setCol('refill-level','var(--muted)');
     setTxt('refill-sub','Awaiting completion of the BTC + BNB core engine.');
-    setTxt('refill-action','NO ACTION REQUIRED.<br>Keep accumulating until the core engine is complete.');
-    setTxt('refill-swp','—'); setTxt('refill-shield','—'); return;
+    setTxt('refill-swp','—'); setTxt('refill-shield','—');
+    exLocked(); return;
   }
-  const live=getTierInfo(totalI);
+  const B=btcV, N=bnbV, P=B+N;
+  const live=getTierInfo(P);
   const d=wdCompute();
   const activeLvl=d?d.level:1;
   const T=MASTER_TIERS[Math.max(live.level,activeLvl)-1];
   const shieldUsd=(WD&&WD.buffer&&Number(WD.buffer.target_usdt))||(CFG.deploy_targets&&Number(CFG.deploy_targets.shield_usd))||0;
-  const vaultInr= T.level===1 ? shieldUsd*P2P : T.vaultInr;
-  const shortfall= d ? Math.max(vaultInr-d.balance*P2P,0) : null;
+  const vTarget= T.level===1 ? shieldUsd : T.vaultUsd;
+  const cycleHigh=(WD&&Number(WD.prior_cycle_high_usd)>0)?Number(WD.prior_cycle_high_usd):null;
   let title,sub,color;
   if(live.level>activeLvl){ title=`🚀 Upgrade due → Level ${live.level}`; sub=`Today's snapshot (${fI(totalI)}) is in Level ${live.level} range. On 1 Nov the payout becomes ${T.pay}/month.`; color='var(--green)'; }
   else if(live.level<activeLvl){ title=`⚠️ Level ${activeLvl} active · snapshot below range`; sub=`Today's snapshot (${fI(totalI)}) is under Level ${activeLvl}'s range.`; color='var(--orange)'; }
@@ -1557,8 +1667,9 @@ function updateRefill(totalI,btcV,bnbV,P2P,coreFunded){
   card.style.borderLeftColor=color;
   setTxt('refill-level',title); setCol('refill-level',color);
   setTxt('refill-sub',sub);
-  setTxt('refill-action',refillAction(T,shortfall,totalI,btcV,bnbV,P2P));
-  setTxt('refill-swp',`${T.pay}/mo`); setTxt('refill-shield',fI(vaultInr));
+  setTxt('refill-swp',`${T.pay}/mo`); setTxt('refill-shield',fI(vTarget*P2P));
+  const plan= d ? harvestPlan(T,live.level,vTarget,B,N,d.balance,cycleHigh) : null;
+  exRender(T,live,plan,P2P,cycleHigh);
 }
 
 function renderWithdrawals(){
@@ -1626,11 +1737,11 @@ function renderWithdrawals(){
   }).join('');
 
   // 5) ladder
-  const liveLvl=(bP&&nP&&CFG)?getTierInfo((CFG.btc.qty*bP+CFG.bnb.qty*nP)*d.p2p).level:null;
+  const liveLvl=(bP&&nP&&CFG)?getTierInfo(CFG.btc.qty*bP+CFG.bnb.qty*nP).level:null;
   $('wd-ladder-body').innerHTML=MASTER_TIERS.map(t=>{
     const act=t.level===d.level, prev=(liveLvl!==null&&liveLvl===t.level&&liveLvl!==d.level);
     return `<div class="wd-lad${act?' active':''}${prev?' preview':''}"><div class="wd-lvl">${t.short}</div><div><div class="wd-lad-t">${t.name}${act?'<span class="wd-tag act">ACTIVE</span>':''}${prev?'<span class="wd-tag prev">SNAPSHOT TODAY</span>':''}</div><div class="wd-lad-s">${t.range} · vault ${t.vaultText}</div></div><div class="wd-lad-r">${t.pay}<small>/mo</small></div></div>`;
-  }).join('')+`<div class="wd-lad god"><div class="wd-lvl">${GOD_MODE.short}</div><div><div class="wd-lad-t">${GOD_MODE.name}</div><div class="wd-lad-s">${GOD_MODE.range} · vault ${GOD_MODE.vaultText}</div></div><div class="wd-lad-r">${GOD_MODE.pay}<small>/mo</small></div></div>`;
+  }).join('');
 }
 
 async function init(){
