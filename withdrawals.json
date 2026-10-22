@@ -1,8 +1,9 @@
 {
-  "_help": "events: fill = USDT added to the buffer. withdraw = USDT sold for INR (inr optional; if left out it is estimated at p2p_rate and shown as est). Dates are YYYY-MM-DD. active_level only changes on the 1 Nov snapshot. prior_cycle_high_usd (optional): if set, the 1 Nov harvest is 0 whenever the portfolio is below it.",
+  "_help": "events: fill = USDT added to the buffer. withdraw = USDT sold for INR (inr optional; if left out it is estimated at p2p_rate and shown as est). harvest = coins sold into the vault on 1 Nov: usdt received, sell_btc_usd, sell_bnb_usd and p_after_usd (post-harvest portfolio value); it adds to the buffer and raises the high watermark automatically. Dates are YYYY-MM-DD. active_level = tier you are PAYING at (set on 1 Nov; on a downgrade it stays high until buffer runway < 24 months). snapshot_level = tier of the last 1 Nov snapshot, which sets the vault target (defaults to active_level). prior_cycle_high_usd = starting high watermark; the dashboard raises it to the largest p_after_usd of any harvest you log.",
   "withdrawals_start": "2027-01-01",
   "active_level": 1,
-  "prior_cycle_high_usd": null,
+  "snapshot_level": 1,
+  "prior_cycle_high_usd": 64350,
   "buffer": {
     "target_usdt": 9650,
     "opening_balance_usdt": 1000
