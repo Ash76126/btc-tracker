@@ -305,6 +305,9 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
   .ex-chip.go,.ex-chip.cap{animation:none!important}
   .ex-cap-fill,.ex-seg,.ex-tick{transition:none!important}
 }
+
+.ex-log{margin-top:10px}
+.ex-code{background:#05070c;border:1px solid rgba(0,230,118,.3);border-radius:10px;padding:10px 12px;font-size:9px;line-height:1.7;color:#b9f6ca;overflow-x:auto;white-space:pre;margin-top:4px}
 </style>
 </head>
 <body>
@@ -545,6 +548,11 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
     <div class="ex-ratio"><div class="ex-seg btc" id="ex-seg-btc"></div><div class="ex-seg bnb" id="ex-seg-bnb"></div><div class="ex-tick" id="ex-tick"></div></div>
     <div class="ex-ts" id="ex-ratio-t">—</div>
     <div class="ex-trail" id="ex-trail">—</div>
+    <div class="ex-log" id="ex-log-wrap" style="display:none">
+      <div class="ex-tl">After you execute: log this in withdrawals.json</div>
+      <div class="ex-code" id="ex-log">—</div>
+      <div class="ex-ts" id="ex-log-note" style="margin-top:6px">—</div>
+    </div>
     <div class="ex-note">Live preview using today's prices and your USDT buffer. The numbers that count are the ones on 1 Nov. No swaps — only the coin amounts above are sold.</div>
   </div>
   <div class="card">
@@ -555,6 +563,7 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
       <strong style="color:#fff">Level 3 (₹2.00Cr – ₹4.99Cr):</strong> ₹1L/mo · vault ₹36L · drain BNB until 70/30<br>
       <strong style="color:#fff">Level 4 (₹5.00Cr – ₹11.99Cr):</strong> ₹2L/mo · vault ₹72L · hold 70/30<br>
       <strong style="color:#fff">Level 5 · God Mode (₹12.00Cr+):</strong> ₹5L/mo · vault ₹1.80Cr · hold 70/30<br>
+      <strong style="color:var(--orange)">Downgrade:</strong> vault target follows the snapshot tier · H = 0 · the USDT buffer keeps paying<br>
     </div>
   </div>
 </div>
@@ -648,7 +657,13 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
       Δ = max(0, V_target − U) &nbsp;·&nbsp; <b>H = min(Δ, 15% × P)</b> &nbsp;·&nbsp; P_after = P − H<br>
       Sell_BNB = min(H, max(0, N − <b>0.60</b>·P_after)) at Level 2 &nbsp;|&nbsp; <b>0.30</b> at Levels 3–5<br>
       Sell_BTC = H − Sell_BNB<br>
-      If the cap triggers: harvest only 15% of P and carry the rest to next year. In a bear market (P below Level 2 or below the prior cycle high) H = 0.</div>
+      If the cap triggers: harvest only 15% of P and carry the rest to next year's review.</div>
+    <div class="law6-formula"><b>Bear-market zero-sell (H = 0)</b><br>
+      • P is below Level 2 &nbsp;• or P &lt; the high watermark <b>prior_cycle_high_usd</b> (starts at $64,350)<br>
+      • after every valid harvest: <b>prior_cycle_high_usd = max(prior_cycle_high_usd, P_after)</b><br>
+      <b>Rule A</b> · V_target always matches the current snapshot tier — never a higher, older tier.<br>
+      <b>Rule B</b> · snapshot lands in a lower tier than the previously active one (even above Level 2) → H = 0: 0.00 BTC and 0.00 BNB sold.<br>
+      <b>Rule C</b> · in a downgrade year live off the USDT buffer; drop the monthly SWP to the lower tier only if the buffer has under 24 months of runway at the higher tier's rate.</div>
     <div class="law6-guard"><b>Solo BTC rally exception:</b> if BTC rises above 70% on its own, so N is already below 0.30·P_after, Sell_BNB clamps to 0 and 100% of H comes from BTC.</div>
   </div>
   <div class="vault-rule">
@@ -719,8 +734,9 @@ tfoot td{background:rgba(247,147,26,.03);border-top:1px solid rgba(247,147,26,.1
   <div class="wd-card">
     <div class="wd-lbl" style="color:var(--muted);margin-bottom:10px">How to log</div>
     <div class="wd-code">{ "date": "2027-01-05", "type": "withdraw", "usdt": 300, "inr": 29700, "note": "Jan living" }
-{ "date": "2026-11-10", "type": "fill", "usdt": 1000, "source": "savings" }</div>
-    <div class="wd-sub" style="margin-top:8px"><b>fill</b> = USDT added to the buffer · <b>withdraw</b> = USDT sold for INR (leave out inr and it is estimated at your plan rate, marked "est").</div>
+{ "date": "2026-11-10", "type": "fill", "usdt": 1000, "source": "savings" }
+{ "date": "2026-11-01", "type": "harvest", "usdt": 24000, "sell_btc_usd": 0, "sell_bnb_usd": 24000, "p_after_usd": 176000 }</div>
+    <div class="wd-sub" style="margin-top:8px"><b>fill</b> = USDT added to the buffer · <b>withdraw</b> = USDT sold for INR (leave out inr and it is estimated at your plan rate, marked "est") · <b>harvest</b> = coins sold into the vault on 1 Nov: it adds to the buffer and raises the high watermark to <b>p_after_usd</b> automatically.</div>
   </div>
 
 </div>
@@ -1498,16 +1514,19 @@ function wdCompute(){
   const level=Math.min(Math.max(parseInt(WD.active_level,10)||1,1),MASTER_TIERS.length);
   const tier=MASTER_TIERS[level-1];
   const shieldUsd=Number(b.target_usdt)||(CFG.deploy_targets&&Number(CFG.deploy_targets.shield_usd))||0;
-  const targetUsdt= level===1 ? shieldUsd : tier.vaultUsd;
+  const snapLevel=Math.min(Math.max(parseInt(WD.snapshot_level,10)||level,1),MASTER_TIERS.length);   // tier of the last 1 Nov snapshot -> sets the vault target
+  const snapTier=MASTER_TIERS[snapLevel-1];
+  const targetUsdt= snapLevel===1 ? shieldUsd : snapTier.vaultUsd;
   const targetInr=targetUsdt*p2p;
   const open=Number(b.opening_balance_usdt)||0;
   const evs=(Array.isArray(WD.events)?WD.events:[])
-    .filter(e=>e && e.date && (e.type==='fill'||e.type==='withdraw'))
+    .filter(e=>e && e.date && (e.type==='fill'||e.type==='harvest'||e.type==='withdraw'))
     .map(e=>({...e, usdt:Number(e.usdt)||0, inrRaw:(e.inr===undefined||e.inr===null||e.inr==='')?null:Number(e.inr)}))
     .sort((x,y)=> x.date<y.date?-1 : x.date>y.date?1 : 0);
-  let fills=0,out=0,outInr=0,rU=0,rI=0; const months={};
+  let fills=0,out=0,outInr=0,rU=0,rI=0; const months={}; const hv=[];
   evs.forEach(e=>{
     if(e.type==='fill'){ fills+=e.usdt; return; }
+    if(e.type==='harvest'){ fills+=e.usdt; const pa=Number(e.p_after_usd); if(pa>0) hv.push(pa); return; }   // harvest proceeds land in the buffer
     const est=(e.inrRaw===null||!isFinite(e.inrRaw)); const inr= est ? e.usdt*p2p : e.inrRaw;
     e._inr=inr; e._est=est; out+=e.usdt; outInr+=inr;
     if(!est){ rU+=e.usdt; rI+=inr; }
@@ -1541,37 +1560,53 @@ function wdCompute(){
   else if(balance>=targetUsdt-0.005) status={cls:'ok',text:'FULLY FUNDED'};
   else if(balance>0.005) status={cls:'mid',text:'FILLING'};
   else status={cls:'low',text:'EMPTY'};
+  // High watermark = max(prior_cycle_high_usd, post-harvest portfolio value of every logged harvest)
+  const watermark=Math.max(Number(WD.prior_cycle_high_usd)||0,...hv);
   const shortUsdt=Math.max(targetUsdt-balance,0);
   const sd= WD.withdrawals_start ? new Date(WD.withdrawals_start+'T00:00:00') : null;
   const today0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
   const daysToStart= (sd && !isNaN(sd.getTime())) ? Math.round((sd-today0)/86400000) : null;
-  return {p2p,level,tier,targetInr,targetUsdt,balance,shortUsdt,shortInr:shortUsdt*p2p,status,evs,series,avgMonthly,avgNote,budget,cover,runway,thisMonthInr,effRate:rU>0?rI/rU:null,daysToStart,startIso:WD.withdrawals_start||null,out,outInr,fills,open};
+  return {p2p,level,tier,targetInr,targetUsdt,balance,shortUsdt,shortInr:shortUsdt*p2p,status,evs,series,avgMonthly,avgNote,budget,cover,runway,thisMonthInr,effRate:rU>0?rI/rU:null,daysToStart,startIso:WD.withdrawals_start||null,out,outInr,fills,open,snapLevel,snapTier,watermark};
 }
 function wdBalance(){ const d=wdCompute(); return d ? d.balance : null; }
 
 // ── Law #6 · 1 Nov harvest maths (all USD) ──
-//   Δ = max(0, V_target − U)      H = min(Δ, 15% × P)      P_after = P − H
-//   Sell_BNB = min(H, max(0, N − bnbShare × P_after))      Sell_BTC = H − Sell_BNB
-//   bnbShare = 0.60 at Levels 1–2 (40/60), 0.30 at Levels 3–5 (70/30). H = 0 below Level 2 or below the prior cycle high.
-function harvestPlan(T,liveLevel,vTarget,B,N,U,cycleHigh){
+//   Rule A  V_target always = vault target of the CURRENT snapshot tier (never a higher, older tier)
+//   Δ = max(0, V_target − U)     H = min(Δ, 15% × P)     P_after = P − H
+//   Sell_BNB = min(H, max(0, N − bnbShare × P_after))     Sell_BTC = H − Sell_BNB
+//   bnbShare = 0.60 at Levels 1–2 (40/60), 0.30 at Levels 3–5 (70/30)
+//   H = 0 when: P is below Level 2  ·  Rule B: snapshot tier is LOWER than the previously active tier  ·  P < high watermark
+//   High watermark = max(prior_cycle_high_usd, P_after of every logged harvest)
+function harvestPlan(T,liveLevel,activeLevel,vTarget,B,N,U,cycleHigh){
   const P=B+N;
   const delta=Math.max(0,vTarget-U);
   const capAmt=0.15*P;
   let H=Math.min(delta,capAmt);
   const capRaw=delta>capAmt+1e-9;
-  let blocked=null;
-  if(liveLevel<2) blocked='P is below Level 2 ($120K / ₹1.20Cr) — no crypto is sold, the buffer carries you';
-  else if(cycleHigh>0 && P<cycleHigh) blocked='P is below the prior cycle high';
+  let blocked=null,blockedKey=null;
+  if(liveLevel<2){ blocked='P is below Level 2 ($120K / ₹1.20Cr) — no crypto is sold, the buffer carries you'; blockedKey='L2'; }
+  else if(liveLevel<activeLevel){ blocked=`Tier downgrade (Level ${activeLevel} → Level ${liveLevel}) confirms a market drawdown`; blockedKey='DOWN'; }
+  else if(cycleHigh>0 && P<cycleHigh){ blocked='P is below the high watermark'; blockedKey='WM'; }
   if(blocked) H=0;
   const capHit=capRaw && !blocked;
   const carry=capHit ? delta-capAmt : 0;
   const Pa=P-H;
   const sellBnb=Math.min(H,Math.max(0,N-T.bnbShare*Pa));
   const sellBtc=H-sellBnb;
-  return {P,B,N,U,vTarget,delta,capAmt,H,capHit,carry,blocked,Pa,bnbShare:T.bnbShare,sellBnb,sellBtc,
+  return {P,B,N,U,vTarget,delta,capAmt,H,capHit,carry,blocked,blockedKey,Pa,bnbShare:T.bnbShare,sellBnb,sellBtc,
     hPct:P>0?H/P*100:0,
     btcNow:P>0?B/P*100:0, bnbNow:P>0?N/P*100:0,
     btcAfter:Pa>0?(B-sellBtc)/Pa*100:0, bnbAfter:Pa>0?(N-sellBnb)/Pa*100:0};
+}
+
+// Rule C: in a downgrade year keep paying the higher tier's SWP from the USDT buffer,
+// and only drop to the lower tier if the buffer has less than 24 months of runway at the higher rate.
+function rwFmt(x){ return (Math.floor(x*10+1e-9)/10).toFixed(1); }   // round DOWN so 23.99 never shows as "24.0"
+function payoutDecision(liveT,actT,U,P2P){
+  if(liveT.level>=actT.level) return {tier:liveT,kept:false,dropped:false,runway:null};
+  const runway=(Math.max(U,0)*P2P)/actT.payMax;
+  if(runway>=24-1e-9) return {tier:actT,kept:true,dropped:false,runway};
+  return {tier:liveT,kept:false,dropped:true,runway};
 }
 
 function exLocked(){
@@ -1579,58 +1614,56 @@ function exLocked(){
   ['ex-tier','ex-h','ex-bnb','ex-btc'].forEach(id=>setTxt(id,'—'));
   ['ex-swp','ex-hpct','ex-bnb-s','ex-btc-s','ex-ratio-t'].forEach(id=>setTxt(id,''));
   setTxt('ex-flag','Locked until the BTC + BNB core engine is complete.'); setTxt('ex-trail','—');
-  $('ex-cap-fill').style.width='0%';
+  $('ex-cap-fill').style.width='0%'; $('ex-log-wrap').style.display='none';
 }
 
-function exRender(T,live,plan,P2P,cycleHigh){
+function exRender(T,pay,plan,P2P,wm,actT,ry){
   const inr=usd=>fI(usd*P2P);
+  const rw=pay.runway!==null?rwFmt(pay.runway):'—';
   setTxt('ex-tier',`Level ${T.level} · ${T.name}`);
-  setTxt('ex-swp',`SWP ${T.pay}/mo`);
+  setTxt('ex-swp', pay.kept ? `SWP ${pay.tier.pay}/mo kept from Level ${pay.tier.level} · buffer runway ${rw} mo (≥ 24)`
+                 : pay.dropped ? `SWP drops to ${pay.tier.pay}/mo · runway ${rw} mo (< 24) at ${actT.pay}`
+                 : `SWP ${pay.tier.pay}/mo`);
+  const logWrap=$('ex-log-wrap');
   if(!plan){
     $('ex-mode').className='ex-chip'; setTxt('ex-mode','NO BUFFER DATA');
     ['ex-h','ex-bnb','ex-btc','ex-trail'].forEach(id=>setTxt(id,'—'));
     ['ex-hpct','ex-bnb-s','ex-btc-s','ex-ratio-t'].forEach(id=>setTxt(id,''));
     setTxt('ex-flag','Load withdrawals.json to compute the vault shortfall (U).'); $('ex-cap-fill').style.width='0%';
-    return;
+    logWrap.style.display='none'; return;
   }
-  // mode chip
-  let cls='ok',txt='NO SALE';
-  if(plan.blocked){ cls='ok'; txt='NO SALE · '+(live.level<2?'BELOW L2':'BELOW CYCLE HIGH'); }
+  let cls='ok',txt;
+  if(plan.blocked) txt='NO SALE · '+({L2:'BELOW L2',DOWN:'TIER DOWNGRADE',WM:'BELOW HIGH WATERMARK'}[plan.blockedKey]);
   else if(plan.capHit){ cls='cap'; txt='15% CAP HIT'; }
   else if(plan.H>0){ cls='go'; txt='HARVEST DAY'; }
   else txt='VAULT FULL · NO SALE';
   $('ex-mode').className='ex-chip '+cls; setTxt('ex-mode',txt);
 
-  // ② harvest
   setTxt('ex-h',inr(plan.H));
   setTxt('ex-hpct',`${fU(plan.H)} · ${plan.hPct.toFixed(1)}% of portfolio (cap 15%)`);
   const cf=$('ex-cap-fill'); cf.className='ex-cap-fill'+(plan.capHit?' hit':'');
   cf.style.width=(plan.capAmt>0?Math.min(plan.H/plan.capAmt,1)*100:0)+'%';
 
-  // flags
   let flag;
-  if(plan.blocked) flag=`⛔ ${plan.blocked} → H = 0.`+(plan.delta>0?` Vault shortfall today: ${inr(plan.delta)} (${fU(plan.delta)}).`:'');
+  if(plan.blocked) flag=`⛔ ${plan.blocked} → H = 0 (0.00 BTC and 0.00 BNB sold).`+(plan.delta>0?` Vault shortfall today: ${inr(plan.delta)} (${fU(plan.delta)}).`:'');
   else if(plan.capHit) flag=`⚠️ 15% cap triggered — harvest limited to ${fU(plan.capAmt)}. Carry the remaining shortfall of <b>${inr(plan.carry)}</b> (${fU(plan.carry)}) to next year's 1 Nov review.`;
   else if(plan.delta<=0) flag='✓ USDT vault is already at target — nothing to sell.';
   else flag='✓ Harvest is within the 15% cap.';
-  if(!(cycleHigh>0) && live.level>=2) flag+='<br><span style="color:var(--muted)">Prior-cycle-high check is off — set prior_cycle_high_usd in withdrawals.json to enable it.</span>';
+  flag+= wm>0 ? `<br><span style="color:var(--muted)">High watermark ${fU(wm)} · P is ${plan.P>=wm?'above ✓':'below ✗'}</span>`
+              : (T.level>=2?'<br><span style="color:var(--muted)">No high watermark set (prior_cycle_high_usd).</span>':'');
   setTxt('ex-flag',flag);
 
-  // ③ ④ coin amounts
   const bnbQty=plan.sellBnb/nP, btcQty=plan.sellBtc/bP;
   setTxt('ex-bnb',inr(plan.sellBnb));
   setTxt('ex-bnb-s',`${fU(plan.sellBnb)} · ${bnbQty.toFixed(2)} BNB · ${plan.N>0?(plan.sellBnb/plan.N*100).toFixed(1):'0.0'}% of your BNB`);
   setTxt('ex-btc',inr(plan.sellBtc));
   setTxt('ex-btc-s',`${fU(plan.sellBtc)} · ${btcQty.toFixed(4)} BTC · ${plan.B>0?(plan.sellBtc/plan.B*100).toFixed(1):'0.0'}% of your BTC`);
 
-  // ⑤ post-harvest ratio
-  const sb=$('ex-seg-btc'), sn=$('ex-seg-bnb');
-  sb.style.width=plan.btcAfter+'%'; sn.style.width=plan.bnbAfter+'%';
+  $('ex-seg-btc').style.width=plan.btcAfter+'%'; $('ex-seg-bnb').style.width=plan.bnbAfter+'%';
   setTxt('ex-seg-btc',`BTC ${plan.btcAfter.toFixed(1)}%`); setTxt('ex-seg-bnb',`BNB ${plan.bnbAfter.toFixed(1)}%`);
   $('ex-tick').style.left=((1-plan.bnbShare)*100)+'%';
   setTxt('ex-ratio-t',`Now ${plan.btcNow.toFixed(1)} / ${plan.bnbNow.toFixed(1)} → after harvest <b>${plan.btcAfter.toFixed(1)} / ${plan.bnbAfter.toFixed(1)}</b> · target ${T.ratio}`);
 
-  // calculation trail so every number can be checked
   const sh=Math.round(plan.bnbShare*100);
   setTxt('ex-trail',
     `P = B + N = ${fU(plan.P)}<br>`+
@@ -1638,7 +1671,15 @@ function exRender(T,live,plan,P2P,cycleHigh){
     `H = min(Δ, 15%·P) = min(${fU(plan.delta)}, ${fU(plan.capAmt)}) = ${fU(plan.H)}${plan.blocked?' → forced to 0':''}<br>`+
     `P_after = P − H = ${fU(plan.Pa)}<br>`+
     `Sell_BNB = min(H, max(0, N − 0.${sh}·P_after)) = ${fU(plan.sellBnb)}<br>`+
-    `Sell_BTC = H − Sell_BNB = ${fU(plan.sellBtc)}`);
+    `Sell_BTC = H − Sell_BNB = ${fU(plan.sellBtc)}`+
+    (wm>0?`<br>High watermark = ${fU(wm)} · P ${plan.P>=wm?'≥':'<'} watermark`:''));
+
+  // pre-filled ledger line: logging it raises the high watermark to P_after automatically
+  if(plan.H>0.005){
+    logWrap.style.display='block';
+    setTxt('ex-log',`{ "date": "${ry}-11-01", "type": "harvest", "usdt": ${plan.H.toFixed(2)}, "sell_btc_usd": ${plan.sellBtc.toFixed(2)}, "sell_bnb_usd": ${plan.sellBnb.toFixed(2)}, "p_after_usd": ${plan.Pa.toFixed(2)} }`);
+    setTxt('ex-log-note',`High watermark becomes max(${fU(wm||0)}, ${fU(plan.Pa)}) = ${fU(Math.max(wm||0,plan.Pa))}`);
+  } else logWrap.style.display='none';
 }
 
 function updateRefill(totalI,btcV,bnbV,P2P,coreFunded){
@@ -1653,23 +1694,28 @@ function updateRefill(totalI,btcV,bnbV,P2P,coreFunded){
     exLocked(); return;
   }
   const B=btcV, N=bnbV, P=B+N;
-  const live=getTierInfo(P);
+  const liveT=MASTER_TIERS[getTierInfo(P).level-1];                  // Rule A: the snapshot tier drives V_target
   const d=wdCompute();
-  const activeLvl=d?d.level:1;
-  const T=MASTER_TIERS[Math.max(live.level,activeLvl)-1];
+  const activeLvl=d?d.level:1, actT=MASTER_TIERS[activeLvl-1];       // previously active tier
   const shieldUsd=(WD&&WD.buffer&&Number(WD.buffer.target_usdt))||(CFG.deploy_targets&&Number(CFG.deploy_targets.shield_usd))||0;
-  const vTarget= T.level===1 ? shieldUsd : T.vaultUsd;
-  const cycleHigh=(WD&&Number(WD.prior_cycle_high_usd)>0)?Number(WD.prior_cycle_high_usd):null;
+  const vTarget= liveT.level===1 ? shieldUsd : liveT.vaultUsd;
+  const wm=(d&&d.watermark>0)?d.watermark:null;
+  const U=d?d.balance:null;
+  const pay= U===null ? {tier:(liveT.level>=actT.level?liveT:actT),kept:liveT.level<actT.level,dropped:false,runway:null} : payoutDecision(liveT,actT,U,P2P);
   let title,sub,color;
-  if(live.level>activeLvl){ title=`🚀 Upgrade due → Level ${live.level}`; sub=`Today's snapshot (${fI(totalI)}) is in Level ${live.level} range. On 1 Nov the payout becomes ${T.pay}/month.`; color='var(--green)'; }
-  else if(live.level<activeLvl){ title=`⚠️ Level ${activeLvl} active · snapshot below range`; sub=`Today's snapshot (${fI(totalI)}) is under Level ${activeLvl}'s range.`; color='var(--orange)'; }
-  else { title=`🛡️ Level ${T.level} · ${T.name}`; sub=`Snapshot today ${fI(totalI)} · same level as active.`; color=T.level>1?'var(--green)':'var(--orange)'; }
+  if(liveT.level>actT.level){ title=`🚀 Upgrade due → Level ${liveT.level}`; sub=`Today's snapshot (${fI(totalI)}) is in Level ${liveT.level} range. Payout becomes ${liveT.pay}/month on 1 Nov.`; color='var(--green)'; }
+  else if(liveT.level<actT.level){
+    title=`⚠️ Tier downgrade · Level ${actT.level} → Level ${liveT.level}`; color='var(--orange)';
+    sub=`Snapshot ${fI(totalI)} is below Level ${actT.level}. Rule B: H = 0. `+(pay.kept?`Rule C: keep paying ${actT.pay}/month from the USDT buffer (${rwFmt(pay.runway)} months of runway, 24+ needed).`
+        : pay.dropped?`Rule C: only ${rwFmt(pay.runway)} months of buffer runway at ${actT.pay}/month → payout drops to ${liveT.pay}/month.`:'Rule C: live off the existing USDT buffer.');
+  }
+  else { title=`🛡️ Level ${liveT.level} · ${liveT.name}`; sub=`Snapshot today ${fI(totalI)} · same level as active.`; color=liveT.level>1?'var(--green)':'var(--orange)'; }
   card.style.borderLeftColor=color;
   setTxt('refill-level',title); setCol('refill-level',color);
   setTxt('refill-sub',sub);
-  setTxt('refill-swp',`${T.pay}/mo`); setTxt('refill-shield',fI(vTarget*P2P));
-  const plan= d ? harvestPlan(T,live.level,vTarget,B,N,d.balance,cycleHigh) : null;
-  exRender(T,live,plan,P2P,cycleHigh);
+  setTxt('refill-swp',`${pay.tier.pay}/mo`); setTxt('refill-shield',fI(vTarget*P2P));
+  const plan= d ? harvestPlan(liveT,liveT.level,activeLvl,vTarget,B,N,d.balance,wm) : null;
+  exRender(liveT,pay,plan,P2P,wm,actT,ry);
 }
 
 function renderWithdrawals(){
@@ -1688,7 +1734,7 @@ function renderWithdrawals(){
   const pct=d.targetUsdt>0 ? Math.min(Math.max(d.balance/d.targetUsdt*100,0),100) : 0;
   $('wd-chip').className='wd-chip '+d.status.cls; setTxt('wd-chip-t',d.status.text);
   wdCountUp($('wd-bal-n'),d.balance,v=>'$'+Number(v).toLocaleString('en-US',{maximumFractionDigits:2}));
-  setTxt('wd-of',`of ${wdUsd(d.targetUsdt)} target · Level ${d.level} vault (${wdInr(d.targetInr)})`);
+  setTxt('wd-of',`of ${wdUsd(d.targetUsdt)} target · Level ${d.snapLevel} vault (${wdInr(d.targetInr)})`);
   wdAnimBar($('wd-bar-fill'),pct);
   setTxt('wd-pct',pct.toFixed(1)+'% filled');
   setTxt('wd-def', d.shortUsdt>0.005 ? wdUsd(d.shortUsdt)+' to go' : '✓ target met');
@@ -1730,10 +1776,11 @@ function renderWithdrawals(){
   const list=d.evs.slice().reverse();
   if(!list.length){ lb.innerHTML='<div class="wd-empty">No entries yet. Top-ups and withdrawals you log in withdrawals.json appear here, newest first.</div>'; }
   else lb.innerHTML=list.map((e,i)=>{
-    const isIn=e.type==='fill';
-    const sub=[wdDate(e.date)].concat(e.source?[wdEsc(e.source)]:[]).concat(e.note?[wdEsc(e.note)]:[]).join(' · ');
+    const isH=e.type==='harvest', isIn=(e.type==='fill'||isH);
+    const hx=isH?[`sold ${wdUsd(e.sell_bnb_usd||0,0)} BNB + ${wdUsd(e.sell_btc_usd||0,0)} BTC`].concat(Number(e.p_after_usd)>0?[`P after ${wdUsd(e.p_after_usd,0)}`]:[]):[];
+    const sub=[wdDate(e.date)].concat(hx).concat(e.source?[wdEsc(e.source)]:[]).concat(e.note?[wdEsc(e.note)]:[]).join(' · ');
     const rate=(!isIn&&e.usdt>0)?` · ₹${(e._inr/e.usdt).toFixed(2)}/USDT${e._est?' (est)':''}`:'';
-    return `<div class="wd-ev" style="animation-delay:${Math.min(i,12)*55}ms"><div class="wd-ico ${isIn?'in':'out'}">${isIn?'↓':'↑'}</div><div class="wd-ev-main"><div class="wd-ev-title">${isIn?'Buffer top-up':'Withdrawal'}</div><div class="wd-ev-sub">${sub}${rate}</div></div><div class="wd-ev-amt ${isIn?'c-g':'c-o'}">${isIn?'+'+wdUsd(e.usdt):'−'+wdInr(e._inr)}${isIn?'':`<div class="wd-ev-s2">−${wdUsd(e.usdt)}</div>`}</div></div>`;
+    return `<div class="wd-ev" style="animation-delay:${Math.min(i,12)*55}ms"><div class="wd-ico ${isIn?'in':'out'}">${isH?'🌾':(isIn?'↓':'↑')}</div><div class="wd-ev-main"><div class="wd-ev-title">${isH?'1 Nov harvest':(isIn?'Buffer top-up':'Withdrawal')}</div><div class="wd-ev-sub">${sub}${rate}</div></div><div class="wd-ev-amt ${isIn?'c-g':'c-o'}">${isIn?'+'+wdUsd(e.usdt):'−'+wdInr(e._inr)}${isIn?'':`<div class="wd-ev-s2">−${wdUsd(e.usdt)}</div>`}</div></div>`;
   }).join('');
 
   // 5) ladder
